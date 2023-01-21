@@ -2,6 +2,7 @@ import createEmotionServer from '@emotion/server/create-instance'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { SiteDescription } from '../const'
 import createEmotionCache from '../createEmotionCache'
+import { GA_TRACKING_ID } from '../lib/gtag'
 import { zenMaruGothic } from '../theme'
 
 export default class MyDocument extends Document {
@@ -9,6 +10,19 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ja" className={zenMaruGothic.className}>
         <Head>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
+          />
           <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
           <meta name="description" content={SiteDescription} />
           <link rel="shortcut icon" href="/favicon.ico" />
