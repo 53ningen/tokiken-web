@@ -25,7 +25,7 @@ export const SongArtistList = ({ label, artists }: SongArtistListProps) => {
           </Grid>
           {artists.map((a) => {
             return (
-              <Grid key={a.Name} xs={12} sm={6} md={4} lg={3}>
+              <Grid key={a.artistName} xs={12} sm={6} md={4} lg={3}>
                 <SongArtistListItem artist={a} />
               </Grid>
             )
@@ -43,7 +43,7 @@ interface SongArtistListItemProps {
 export const SongArtistListItem = ({ artist }: SongArtistListItemProps) => {
   return (
     <Card>
-      <CardActionArea LinkComponent={Link} href={`/artists/${artist.Name}`}>
+      <CardActionArea LinkComponent={Link} href={`/artists/${artist.artistName}`}>
         <Box height="100%" p={1} whiteSpace="nowrap" width="100%">
           <Stack>
             {artist.CreditTitle !== '' && (
@@ -55,11 +55,11 @@ export const SongArtistListItem = ({ artist }: SongArtistListItemProps) => {
               {artist.CreditName}
             </Typography>
             <Stack direction="row" spacing={1} pt={1} height="2em" textOverflow="ellipsis" overflow="hidden">
-              <ArtistTypeChip count={artist.LyricsCount} type="作詞" />
-              <ArtistTypeChip count={artist.MusicCount} type="作曲" />
-              <ArtistTypeChip count={artist.ArrangementCount} type="編曲" />
-              <ArtistTypeChip count={artist.ProduceCount} type="制作" />
-              <ArtistTypeChip count={artist.DanceCount} type="ダンス" />
+              <ArtistTypeChip count={artist.artistLyricsCount} type="作詞" />
+              <ArtistTypeChip count={artist.artistMusicCount} type="作曲" />
+              <ArtistTypeChip count={artist.artistArrangementCount} type="編曲" />
+              <ArtistTypeChip count={artist.artistProduceCount} type="制作" />
+              <ArtistTypeChip count={artist.artistDanceCount} type="ダンス" />
             </Stack>
           </Stack>
         </Box>

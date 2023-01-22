@@ -10,7 +10,7 @@ interface ArtistTableProps {
 export const ArtistTable = ({ artists }: ArtistTableProps) => {
   const columns: GridColDef[] = [
     {
-      field: 'Name',
+      field: 'artistName',
       headerName: '名前',
       width: 250,
       editable: true,
@@ -18,41 +18,41 @@ export const ArtistTable = ({ artists }: ArtistTableProps) => {
       renderCell: (p: GridRenderCellParams<string>) => <Link href={`/artists/${p.value}`}>{p.value}</Link>,
     },
     {
-      field: 'Kana',
+      field: 'artistKana',
       headerName: 'かな',
       width: 150,
       disableColumnMenu: true,
     },
     {
-      field: 'LyricsCount',
+      field: 'artistLyricsCount',
       headerName: '作詞曲数',
       width: 90,
       disableColumnMenu: true,
       valueGetter: (p) => parseInt(p.value),
     },
     {
-      field: 'MusicCount',
+      field: 'artistMusicCount',
       headerName: '作曲数',
       width: 90,
       disableColumnMenu: true,
       valueGetter: (p) => parseInt(p.value),
     },
     {
-      field: 'ArrangementCount',
+      field: 'artistArrangementCount',
       headerName: '編曲数',
       width: 90,
       disableColumnMenu: true,
       valueGetter: (p) => parseInt(p.value),
     },
     {
-      field: 'ProduceCount',
+      field: 'artistProduceCount',
       headerName: '制作曲数',
       width: 90,
       disableColumnMenu: true,
       valueGetter: (p) => parseInt(p.value),
     },
     {
-      field: 'DanceCount',
+      field: 'artistDanceCount',
       headerName: 'ダンス曲数',
       width: 90,
       disableColumnMenu: true,
@@ -65,7 +65,7 @@ export const ArtistTable = ({ artists }: ArtistTableProps) => {
         <DataGrid
           rows={artists}
           columns={columns}
-          getRowId={(r) => r.Name}
+          getRowId={(r) => r.artistName}
           showCellRightBorder
           showColumnRightBorder
           pageSize={100}

@@ -56,15 +56,15 @@ export interface Song {
 }
 
 export interface Artist {
-  Name: string
-  Kana: string
-  WikipediaSlug: string
-  Twitter: string
-  MusicCount: string
-  ArrangementCount: string
-  LyricsCount: string
-  ProduceCount: string
-  DanceCount: string
+  artistName: string
+  artistKana: string
+  artistWikipediaSlug: string
+  artistTwitter: string
+  artistMusicCount: string
+  artistArrangementCount: string
+  artistLyricsCount: string
+  artistProduceCount: string
+  artistDanceCount: string
 }
 
 export type SongArtistRole = 'Vocal' | 'Music' | 'Arrangement' | 'Lyrics' | 'Produce' | 'Dance' | 'Others'
@@ -240,7 +240,7 @@ export const listSongs = async () => {
 
 export const getArtist = async (name: string) => {
   const artists = await listArtists()
-  return artists.find((a) => a.Name === name)
+  return artists.find((a) => a.artistName === name)
 }
 
 export const listArtists = async () => {

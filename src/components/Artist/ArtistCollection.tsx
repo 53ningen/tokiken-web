@@ -11,7 +11,11 @@ interface ArtistCollectionProps {
 }
 
 export default function ArtistCollection({ artists }: ArtistCollectionProps) {
-  const index = createCollectionIndexMapping(artists)
+  const index = createCollectionIndexMapping(
+    artists.map((a) => {
+      return { Name: a.artistName, Kana: a.artistKana }
+    })
+  )
   return (
     <Stack spacing={1} px={{ xs: 1, sm: 4, md: 8 }}>
       <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
@@ -19,15 +23,15 @@ export default function ArtistCollection({ artists }: ArtistCollectionProps) {
       </Stack>
       <Grid container spacing={1} width="100%">
         {artists.map((a) => {
-          const i = index.get(a.Name)
+          const i = index.get(a.artistName)
           return (
-            <React.Fragment key={a.Name}>
+            <React.Fragment key={a.artistName}>
               {i && (
                 <Grid xs={12} zIndex={-999}>
-                  {index.get(a.Name) && (
-                    <Box id={index.get(a.Name)} mt={-4} pt={6}>
+                  {index.get(a.artistName) && (
+                    <Box id={index.get(a.artistName)} mt={-4} pt={6}>
                       <Typography pt={1} pb={1} variant="h3" color={theme.palette.primary.main}>
-                        {index.get(a.Name)}
+                        {index.get(a.artistName)}
                       </Typography>
                     </Box>
                   )}

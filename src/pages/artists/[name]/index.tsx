@@ -14,7 +14,7 @@ interface ArtistPageProps {
 }
 
 export default function ArtistPage({ artist, artistWorkItems }: ArtistPageProps) {
-  const { Name: name, Kana: kana, Twitter: twitter, WikipediaSlug: wikipediaSlug } = artist
+  const { artistName: name, artistKana: kana, artistTwitter: twitter, artistWikipediaSlug: wikipediaSlug } = artist
   const path = useRouter().asPath
   const lyricsItems = artistWorkItems.filter((i) => i.role === 'Lyrics')
   const musicItems = artistWorkItems.filter((i) => i.role === 'Music')
@@ -73,7 +73,7 @@ export default function ArtistPage({ artist, artistWorkItems }: ArtistPageProps)
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const artists = await listArtists()
-  const names = artists.map((a) => a.Name)
+  const names = artists.map((a) => a.artistName)
   const paths = names.map((name) => {
     return {
       params: {
