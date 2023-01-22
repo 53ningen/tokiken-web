@@ -1,7 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import { GetStaticProps } from 'next'
 import { ContentCollection } from '../components/Home/ContentCollection'
-import Link from '../components/Link'
 import { Meta } from '../components/Meta'
 import { SiteName } from '../const'
 
@@ -13,22 +12,22 @@ export default function Home({}: HomeProps) {
       <Meta title={SiteName} />
       <Stack spacing={4} textAlign="center">
         <Container maxWidth="sm">
-          <Stack p={{ xs: 1, sm: 2 }} spacing={3}>
+          <Stack p={{ xs: 1, sm: 2 }} spacing={4}>
             <Box py={4}>
               <Typography variant="caption">ときめく何かを研究していきます</Typography>
             </Box>
-            <Stack spacing={2}>
-              <Box>
-                <Typography variant="h2">超ときめき♡データベース</Typography>
-                <Typography variant="caption">
-                  <Link href="https://toki-sen.com/" target="_blank">
-                    「超ときめき♡宣伝部」
-                  </Link>
-                  に関するデータをまとめています
-                </Typography>
-              </Box>
-              <ContentCollection />
-            </Stack>
+            <ContentCollection
+              collectionTitle="超ときめき♡データベース"
+              collectionDescription="「超ときめき♡宣伝部」に関するデータをまとめています"
+              items={[
+                { icon: '🎼', title: '楽曲', href: '/songs' },
+                { icon: '💿', title: 'レコード', href: '/records' },
+                { icon: '🎤', title: 'アーティスト', href: '/artists' },
+                { icon: '🏟', description: 'under construction', title: 'イベント' },
+                { icon: '👗', description: 'under construction', title: '衣装' },
+                { icon: '🗓', description: 'under construction', title: '年表' },
+              ]}
+            />
           </Stack>
         </Container>
       </Stack>
