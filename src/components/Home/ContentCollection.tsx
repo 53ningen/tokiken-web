@@ -15,7 +15,7 @@ export const ContentCollection = ({ items, collectionTitle, collectionDescriptio
         <Typography variant="h2">{collectionTitle}</Typography>
         <Typography variant="caption">{collectionDescription}</Typography>
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center">
         {items.map((i) => {
           return (
             <Grid xs={6} sm={4} key={i.title}>

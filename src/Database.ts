@@ -1,4 +1,6 @@
-const spreadsheetId = '13Y4wbnnfY23aPUnB6n4KELVfElu1z3j5OUE9gRy9EBU'
+const songSheetId = '13Y4wbnnfY23aPUnB6n4KELVfElu1z3j5OUE9gRy9EBU'
+const eventSheetId = '1VVSHBBJgG45JnaIViv2qQ6CpNIZ4o6jF2mp3L1yYfHY'
+
 const apiKey = process.env.SHEET_API_KEY
 const cache = new Map<string, object>()
 const useCache = true
@@ -129,7 +131,7 @@ export const listRecords = async () => {
     return cache.get(cacheKey) as Record[]
   }
   const range = 'Record!A1:E200'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -156,7 +158,7 @@ export const listRecordEditions = async (recordName?: string): Promise<RecordEdi
     return recordName ? editions.filter((r) => r.RecordName === recordName) : editions
   }
   const range = 'RecordEdition!A1:J200'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -178,7 +180,7 @@ const listTracks = async (recordName?: string) => {
     return recordName ? tracks.filter((t) => t.RecordName === recordName) : tracks
   }
   const range = 'Track!A1:H500'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -221,7 +223,7 @@ export const listSongs = async () => {
     return songs
   }
   const range = 'Song!A1:F200'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -248,7 +250,7 @@ export const listArtists = async () => {
     return artists
   }
   const range = 'Artist!A1:K500'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -270,7 +272,7 @@ export const listSongArtists = async () => {
     return artists
   }
   const range = 'SongArtist!A1:F1000'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -307,7 +309,7 @@ const listRecordEditionArtists = async (recordName?: string) => {
     return recordName ? artists.filter((a) => a.RecordName === recordName) : artists
   }
   const range = 'RecordEditionArtist!A1:E500'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -365,4 +367,42 @@ export const getRecordDetails = async (recordName: string): Promise<RecordDetail
     EditionDetails,
   }
   return details
+}
+
+// Event Sheet
+export interface Event {
+  eventId: string
+  eventTitle: string
+  eventTitleTentative: 'TRUE' | 'FALSE'
+  eventDate: string
+  /** optional */
+  eventStartTime: string
+  /** optional */
+  eventPlace: string
+  eventHashTag: string
+  eventInfoSourceType: 'OFFICIAL'
+  /** optional */
+  eventInfoUrl: string
+}
+
+export const listEvents = async () => {
+  const cacheKey = 'Events'
+  if (useCache && cache.has(cacheKey)) {
+    const events = cache.get(cacheKey) as Event[]
+    return events
+  }
+  const range = 'Event!A1:I1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const events = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as Event
+  })
+  cache.set(cacheKey, events)
+  return events
 }

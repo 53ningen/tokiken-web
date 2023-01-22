@@ -26,6 +26,10 @@ const theme = createTheme({
       main: '#535F75',
       contrastText: '#ffffff',
     },
+    twitter: {
+      main: '#26a7de',
+      contrastText: '#ffffff',
+    },
   },
   typography: {
     fontSize: 14,

@@ -28,6 +28,14 @@ export default function Home({}: HomeProps) {
                 { icon: '🗓', description: 'under construction', title: '年表' },
               ]}
             />
+            <ContentCollection
+              collectionTitle="超ときめき♡ツール"
+              collectionDescription="「超ときめき♡宣伝部」に関する便利ツール"
+              items={[
+                { icon: '⌛️', title: 'カウントダウン', href: '/countdown' },
+                { icon: '🌥', title: '超ときめき♡API' },
+              ]}
+            />
           </Stack>
         </Container>
       </Stack>
