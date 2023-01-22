@@ -80,11 +80,11 @@ export interface SongArtist {
 }
 
 export interface RecordEditionArtist {
-  CatalogNumber: string
-  RecordName: string
-  Edition: string
-  CreditTitle: string
-  Artist: string
+  catalogNumber: string
+  recordName: string
+  recordEdition: string
+  creditTitle: string
+  creditName: string
 }
 
 /**
@@ -306,7 +306,7 @@ const listRecordEditionArtists = async (recordName?: string) => {
   const cacheKey = 'RecordEditionArtists'
   if (useCache && cache.has(cacheKey)) {
     const artists = cache.get(cacheKey) as RecordEditionArtist[]
-    return recordName ? artists.filter((a) => a.RecordName === recordName) : artists
+    return recordName ? artists.filter((a) => a.recordName === recordName) : artists
   }
   const range = 'RecordEditionArtist!A1:E500'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
@@ -321,7 +321,7 @@ const listRecordEditionArtists = async (recordName?: string) => {
     return obj as RecordEditionArtist
   })
   cache.set(cacheKey, artists)
-  return recordName ? artists.filter((a) => a.RecordName === recordName) : artists
+  return recordName ? artists.filter((a) => a.recordName === recordName) : artists
 }
 
 /**
@@ -349,11 +349,11 @@ export const getRecordDetails = async (recordName: string): Promise<RecordDetail
       DiscNumber++
     }
     const Credits = artists
-      .filter((a) => a.CatalogNumber === Edition.CatalogNumber)
+      .filter((a) => a.catalogNumber === Edition.CatalogNumber)
       .map((a) => {
         return {
-          CreditTitle: a.CreditTitle,
-          Artist: a.Artist,
+          CreditTitle: a.creditTitle,
+          Artist: a.creditName,
         } as Credit
       })
     return {
