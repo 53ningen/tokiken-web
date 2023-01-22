@@ -12,6 +12,7 @@ import { SongTable } from '../../components/Song/SongTable'
 import { TabPanel } from '../../components/TabPanel'
 import { NoImageUrl, SiteName } from '../../const'
 import { listRecordEditions, listSongArtists, listSongs, RecordEdition, Song, SongArtist } from '../../Database'
+import theme from '../../theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +24,8 @@ interface RecordsPageProps {
 const tabs = ['collection', 'table']
 
 export default function RecordsPage({ songs, songCollectionItems }: RecordsPageProps) {
+  const title = '超ときめき♡楽曲データベース'
+  const description = '超ときめき♡宣伝部の楽曲のデータ'
   const router = useRouter()
   const query = router.query
   const [currentTab, setCurrentTab] = useState(0)
@@ -40,10 +43,16 @@ export default function RecordsPage({ songs, songCollectionItems }: RecordsPageP
   }
   return (
     <>
-      <Meta title={`楽曲データベース - ${SiteName}`} />
+      <Meta title={`${title} - ${SiteName}`} description={description} />
       <main>
         <Stack spacing={2}>
           <NavBar items={[{ path: '/songs', title: '楽曲データベース' }]} />
+          <Stack textAlign="center" py={1}>
+            <Typography variant="h3" color={theme.palette.primary.main}>
+              {title}
+            </Typography>
+            <Typography variant="caption">{description}</Typography>
+          </Stack>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs variant="fullWidth" value={currentTab} onChange={(_, v) => tabsOnChange(v)}>
               <Tab

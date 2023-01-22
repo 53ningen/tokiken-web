@@ -11,6 +11,7 @@ import { RecordEditionTable } from '../../components/Record/RecordEditionTable'
 import { TabPanel } from '../../components/TabPanel'
 import { SiteName } from '../../const'
 import { listRecordEditions, RecordEdition } from '../../Database'
+import theme from '../../theme'
 
 interface RecordsPageProps {
   editions: RecordEdition[]
@@ -19,6 +20,8 @@ interface RecordsPageProps {
 const tabs = ['collection', 'table']
 
 export default function RecordsPage({ editions }: RecordsPageProps) {
+  const title = '超ときめき♡レコードデータベース'
+  const description = '超ときめき♡宣伝部がリリースしたレコードのデータ'
   const router = useRouter()
   const query = router.query
   const [currentTab, setCurrentTab] = useState(0)
@@ -35,10 +38,16 @@ export default function RecordsPage({ editions }: RecordsPageProps) {
   }
   return (
     <>
-      <Meta title={`レコードデータベース - ${SiteName}`} />
+      <Meta title={`${title} - ${SiteName}`} description={description} />
       <main>
         <Stack spacing={2}>
           <NavBar items={[{ path: '/records', title: 'レコードデータベース' }]} />
+          <Stack textAlign="center" py={1}>
+            <Typography variant="h3" color={theme.palette.primary.main}>
+              {title}
+            </Typography>
+            <Typography variant="caption">{description}</Typography>
+          </Stack>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs variant="fullWidth" value={currentTab} onChange={(_, v) => tabsOnChange(v)}>
               <Tab

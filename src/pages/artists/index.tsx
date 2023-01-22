@@ -11,6 +11,7 @@ import { NavBar } from '../../components/NavBar'
 import { TabPanel } from '../../components/TabPanel'
 import { SiteName } from '../../const'
 import { Artist, listArtists } from '../../Database'
+import theme from '../../theme'
 
 interface ArtistsPageProps {
   artists: Artist[]
@@ -19,6 +20,8 @@ interface ArtistsPageProps {
 const tabs = ['collection', 'table']
 
 export default function ArtistsPage({ artists }: ArtistsPageProps) {
+  const title = '超ときめき♡アーティストデータベース'
+  const description = '超ときめき♡宣伝部のアーティストのデータ'
   const router = useRouter()
   const query = router.query
   const [currentTab, setCurrentTab] = useState(0)
@@ -35,10 +38,16 @@ export default function ArtistsPage({ artists }: ArtistsPageProps) {
   }
   return (
     <>
-      <Meta title={`アーティストデータベース - ${SiteName}`} />
+      <Meta title={`${title} - ${SiteName}`} description={description} />
       <main>
         <Stack spacing={2}>
           <NavBar items={[{ path: '/artists', title: 'アーティストデータベース' }]} />
+          <Stack textAlign="center" py={1}>
+            <Typography variant="h3" color={theme.palette.primary.main}>
+              {title}
+            </Typography>
+            <Typography variant="caption">{description}</Typography>
+          </Stack>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs variant="fullWidth" value={currentTab} onChange={(_, v) => tabsOnChange(v)}>
               <Tab
