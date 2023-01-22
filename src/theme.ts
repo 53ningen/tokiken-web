@@ -108,7 +108,7 @@ const theme = createTheme({
     MuiCard: {
       defaultProps: {
         elevation: 1,
-        square: true,
+        square: false,
       },
     },
     MuiPaper: {
