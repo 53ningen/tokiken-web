@@ -1,5 +1,5 @@
 import { Box, Card, CardActionArea, Chip, Stack, Typography } from '@mui/material'
-import { Artist } from '../../Database'
+import { Artist } from '../../spreadsheets'
 import Link from '../Link'
 
 interface ArtistCollectionCardProps {
@@ -9,7 +9,7 @@ interface ArtistCollectionCardProps {
 export const ArtistCollectionCard = ({ artist }: ArtistCollectionCardProps) => {
   return (
     <Card>
-      <CardActionArea LinkComponent={Link} href={`/artists/${artist.artistName}`}>
+      <CardActionArea LinkComponent={Link} href={`/artists/${artist.artistId}`}>
         <Box height="100%" p={1} whiteSpace="nowrap" width="100%">
           <Stack>
             <Stack direction="row" spacing={1}>

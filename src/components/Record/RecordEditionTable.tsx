@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid'
-import { RecordEdition } from '../../Database'
+import { RecordEdition } from '../../spreadsheets'
 import Link from '../Link'
 
 interface RecordEditionTableProps {
@@ -10,20 +10,20 @@ interface RecordEditionTableProps {
 export const RecordEditionTable = ({ editions }: RecordEditionTableProps) => {
   const columns: GridColDef[] = [
     {
-      field: 'RecordName',
+      field: 'recordName',
       headerName: 'タイトル',
       width: 300,
       editable: true,
       disableColumnMenu: true,
       renderCell: (p: GridRenderCellParams<string>) => (
-        <Link href={`/records/${p.value?.replace('/', ';')}#${p.id}`}>{p.value}</Link>
+        <Link href={`/records/${editions.find((e) => e.recordName === p.value)?.recordId}#${p.id}`}>{p.value}</Link>
       ),
     },
-    { field: 'Edition', headerName: '盤名', width: 250, editable: true, disableColumnMenu: true },
-    { field: 'Type', headerName: '形態', width: 130, sortable: true, disableColumnMenu: true },
-    { field: 'ReleaseDate', headerName: 'リリース日', width: 130, disableColumnMenu: true },
-    { field: 'Label', headerName: 'レーベル名', width: 200, disableColumnMenu: true },
-    { field: 'CatalogNumber', headerName: '品番', width: 180, disableColumnMenu: true },
+    { field: 'editionName', headerName: '盤名', width: 250, editable: true, disableColumnMenu: true },
+    { field: 'recordType', headerName: '形態', width: 130, sortable: true, disableColumnMenu: true },
+    { field: 'editionReleaseDate', headerName: 'リリース日', width: 130, disableColumnMenu: true },
+    { field: 'recordLabel', headerName: 'レーベル名', width: 200, disableColumnMenu: true },
+    { field: 'catalogNumber', headerName: '品番', width: 180, disableColumnMenu: true },
   ]
 
   return (
@@ -32,7 +32,7 @@ export const RecordEditionTable = ({ editions }: RecordEditionTableProps) => {
         <DataGrid
           rows={editions}
           columns={columns}
-          getRowId={(r) => r.CatalogNumber}
+          getRowId={(r) => r.catalogNumber}
           showCellRightBorder
           showColumnRightBorder
           pageSize={100}

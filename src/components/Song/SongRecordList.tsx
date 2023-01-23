@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { RecordEdition } from '../../Database'
+import { RecordEdition } from '../../spreadsheets'
 import theme from '../../theme'
 import { RecordEditionCollectionCard } from '../Record/RecordEditionCollectionCard'
 
@@ -22,7 +22,7 @@ export const SongRecordEditionList = ({ editions }: SongRecordEditionListProps) 
           </Grid>
           {editions.map((r) => {
             return (
-              <Grid key={r.CatalogNumber} xs={6} sm={4} md={3} lg={2}>
+              <Grid key={r.catalogNumber} xs={6} sm={4} md={3} lg={2}>
                 <Box>
                   <RecordEditionCollectionCard edition={r} />
                 </Box>

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { SongArtistSource } from '../../Database'
+import { SongArtistSource } from '../../spreadsheets'
 import Link from '../Link'
 
 interface SongArtistSourceAnnotation {

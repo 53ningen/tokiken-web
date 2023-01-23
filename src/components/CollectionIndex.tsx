@@ -9,13 +9,13 @@ interface CollectionIndexProps {
   mapping: Map<string, KanaIndex>
 }
 
-export const createCollectionIndexMapping = (items: { Name: string; Kana: string }[]) => {
+export const createCollectionIndexMapping = (items: { name: string; kana: string }[]) => {
   const index = new Map<string, KanaIndex>()
   for (const l of kanaIndex) {
     for (const item of items) {
-      const h = item.Kana[0]
+      const h = item.kana[0]
       if (h && l <= h) {
-        index.set(item.Name, l)
+        index.set(item.name, l)
         break
       }
     }

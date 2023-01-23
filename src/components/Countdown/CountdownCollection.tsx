@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { FaTwitter } from 'react-icons/fa'
 import { TwitterShareButton } from 'react-share'
 import { SiteUrl } from '../../const'
-import { Event } from '../../Database'
+import { Event } from '../../spreadsheets'
 import theme from '../../theme'
 import Link from '../Link'
 

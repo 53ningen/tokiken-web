@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material'
 import { AiFillHome } from 'react-icons/ai'
 import { FaInstagramSquare, FaTiktok, FaTwitterSquare, FaWikipediaW } from 'react-icons/fa'
-import { Artist, hasValue } from '../../Database'
+import { Artist, hasValue } from '../../spreadsheets'
 import theme from '../../theme'
 import Link from '../Link'
 

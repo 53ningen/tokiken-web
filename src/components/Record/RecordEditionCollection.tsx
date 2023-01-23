@@ -2,7 +2,7 @@ import SortIcon from '@mui/icons-material/Sort'
 import { Box, Button, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useState } from 'react'
-import { RecordEdition } from '../../Database'
+import { RecordEdition } from '../../spreadsheets'
 import { RecordEditionCollectionCard } from './RecordEditionCollectionCard'
 
 interface RecordEditionCollectionProps {
@@ -28,17 +28,19 @@ export default function RecordEditionCollection({ records: data }: RecordEdition
     let filtered: RecordEdition[] = []
     switch (nextFilter) {
       case 'SINGLE':
-        filtered = data.filter((d) => d.Type === nextFilter)
+        filtered = data.filter((d) => d.recordType === nextFilter)
         break
       case 'ALBUM':
-        filtered = data.filter((d) => d.Type === 'ALBUM' || d.Type === 'MINI_ALBUM')
+        filtered = data.filter((d) => d.recordType === 'ALBUM' || d.recordType === 'MINI_ALBUM')
         break
       case 'NONE':
         filtered = data
         break
     }
     const sorted = [...filtered].sort(
-      (a, b) => (new Date(a.ReleaseDate).getTime() - new Date(b.ReleaseDate).getTime()) * (sort === 'ASC' ? 1 : -1)
+      (a, b) =>
+        (new Date(a.editionReleaseDate).getTime() - new Date(b.editionReleaseDate).getTime()) *
+        (sort === 'ASC' ? 1 : -1)
     )
     setRecords(sorted)
     setFilter(nextFilter)
@@ -72,7 +74,7 @@ export default function RecordEditionCollection({ records: data }: RecordEdition
       <Grid container spacing={{ xs: 1, sm: 2 }} width="100%">
         {records.map((r) => {
           return (
-            <Grid key={r.CatalogNumber} xs={6} sm={4} md={3} lg={2}>
+            <Grid key={r.catalogNumber} xs={6} sm={4} md={3} lg={2}>
               <Box>
                 <RecordEditionCollectionCard edition={r} />
               </Box>

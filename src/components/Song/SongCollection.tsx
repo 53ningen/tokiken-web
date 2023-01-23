@@ -1,28 +1,19 @@
 import { Box, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import React from 'react'
+import { SongWithCreditsAndEditions } from '../../spreadsheets'
 import theme from '../../theme'
 import { CollectionIndex, createCollectionIndexMapping } from '../CollectionIndex'
 import { SongCollectionCard } from './SongCollectionCard'
 
-export interface SongCollectionItem {
-  name: string
-  kana: string
-  coverUrl: string
-  lyricsArtists: string[]
-  musicArtists: string[]
-  arrangementArtists: string[]
-}
-
 interface SongCollectionProps {
-  items: SongCollectionItem[]
+  items: SongWithCreditsAndEditions[]
 }
 
 export const SongCollection = ({ items }: SongCollectionProps) => {
   const index = createCollectionIndexMapping(
-    // FIXME:
     items.map((i) => {
-      return { Name: i.name, Kana: i.kana }
+      return { name: i.songName, kana: i.songKana }
     })
   )
   return (
@@ -31,18 +22,17 @@ export const SongCollection = ({ items }: SongCollectionProps) => {
         <CollectionIndex mapping={index} />
       </Stack>
       <Grid container spacing={{ xs: 1, sm: 2 }} width="100%">
-        {items.map((s) => {
-          const { name, coverUrl, lyricsArtists, musicArtists, arrangementArtists } = s
-          const i = index.get(name)
+        {items.map((item) => {
+          const i = index.get(item.songName)
           return (
-            <React.Fragment key={name}>
+            <React.Fragment key={item.songId}>
               {i && (
                 <>
                   <Grid xs={12}>
-                    {index.get(name) && (
+                    {index.get(item.songName) && (
                       <Typography pt={1} pb={1} variant="h3" color={theme.palette.primary.main}>
-                        <Box id={index.get(name)} component="span" sx={{ marginTop: -8, paddingTop: 7 }} />
-                        {index.get(name)}
+                        <Box id={index.get(item.songName)} component="span" sx={{ marginTop: -8, paddingTop: 7 }} />
+                        {index.get(item.songName)}
                       </Typography>
                     )}
                   </Grid>
@@ -50,13 +40,7 @@ export const SongCollection = ({ items }: SongCollectionProps) => {
               )}
               <Grid xs={12} sm={6} md={4}>
                 <Box>
-                  <SongCollectionCard
-                    name={name}
-                    coverUrl={coverUrl}
-                    lyricsArtists={lyricsArtists}
-                    musicArtists={musicArtists}
-                    arrangementArtists={arrangementArtists}
-                  />
+                  <SongCollectionCard item={item} />
                 </Box>
               </Grid>
             </React.Fragment>

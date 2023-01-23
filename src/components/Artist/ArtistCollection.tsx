@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import React from 'react'
-import { Artist } from '../../Database'
+import { Artist } from '../../spreadsheets'
 import theme from '../../theme'
 import { CollectionIndex, createCollectionIndexMapping } from '../CollectionIndex'
 import { ArtistCollectionCard } from './ArtistCollectionCard'
@@ -13,7 +13,7 @@ interface ArtistCollectionProps {
 export default function ArtistCollection({ artists }: ArtistCollectionProps) {
   const index = createCollectionIndexMapping(
     artists.map((a) => {
-      return { Name: a.artistName, Kana: a.artistKana }
+      return { name: a.artistName, kana: a.artistKana }
     })
   )
   return (
@@ -25,7 +25,7 @@ export default function ArtistCollection({ artists }: ArtistCollectionProps) {
         {artists.map((a) => {
           const i = index.get(a.artistName)
           return (
-            <React.Fragment key={a.artistName}>
+            <React.Fragment key={a.artistId}>
               {i && (
                 <Grid xs={12} zIndex={-999}>
                   {index.get(a.artistName) && (

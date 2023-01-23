@@ -7,23 +7,32 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
-import { SongCollection, SongCollectionItem } from '../../components/Song/SongCollection'
+import { SongCollection } from '../../components/Song/SongCollection'
 import { SongTable } from '../../components/Song/SongTable'
 import { TabPanel } from '../../components/TabPanel'
-import { NoImageUrl, SiteName } from '../../const'
-import { listRecordEditions, listSongArtists, listSongs, RecordEdition, Song, SongArtist } from '../../Database'
+import { SiteName } from '../../const'
+import {
+  Artist,
+  Credit,
+  listArtists,
+  listCredits,
+  listRecordEditions,
+  listSongs,
+  RecordEdition,
+  Song,
+  SongWithCreditsAndEditions,
+} from '../../spreadsheets'
 import theme from '../../theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
 interface RecordsPageProps {
-  songs: Song[]
-  songCollectionItems: SongCollectionItem[]
+  items: SongWithCreditsAndEditions[]
 }
 
 const tabs = ['collection', 'table']
 
-export default function RecordsPage({ songs, songCollectionItems }: RecordsPageProps) {
+export default function RecordsPage({ items: items }: RecordsPageProps) {
   const title = '超ときめき♡楽曲データベース'
   const description = '超ときめき♡宣伝部の楽曲のデータ'
   const router = useRouter()
@@ -76,10 +85,10 @@ export default function RecordsPage({ songs, songCollectionItems }: RecordsPageP
             </Tabs>
           </Box>
           <TabPanel value={currentTab} index={0}>
-            <SongCollection items={songCollectionItems} />
+            <SongCollection items={items} />
           </TabPanel>
           <TabPanel value={currentTab} index={1}>
-            <SongTable songs={songs} />
+            <SongTable songs={items} />
           </TabPanel>
         </Stack>
       </main>
@@ -89,32 +98,23 @@ export default function RecordsPage({ songs, songCollectionItems }: RecordsPageP
 
 export const getStaticProps: GetStaticProps<RecordsPageProps> = async () => {
   const songs: Song[] = await listSongs()
-  const editions: RecordEdition[] = await listRecordEditions()
-  const songArtists: SongArtist[] = await listSongArtists()
+  const artists: Artist[] = await listArtists()
+  const allEditions: RecordEdition[] = await listRecordEditions()
+  const allCredits: Credit[] = await listCredits()
 
-  const songCollectionItems: SongCollectionItem[] = []
+  const songCollectionItems: SongWithCreditsAndEditions[] = []
   for (const song of songs) {
-    const { Name, Kana } = song
-    const CoverUrl =
-      editions.find((e) => e.RecordName === song.EarliestRecord && e.CoverUrl !== NoImageUrl)?.CoverUrl || NoImageUrl
-    const artists = songArtists.filter((s) => s.Song === song.Name)
-    const LyricsArtists = artists.filter((a) => a.Role === 'Lyrics').map((a) => a.CreditName)
-    const MusicArtists = artists.filter((a) => a.Role === 'Music').map((a) => a.CreditName)
-    const ArrangementArtists = artists.filter((a) => a.Role === 'Arrangement').map((a) => a.CreditName)
+    const credits = allCredits.filter((c) => c.songId === song.songId)
+    const recordEditions = allEditions.filter((e) => e.recordId === song.songEarliestRecordId)
     songCollectionItems.push({
-      name: Name,
-      kana: Kana,
-      coverUrl: CoverUrl,
-      lyricsArtists: LyricsArtists,
-      musicArtists: MusicArtists,
-      arrangementArtists: ArrangementArtists,
+      ...song,
+      credits,
+      recordEditions,
     })
   }
-
   return {
     props: {
-      songs,
-      songCollectionItems,
+      items: songCollectionItems,
     },
   }
 }

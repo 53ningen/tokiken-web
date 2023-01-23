@@ -2,23 +2,13 @@ import { Box, Card, CardActionArea, Chip, Stack, Typography } from '@mui/materia
 import Grid from '@mui/material/Unstable_Grid2'
 import Link from '../../components/Link'
 import { AlbumCover } from '../../components/Record/AlbumCover'
-import { SongArtistRole, SongArtistSource } from '../../Database'
+import { SongArtistSource, SongCreditWithEditionCoverUrl } from '../../spreadsheets'
 import theme from '../../theme'
 import { SongArtistSourceAnnotation } from '../Song/SongArtistSourceLink'
 
-export interface ArtistWorkItem {
-  songName: string
-  coverUrl: string
-  creditTitle: string
-  creditName: string
-  source: SongArtistSource
-  sourceUrl: string
-  role: SongArtistRole
-}
-
 interface ArtistWorksProps {
   label: string
-  items: ArtistWorkItem[]
+  items: SongCreditWithEditionCoverUrl[]
 }
 
 export const ArtistWorks = ({ label, items }: ArtistWorksProps) => {
@@ -34,18 +24,9 @@ export const ArtistWorks = ({ label, items }: ArtistWorksProps) => {
       </Grid>
       <Grid container spacing={{ xs: 1, sm: 2 }}>
         {items.map((i) => {
-          const { songName, coverUrl, creditTitle, creditName, source, sourceUrl, role } = i
           return (
-            <Grid key={songName} xs={6} sm={4} md={3} lg={2}>
-              <ArtistWork
-                songName={songName}
-                coverUrl={coverUrl}
-                creditTitle={creditTitle}
-                creditName={creditName}
-                source={source}
-                sourceUrl={sourceUrl}
-                role={role}
-              />
+            <Grid key={i.songId} xs={6} sm={4} md={3} lg={2}>
+              <ArtistWork item={i} />
             </Grid>
           )
         })}
@@ -54,32 +35,34 @@ export const ArtistWorks = ({ label, items }: ArtistWorksProps) => {
   )
 }
 
-type ArtistWorkProps = ArtistWorkItem
+interface ArtistWorkProps {
+  item: SongCreditWithEditionCoverUrl
+}
 
-const ArtistWork = ({ songName, coverUrl, creditTitle, creditName, source, sourceUrl }: ArtistWorkProps) => {
+const ArtistWork = ({ item }: ArtistWorkProps) => {
   return (
     <Card>
       <Stack pb={1}>
-        <CardActionArea LinkComponent={Link} href={`/songs/${songName}`}>
+        <CardActionArea LinkComponent={Link} href={`/songs/${item.songId}`}>
           <Box>
-            <AlbumCover imgUrl={coverUrl} />
+            <AlbumCover imgUrl={item.editionCoverUrl} />
             <Box display="flex" width="100%" pt={1} px={1}>
               <Stack whiteSpace="nowrap" width="100%">
                 <Typography variant="subtitle2" textOverflow="ellipsis" overflow="hidden">
-                  {songName}
+                  {item.songName}
                 </Typography>
                 <Typography variant="caption" color="textSecondary" textOverflow="ellipsis" overflow="hidden">
-                  {creditTitle}
+                  {item.creditTitle}
                 </Typography>
                 <Typography variant="caption" color="textSecondary" textOverflow="ellipsis" overflow="hidden">
-                  {creditName}
+                  {item.creditName}
                 </Typography>
               </Stack>
             </Box>
           </Box>
         </CardActionArea>
         <Typography px={1} variant="caption">
-          <SongArtistSourceAnnotation source={source} sourceUrl={sourceUrl} />
+          <SongArtistSourceAnnotation source={item.creditSource} sourceUrl={item.creditSourceUrl} />
         </Typography>
       </Stack>
     </Card>

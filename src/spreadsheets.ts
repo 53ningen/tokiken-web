@@ -11,51 +11,54 @@ interface SheetValuesResponse {
   values: string[][]
 }
 
-// Express data structure of each sheet
 export type RecordType = 'SINGLE' | 'ALBUM' | 'MINI_ALBUM'
 
 export interface Record {
-  Id: string
-  Name: string
-  Type: RecordType
-  Label: string
-  ProductUrl: string
+  recordId: string
+  recordName: string
+  recordType: RecordType
+  recordLabel: string
+  recordProductUrl: string
 }
 
 export interface RecordEdition {
-  CatalogNumber: string
-  ReleaseDate: string
-  RecordName: string
-  Edition: string
-  Price: string
-  ASIN: string
-  Type: RecordType
-  Label: string
-  CoverUrl: string
-  AdUrl: string
+  catalogNumber: string
+  editionReleaseDate: string
+  recordId: string
+  recordName: string
+  editionName: string
+  editionPrice: string
+  editionASIN: string
+  recordType: RecordType
+  recordLabel: string
+  editionCoverUrl: string
+  editionProductUrl: string
 }
 
 export interface Track {
-  CatalogNumber: string
-  RecordName: string
-  RecordEdition: string
-  Disc: string
-  Track: string
-  TrackType: string
+  catalogNumber: string
+  recordName: string
+  editionName: string
+  disc: string
+  track: string
+  trackType: string
+  songId: string
   SongName: string
-  TrackName: string
+  trackName: string
 }
 
 export interface Song {
-  Name: string
-  Kana: string
-  JASRACCode: string
-  ISWC: string
-  EarliestRecord: string
-  EarliestCatalogNumber: string
+  songId: string
+  songName: string
+  songKana: string
+  songJASRACCode: string
+  songISWCCode: string
+  songEarliestRecordId: string
+  songEarliestCatalogNumber: string
 }
 
 export interface Artist {
+  artistId: string
   artistName: string
   artistKana: string
   artistWikipediaSlug: string
@@ -70,63 +73,39 @@ export interface Artist {
   artistDanceCount: string
 }
 
-export type SongArtistRole = 'Vocal' | 'Music' | 'Arrangement' | 'Lyrics' | 'Produce' | 'Dance' | 'Others'
+export type CreditRole = 'Vocal' | 'Music' | 'Arrangement' | 'Lyrics' | 'Produce' | 'Dance' | 'Others'
 export type SongArtistSource = 'BOOKLET' | 'JASRAC' | 'EXTERNAL'
 
-export interface SongArtist {
-  Song: string
-  Role: SongArtistRole
-  Artist: string
-  CreditName: string
-  CreditTitle: string
-  Source: SongArtistSource
-  SourceUrl: string
+export interface Credit {
+  songId: string
+  songName: string
+  creditRole: CreditRole
+  artistId: string
+  creditName: string
+  creditTitle: string
+  creditSource: SongArtistSource
+  creditSourceUrl: string
 }
 
-export interface RecordEditionArtist {
+export interface RecordEditionCredit {
   catalogNumber: string
   recordName: string
-  recordEdition: string
+  editionName: string
   creditTitle: string
   creditName: string
 }
 
-/**
- * @deprecated
- */
-export interface RecordDetails {
-  Record: Record
-  EditionDetails: RecordEditionDetails[]
-}
+export type CreditArtist = Credit & Artist
+export type SongWithCreditsAndEditions = Song & { credits: Credit[] } & { recordEditions: RecordEdition[] }
+export type SongWithCreditArtistsAndEditions = Song & { credits: CreditArtist[] } & { recordEditions: RecordEdition[] }
+export type SongCredit = Song & Credit
+export type SongCreditWithEditionCoverUrl = SongCredit & { editionCoverUrl: string }
+export type ArtistWithSongCredits = Artist & { works: SongCreditWithEditionCoverUrl[] }
+export type TrackWithCredits = Track & { credits: Credit[] }
 
-/**
- * @deprecated
- */
-export interface RecordEditionDetails {
-  Edition: RecordEdition
-  Discs: Disc[]
-  Credits: Credit[]
-}
-
-/**
- * @deprecated
- */
-export interface Disc {
-  DiscNumber: number
-  Tracks: Track[]
-}
-
-/**
- * @deprecated
- */
-interface Credit {
-  CreditTitle: string
-  Artist: string
-}
-
-const getRecord = async (recordName: string) => {
+export const getRecord = async (recordId: string) => {
   const records = await listRecords()
-  return records.find((r) => r.Name === recordName)
+  return records.find((r) => r.recordId === recordId)
 }
 
 export const listRecords = async () => {
@@ -150,18 +129,13 @@ export const listRecords = async () => {
   return records
 }
 
-const getRecordEdition = async (catalogNumber: string) => {
-  const editions = await listRecordEditions()
-  return editions.find((e) => e.CatalogNumber === catalogNumber)
-}
-
-export const listRecordEditions = async (recordName?: string): Promise<RecordEdition[]> => {
+export const listRecordEditions = async (recordId?: string): Promise<RecordEdition[]> => {
   const cacheKey = 'RecordEditions'
   if (useCache && cache.has(cacheKey)) {
     const editions = cache.get(cacheKey) as RecordEdition[]
-    return recordName ? editions.filter((r) => r.RecordName === recordName) : editions
+    return recordId ? editions.filter((r) => r.recordId === recordId) : editions
   }
-  const range = 'RecordEdition!A1:J200'
+  const range = 'RecordEdition!A1:K300'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -174,16 +148,16 @@ export const listRecordEditions = async (recordName?: string): Promise<RecordEdi
     return obj as RecordEdition
   })
   cache.set(cacheKey, editions)
-  return recordName ? editions.filter((r) => r.RecordName === recordName) : editions
+  return recordId ? editions.filter((r) => r.recordId === recordId) : editions
 }
 
-const listTracks = async (recordName?: string) => {
+export const listTracks = async (catalogNumber?: string) => {
   const cacheKey = 'Tracks'
   if (useCache && cache.has(cacheKey)) {
     const tracks = cache.get(cacheKey) as Track[]
-    return recordName ? tracks.filter((t) => t.RecordName === recordName) : tracks
+    return catalogNumber ? tracks.filter((t) => t.catalogNumber === catalogNumber) : tracks
   }
-  const range = 'Track!A1:H500'
+  const range = 'Track!A1:I500'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -196,28 +170,12 @@ const listTracks = async (recordName?: string) => {
     return obj as Track
   })
   cache.set(cacheKey, tracks)
-  return recordName ? tracks.filter((t) => t.RecordName === recordName) : tracks
+  return catalogNumber ? tracks.filter((t) => t.catalogNumber === catalogNumber) : tracks
 }
 
-/**
- * @deprecated
- */
-export const listRecordEditionsForSong = async (songName: string) => {
-  const tracks = await listTracks()
-  const catalogNumbers = [...new Set(tracks.filter((t) => t.SongName === songName).map((t) => t.CatalogNumber))]
-  const editions: RecordEdition[] = []
-  for (const n of catalogNumbers) {
-    const e = await getRecordEdition(n)
-    if (e) {
-      editions.push(e)
-    }
-  }
-  return editions
-}
-
-export const getSong = async (name: string) => {
+export const getSong = async (id: string) => {
   const songs = await listSongs()
-  return songs.find((s) => s.Name === name)
+  return songs.find((s) => s.songId === id)
 }
 
 export const listSongs = async () => {
@@ -226,7 +184,7 @@ export const listSongs = async () => {
     const songs = cache.get(cacheKey) as Song[]
     return songs
   }
-  const range = 'Song!A1:F200'
+  const range = 'Song!A1:G200'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -242,9 +200,9 @@ export const listSongs = async () => {
   return songs
 }
 
-export const getArtist = async (name: string) => {
+export const getArtist = async (id: string) => {
   const artists = await listArtists()
-  return artists.find((a) => a.artistName === name)
+  return artists.find((a) => a.artistId === id)
 }
 
 export const listArtists = async () => {
@@ -253,7 +211,7 @@ export const listArtists = async () => {
     const artists = cache.get(cacheKey) as Artist[]
     return artists
   }
-  const range = 'Artist!A1:L500'
+  const range = 'Artist!A1:M300'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -269,108 +227,48 @@ export const listArtists = async () => {
   return artists
 }
 
-export const listSongArtists = async () => {
-  const cacheKey = 'SongArtists'
+export const listCredits = async () => {
+  const cacheKey = 'Credits'
   if (useCache && cache.has(cacheKey)) {
-    const artists = cache.get(cacheKey) as SongArtist[]
-    return artists
+    const credits = cache.get(cacheKey) as Credit[]
+    return credits
   }
-  const range = 'SongArtist!A1:G1000'
+  const range = 'Credit!A1:H1000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
-  const artists = data.map((d) => {
+  const credits = data.map((d) => {
     var obj: any = {}
     for (let i = 0; i < columnNames.length; i++) {
       obj[columnNames[i]] = d[i] || ''
     }
-    return obj as SongArtist
+    return obj as Credit
   })
-  cache.set(cacheKey, artists)
-  return artists
+  cache.set(cacheKey, credits)
+  return credits
 }
 
-/**
- * @deprecated
- */
-export const listSongArtistsOfRecord = async (recordDetails: RecordDetails) => {
-  const songNames = [
-    ...new Set(
-      recordDetails.EditionDetails.flatMap((d) => d.Discs)
-        .flatMap((d) => d.Tracks)
-        .flatMap((t) => t.SongName)
-    ),
-  ]
-  const songsArtists = (await listSongArtists()).filter((a) => songNames.includes(a.Song))
-  return songsArtists
-}
-
-const listRecordEditionArtists = async (recordName?: string) => {
-  const cacheKey = 'RecordEditionArtists'
+export const listRecordEditionCredits = async (catalogNumber?: string) => {
+  const cacheKey = 'RecordEditionCredits'
   if (useCache && cache.has(cacheKey)) {
-    const artists = cache.get(cacheKey) as RecordEditionArtist[]
-    return recordName ? artists.filter((a) => a.recordName === recordName) : artists
+    const credits = cache.get(cacheKey) as RecordEditionCredit[]
+    return catalogNumber ? credits.filter((a) => a.catalogNumber === catalogNumber) : credits
   }
-  const range = 'RecordEditionArtist!A1:E500'
+  const range = 'RecordEditionCredit!A1:E500'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
-  const artists = data.map((d) => {
+  const credits = data.map((d) => {
     var obj: any = {}
     for (let i = 0; i < columnNames.length; i++) {
       obj[columnNames[i]] = d[i] || ''
     }
-    return obj as RecordEditionArtist
+    return obj as RecordEditionCredit
   })
-  cache.set(cacheKey, artists)
-  return recordName ? artists.filter((a) => a.recordName === recordName) : artists
-}
-
-/**
- * @deprecated
- */
-export const getRecordDetails = async (recordName: string): Promise<RecordDetails> => {
-  const Record = await getRecord(recordName)
-  if (!Record) {
-    throw Error('record not found')
-  }
-  const editions = await listRecordEditions(recordName)
-  const tracks = await listTracks(recordName)
-  const artists = await listRecordEditionArtists(recordName)
-  const EditionDetails: RecordEditionDetails[] = editions.map((Edition) => {
-    var Discs: Disc[] = []
-    var DiscNumber = 1
-    while (true) {
-      const Tracks = tracks
-        .filter((t) => t.CatalogNumber === Edition.CatalogNumber)
-        .filter((t) => t.Disc === DiscNumber.toString())
-      if (Tracks.length === 0) {
-        break
-      }
-      Discs = [...Discs, { DiscNumber: DiscNumber, Tracks }]
-      DiscNumber++
-    }
-    const Credits = artists
-      .filter((a) => a.catalogNumber === Edition.CatalogNumber)
-      .map((a) => {
-        return {
-          CreditTitle: a.creditTitle,
-          Artist: a.creditName,
-        } as Credit
-      })
-    return {
-      Edition,
-      Discs,
-      Credits,
-    }
-  })
-  const details: RecordDetails = {
-    Record,
-    EditionDetails,
-  }
-  return details
+  cache.set(cacheKey, credits)
+  return catalogNumber ? credits.filter((a) => a.catalogNumber === catalogNumber) : credits
 }
 
 // Event Sheet

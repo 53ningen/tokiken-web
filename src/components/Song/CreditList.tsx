@@ -1,21 +1,19 @@
 import { Box, Card, CardActionArea, Chip, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Artist, SongArtist } from '../../Database'
+import { CreditArtist } from '../../spreadsheets'
 import theme from '../../theme'
 import Link from '../Link'
 import { SongArtistSourceAnnotation } from './SongArtistSourceLink'
 
-export type SongArtistItem = Artist & SongArtist
-
-interface SongArtistListProps {
+interface CreditListProps {
   label: string
-  artists: SongArtistItem[]
+  credits: CreditArtist[]
 }
 
-export const SongArtistList = ({ label, artists }: SongArtistListProps) => {
+export const CreditList = ({ label, credits }: CreditListProps) => {
   return (
     <>
-      {artists.length > 0 && (
+      {credits.length > 0 && (
         <Grid container spacing={1}>
           <Grid xs={12}>
             <Box sx={{ backgroundColor: theme.palette.grey[300] }}>
@@ -24,10 +22,10 @@ export const SongArtistList = ({ label, artists }: SongArtistListProps) => {
               </Typography>
             </Box>
           </Grid>
-          {artists.map((a) => {
+          {credits.map((a) => {
             return (
-              <Grid key={`${a.CreditTitle}${a.artistName}`} xs={12} sm={6} md={4} lg={3}>
-                <SongArtistListItem artist={a} />
+              <Grid key={`${a.creditTitle}${a.creditName}`} xs={12} sm={6} md={4} lg={3}>
+                <CreditListItem credit={a} />
               </Grid>
             )
           })}
@@ -37,47 +35,47 @@ export const SongArtistList = ({ label, artists }: SongArtistListProps) => {
   )
 }
 
-interface SongArtistListItemProps {
-  artist: SongArtistItem
+interface CreditListItemProps {
+  credit: CreditArtist
 }
 
-export const SongArtistListItem = ({ artist }: SongArtistListItemProps) => {
+export const CreditListItem = ({ credit }: CreditListItemProps) => {
   return (
     <Card>
-      <CardActionArea LinkComponent={Link} href={`/artists/${artist.artistName}`}>
+      <CardActionArea LinkComponent={Link} href={`/artists/${credit.artistId}`}>
         <Box height="100%" pt={1} px={1} whiteSpace="nowrap" width="100%">
           <Stack>
-            {artist.CreditTitle !== '' && (
+            {credit.creditTitle !== '' && (
               <Typography variant="caption" textOverflow="ellipsis" overflow="hidden">
-                {artist.CreditTitle}
+                {credit.creditTitle}
               </Typography>
             )}
             <Typography variant="subtitle2" textOverflow="ellipsis" overflow="hidden">
-              {artist.CreditName}
+              {credit.creditName}
             </Typography>
             <Stack direction="row" spacing={1} pt={1} height="2em" textOverflow="ellipsis" overflow="hidden">
-              <ArtistTypeChip count={artist.artistLyricsCount} type="作詞" />
-              <ArtistTypeChip count={artist.artistMusicCount} type="作曲" />
-              <ArtistTypeChip count={artist.artistArrangementCount} type="編曲" />
-              <ArtistTypeChip count={artist.artistProduceCount} type="制作" />
-              <ArtistTypeChip count={artist.artistDanceCount} type="ダンス" />
+              <CreditTypeChip count={credit.artistLyricsCount} type="作詞" />
+              <CreditTypeChip count={credit.artistMusicCount} type="作曲" />
+              <CreditTypeChip count={credit.artistArrangementCount} type="編曲" />
+              <CreditTypeChip count={credit.artistProduceCount} type="制作" />
+              <CreditTypeChip count={credit.artistDanceCount} type="ダンス" />
             </Stack>
           </Stack>
         </Box>
       </CardActionArea>
       <Box pb={1} px={1}>
-        <SongArtistSourceAnnotation source={artist.Source} sourceUrl={artist.SourceUrl} />
+        <SongArtistSourceAnnotation source={credit.creditSource} sourceUrl={credit.creditSourceUrl} />
       </Box>
     </Card>
   )
 }
 
-interface ArtistTypeChipProps {
+interface CreditTypeChipProps {
   count: string
   type: string
 }
 
-const ArtistTypeChip = ({ count, type }: ArtistTypeChipProps) => {
+const CreditTypeChip = ({ count, type }: CreditTypeChipProps) => {
   return (
     <>{count && count !== '0' && <Chip color="info" label={`${type}: ${count}`} size="small" sx={{ height: 20 }} />}</>
   )

@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid'
-import { Artist } from '../../Database'
+import { Artist } from '../../spreadsheets'
 import Link from '../Link'
 
 interface ArtistTableProps {
@@ -15,7 +15,7 @@ export const ArtistTable = ({ artists }: ArtistTableProps) => {
       width: 250,
       editable: true,
       disableColumnMenu: true,
-      renderCell: (p: GridRenderCellParams<string>) => <Link href={`/artists/${p.value}`}>{p.value}</Link>,
+      renderCell: (p: GridRenderCellParams<string>) => <Link href={`/artists/${p.id}`}>{p.value}</Link>,
     },
     {
       field: 'artistKana',
@@ -65,7 +65,7 @@ export const ArtistTable = ({ artists }: ArtistTableProps) => {
         <DataGrid
           rows={artists}
           columns={columns}
-          getRowId={(r) => r.artistName}
+          getRowId={(r) => r.artistId}
           showCellRightBorder
           showColumnRightBorder
           pageSize={100}

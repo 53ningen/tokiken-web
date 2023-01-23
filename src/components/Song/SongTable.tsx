@@ -1,38 +1,44 @@
 import { Box, Paper } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid'
-import { Song } from '../../Database'
+import { SongWithCreditsAndEditions } from '../../spreadsheets'
 import Link from '../Link'
 
 interface SongTableProps {
-  songs: Song[]
+  songs: SongWithCreditsAndEditions[]
 }
 
 export const SongTable = ({ songs }: SongTableProps) => {
   const columns: GridColDef[] = [
     {
-      field: 'Name',
+      field: 'songName',
       headerName: '曲名',
       width: 250,
       editable: true,
       disableColumnMenu: true,
-      renderCell: (p: GridRenderCellParams<string>) => <Link href={`/songs/${p.value}`}>{p.value}</Link>,
+      renderCell: (p: GridRenderCellParams<string>) => (
+        <Link href={`/songs/${songs.find((s) => s.songName === p.value)?.songId}`}>{p.value}</Link>
+      ),
     },
     {
-      field: 'Kana',
+      field: 'songKana',
       headerName: 'かな',
       width: 150,
       disableColumnMenu: true,
     },
     {
-      field: 'EarliestRecord',
+      field: 'songEarliestRecordId',
       headerName: '初出レコード',
       width: 200,
       disableColumnMenu: true,
-      renderCell: (p: GridRenderCellParams<string>) => <Link href={`/records/${p.value}`}>{p.value}</Link>,
+      renderCell: (p: GridRenderCellParams<string>) => (
+        <Link href={`/records/${p.value}`}>
+          {songs.find((s) => s.songId === p.id)?.recordEditions.at(0)?.recordName || ''}
+        </Link>
+      ),
     },
-    { field: 'EarliestCatalogNumber', headerName: '初出盤', width: 200, disableColumnMenu: true },
-    { field: 'JASRACCode', headerName: 'JASRAC 作品コード', width: 200, disableColumnMenu: true },
-    { field: 'ISWC', headerName: 'ISWC', width: 180, disableColumnMenu: true },
+    { field: 'songEarliestCatalogNumber', headerName: '初出盤', width: 200, disableColumnMenu: true },
+    { field: 'songJASRACCode', headerName: 'JASRAC 作品コード', width: 200, disableColumnMenu: true },
+    { field: 'songISWCCode', headerName: 'ISWC', width: 180, disableColumnMenu: true },
   ]
   return (
     <Paper style={{ height: '100vh', display: 'flex' }}>
@@ -40,7 +46,7 @@ export const SongTable = ({ songs }: SongTableProps) => {
         <DataGrid
           rows={songs}
           columns={columns}
-          getRowId={(r) => r.Name}
+          getRowId={(r) => r.songId}
           showCellRightBorder
           showColumnRightBorder
           pageSize={100}

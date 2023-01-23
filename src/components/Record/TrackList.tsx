@@ -1,38 +1,36 @@
 import { Box, Divider, List, ListItem, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Disc, SongArtist } from '../../Database'
+import { Credit, TrackWithCredits } from '../../spreadsheets'
 import theme from '../../theme'
 import { ArtistLink } from '../Artist/ArtistLink'
 import Link from '../Link'
 
 interface TrackListProps {
-  disc: Disc
-  songArtists: SongArtist[]
+  tracks: TrackWithCredits[]
 }
 
-export const TrackList = ({ disc, songArtists }: TrackListProps) => {
-  const toArtistLink = (artist: SongArtist) => <ArtistLink key={artist.Artist} artist={artist} />
+export const TrackList = ({ tracks }: TrackListProps) => {
+  const toArtistLink = (credit: Credit) => <ArtistLink key={credit.artistId} artist={credit} />
   return (
     <Box>
       <Box sx={{ backgroundColor: theme.palette.grey[300] }}>
         <Typography p={1} variant="h4">
-          DISC {disc.DiscNumber}
+          DISC {tracks[0].disc}
         </Typography>
       </Box>
       <List sx={{ listStyleType: 'decimal', paddingLeft: 4 }}>
-        {disc.Tracks.map((t) => {
-          const as = songArtists.filter((a) => a.Song === t.SongName)
-          const musicArtists = as.filter((a) => a.Role === 'Music').map((a) => toArtistLink(a))
-          const arrangementArtists = as.filter((a) => a.Role === 'Arrangement').map((a) => toArtistLink(a))
-          const lyricsArtists = as.filter((a) => a.Role === 'Lyrics').map((a) => toArtistLink(a))
+        {tracks.map((t) => {
+          const musicArtists = t.credits.filter((c) => c.creditRole === 'Music').map((a) => toArtistLink(a))
+          const arrangementArtists = t.credits.filter((c) => c.creditRole === 'Arrangement').map((a) => toArtistLink(a))
+          const lyricsArtists = t.credits.filter((c) => c.creditRole === 'Lyrics').map((a) => toArtistLink(a))
           return (
-            <Box key={`${disc.DiscNumber},${t.Track}`}>
+            <Box key={`${t.disc},${t.track}`}>
               <ListItem sx={{ display: 'list-item', paddingRight: 0 }} dense>
                 {t.SongName !== '' ? (
                   <Grid container>
                     <Grid xs={12} xl={4}>
                       <Typography variant="body1">
-                        <Link href={`/songs/${t.SongName}`}>{t.TrackName}</Link>
+                        <Link href={`/songs/${t.songId}`}>{t.trackName}</Link>
                       </Typography>
                     </Grid>
                     <Grid xs={12} xl={8}>
@@ -59,7 +57,7 @@ export const TrackList = ({ disc, songArtists }: TrackListProps) => {
                     </Grid>
                   </Grid>
                 ) : (
-                  <Typography variant="body1">{t.TrackName}</Typography>
+                  <Typography variant="body1">{t.trackName}</Typography>
                 )}
               </ListItem>
               <Divider sx={{ marginLeft: -4 }} />

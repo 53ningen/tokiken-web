@@ -10,7 +10,7 @@ import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
 import { TabPanel } from '../../components/TabPanel'
 import { SiteName } from '../../const'
-import { Artist, listArtists } from '../../Database'
+import { Artist, listArtists } from '../../spreadsheets'
 import theme from '../../theme'
 
 interface ArtistsPageProps {
@@ -83,18 +83,10 @@ export default function ArtistsPage({ artists }: ArtistsPageProps) {
 }
 
 export const getStaticProps: GetStaticProps<ArtistsPageProps> = async () => {
-  try {
-    const artists = await listArtists()
-    return {
-      props: {
-        artists,
-      },
-    }
-  } catch (e) {
-    return {
-      props: {
-        artists: [],
-      },
-    }
+  const artists = await listArtists()
+  return {
+    props: {
+      artists,
+    },
   }
 }

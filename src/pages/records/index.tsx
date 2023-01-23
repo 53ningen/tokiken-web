@@ -10,7 +10,7 @@ import RecordEditionCollection from '../../components/Record/RecordEditionCollec
 import { RecordEditionTable } from '../../components/Record/RecordEditionTable'
 import { TabPanel } from '../../components/TabPanel'
 import { SiteName } from '../../const'
-import { listRecordEditions, RecordEdition } from '../../Database'
+import { listRecordEditions, RecordEdition } from '../../spreadsheets'
 import theme from '../../theme'
 
 interface RecordsPageProps {
@@ -83,18 +83,10 @@ export default function RecordsPage({ editions }: RecordsPageProps) {
 }
 
 export const getStaticProps: GetStaticProps<RecordsPageProps> = async () => {
-  try {
-    const records = await listRecordEditions()
-    return {
-      props: {
-        editions: records,
-      },
-    }
-  } catch (e) {
-    return {
-      props: {
-        editions: [],
-      },
-    }
+  const records = await listRecordEditions()
+  return {
+    props: {
+      editions: records,
+    },
   }
 }

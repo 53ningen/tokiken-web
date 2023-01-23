@@ -6,7 +6,7 @@ import { CountdownCollection } from '../../components/Countdown/CountdownCollect
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
 import { SiteName } from '../../const'
-import { Event, listEvents } from '../../Database'
+import { Event, listEvents } from '../../spreadsheets'
 import theme from '../../theme'
 
 interface CountdownProps {

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { RecordType } from '../../Database'
+import { RecordType } from '../../spreadsheets'
 
 interface RecordTypeChipProps {
   type: RecordType

@@ -1,26 +1,25 @@
 import { Box, Card, CardActionArea, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { NoImageUrl } from '../../const'
+import { Credit, SongWithCreditsAndEditions } from '../../spreadsheets'
 import Link from '../Link'
 import { AlbumCover } from '../Record/AlbumCover'
 
 interface SongCollectionCardProps {
-  name: string
-  coverUrl: string
-  lyricsArtists: string[]
-  musicArtists: string[]
-  arrangementArtists: string[]
+  item: SongWithCreditsAndEditions
 }
 
-export const SongCollectionCard = ({
-  name,
-  coverUrl,
-  lyricsArtists,
-  musicArtists,
-  arrangementArtists,
-}: SongCollectionCardProps) => {
+export const SongCollectionCard = ({ item }: SongCollectionCardProps) => {
+  const coverUrl =
+    item.recordEditions.find((e) => e.editionCoverUrl && e.editionCoverUrl !== NoImageUrl)?.editionCoverUrl ||
+    NoImageUrl
+
+  const lyricsCredits = item.credits.filter((c) => c.creditRole === 'Lyrics')
+  const musicCredits = item.credits.filter((c) => c.creditRole === 'Music')
+  const arrangementCredits = item.credits.filter((c) => c.creditRole === 'Arrangement')
   return (
     <Card>
-      <CardActionArea LinkComponent={Link} href={`/songs/${name}`}>
+      <CardActionArea LinkComponent={Link} href={`/songs/${item.songId}`}>
         <Box width="100%">
           <Grid container>
             <Grid xs={4}>
@@ -29,12 +28,12 @@ export const SongCollectionCard = ({
             <Grid xs={8}>
               <Stack spacing={1} px={1} whiteSpace="nowrap" width="100%">
                 <Typography variant="subtitle2" textOverflow="ellipsis" overflow="hidden">
-                  {name}
+                  {item.songName}
                 </Typography>
                 <Stack>
-                  <SongCollectionCardArtist label="作詞" artists={lyricsArtists} />
-                  <SongCollectionCardArtist label="作曲" artists={musicArtists} />
-                  <SongCollectionCardArtist label="編曲" artists={arrangementArtists} />
+                  <SongCollectionCardArtist label="作詞" credits={lyricsCredits} />
+                  <SongCollectionCardArtist label="作曲" credits={musicCredits} />
+                  <SongCollectionCardArtist label="編曲" credits={arrangementCredits} />
                 </Stack>
               </Stack>
             </Grid>
@@ -47,15 +46,15 @@ export const SongCollectionCard = ({
 
 interface SongCollectionCardArtistProps {
   label: string
-  artists: string[]
+  credits: Credit[]
 }
 
-const SongCollectionCardArtist = ({ label, artists }: SongCollectionCardArtistProps) => {
+const SongCollectionCardArtist = ({ label, credits }: SongCollectionCardArtistProps) => {
   return (
     <>
-      {artists.length > 0 && (
+      {credits.length > 0 && (
         <Typography variant="caption" textOverflow="ellipsis" overflow="hidden">
-          {label}: {artists.join('/')}
+          {label}: {credits.map((c) => c.creditName).join('/')}
         </Typography>
       )}
     </>
