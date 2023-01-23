@@ -97,7 +97,14 @@ export const getStaticProps: GetStaticProps<ArtistPageProps> = async ({ params }
   const editions = await listRecordEditions()
   const artistWorkItems: ArtistWorkItem[] = []
   for (const a of songArtists) {
-    const { Song: songName, CreditTitle: creditTitle, CreditName: creditName, Role: role, Source: source } = a
+    const {
+      Song: songName,
+      CreditTitle: creditTitle,
+      CreditName: creditName,
+      Role: role,
+      Source: source,
+      SourceUrl: sourceUrl,
+    } = a
     const song = await getSong(songName)
     const coverUrl =
       editions.find((e) => e.RecordName === song?.EarliestRecord && e.CoverUrl !== NoImageUrl)?.CoverUrl || NoImageUrl
@@ -108,6 +115,7 @@ export const getStaticProps: GetStaticProps<ArtistPageProps> = async ({ params }
       creditName,
       role,
       source,
+      sourceUrl,
     } as ArtistWorkItem)
   }
   return {

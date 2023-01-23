@@ -25,7 +25,7 @@ export const SongArtistList = ({ label, artists }: SongArtistListProps) => {
           </Grid>
           {artists.map((a) => {
             return (
-              <Grid key={a.artistName} xs={12} sm={6} md={4} lg={3}>
+              <Grid key={`${a.CreditTitle}${a.artistName}`} xs={12} sm={6} md={4} lg={3}>
                 <SongArtistListItem artist={a} />
               </Grid>
             )

@@ -68,7 +68,7 @@ export interface Artist {
 }
 
 export type SongArtistRole = 'Vocal' | 'Music' | 'Arrangement' | 'Lyrics' | 'Produce' | 'Dance' | 'Others'
-export type SongArtistSource = 'BOOKLET' | 'JASRAC'
+export type SongArtistSource = 'BOOKLET' | 'JASRAC' | 'EXTERNAL'
 
 export interface SongArtist {
   Song: string
@@ -77,6 +77,7 @@ export interface SongArtist {
   CreditName: string
   CreditTitle: string
   Source: SongArtistSource
+  SourceUrl: string
 }
 
 export interface RecordEditionArtist {
@@ -271,7 +272,7 @@ export const listSongArtists = async () => {
     const artists = cache.get(cacheKey) as SongArtist[]
     return artists
   }
-  const range = 'SongArtist!A1:F1000'
+  const range = 'SongArtist!A1:G1000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
