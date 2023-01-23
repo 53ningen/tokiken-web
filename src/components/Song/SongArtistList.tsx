@@ -3,6 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Artist, SongArtist } from '../../Database'
 import theme from '../../theme'
 import Link from '../Link'
+import { SongArtistSourceAnnotation } from './SongArtistSourceLink'
 
 export type SongArtistItem = Artist & SongArtist
 
@@ -44,7 +45,7 @@ export const SongArtistListItem = ({ artist }: SongArtistListItemProps) => {
   return (
     <Card>
       <CardActionArea LinkComponent={Link} href={`/artists/${artist.artistName}`}>
-        <Box height="100%" p={1} whiteSpace="nowrap" width="100%">
+        <Box height="100%" pt={1} px={1} whiteSpace="nowrap" width="100%">
           <Stack>
             {artist.CreditTitle !== '' && (
               <Typography variant="caption" textOverflow="ellipsis" overflow="hidden">
@@ -64,6 +65,9 @@ export const SongArtistListItem = ({ artist }: SongArtistListItemProps) => {
           </Stack>
         </Box>
       </CardActionArea>
+      <Box pb={1} px={1}>
+        <SongArtistSourceAnnotation source={artist.Source} sourceUrl={artist.SourceUrl} />
+      </Box>
     </Card>
   )
 }

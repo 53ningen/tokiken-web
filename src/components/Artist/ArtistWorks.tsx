@@ -4,6 +4,7 @@ import Link from '../../components/Link'
 import { AlbumCover } from '../../components/Record/AlbumCover'
 import { SongArtistRole, SongArtistSource } from '../../Database'
 import theme from '../../theme'
+import { SongArtistSourceAnnotation } from '../Song/SongArtistSourceLink'
 
 export interface ArtistWorkItem {
   songName: string
@@ -78,13 +79,7 @@ const ArtistWork = ({ songName, coverUrl, creditTitle, creditName, source, sourc
           </Box>
         </CardActionArea>
         <Typography px={1} variant="caption">
-          {sourceUrl && sourceUrl !== '' ? (
-            <Link href={sourceUrl} target="_blank">
-              {getSourceLabel(source)}
-            </Link>
-          ) : (
-            getSourceLabel(source)
-          )}
+          <SongArtistSourceAnnotation source={source} sourceUrl={sourceUrl} />
         </Typography>
       </Stack>
     </Card>
