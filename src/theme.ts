@@ -30,6 +30,10 @@ const theme = createTheme({
       main: '#26a7de',
       contrastText: '#ffffff',
     },
+    amazon: {
+      main: '#ff9900',
+      contrastText: '#ffffff',
+    },
   },
   typography: {
     fontSize: 14,

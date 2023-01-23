@@ -1,6 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { RecordEditionDetail } from '../../pages/records/[id]'
+import { AmazonButton } from '../AmazonButton'
 import Link from '../Link'
 import { AlbumCover } from './AlbumCover'
 import { TrackList } from './TrackList'
@@ -20,6 +21,7 @@ export const RecordEditionView = ({ item }: RecordEditionViewProps) => {
         <Box id={item.catalogNumber} component="span" sx={{ marginTop: -8, paddingTop: 8 }} />
         <Grid xs={12} sm={4} md={4} lg={4}>
           <AlbumCover imgUrl={item.editionCoverUrl} href={item.editionProductUrl} />
+          <AmazonButton asin={item.editionASIN} />
         </Grid>
         <Grid xs={12} sm={8} md={8} lg={8}>
           <Stack>
