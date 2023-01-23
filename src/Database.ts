@@ -60,6 +60,9 @@ export interface Artist {
   artistKana: string
   artistWikipediaSlug: string
   artistTwitter: string
+  artistInstagram: string
+  artistTikTok: string
+  artistWebsite: string
   artistMusicCount: string
   artistArrangementCount: string
   artistLyricsCount: string
@@ -250,7 +253,7 @@ export const listArtists = async () => {
     const artists = cache.get(cacheKey) as Artist[]
     return artists
   }
-  const range = 'Artist!A1:K500'
+  const range = 'Artist!A1:L500'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -407,3 +410,5 @@ export const listEvents = async () => {
   cache.set(cacheKey, events)
   return events
 }
+
+export const hasValue = (s?: string) => s && s !== ''

@@ -1,8 +1,8 @@
 import { Box, Paper, Stack, Typography } from '@mui/material'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
+import { ArtistMediaLinks } from '../../../components/Artist/ArtistMediaLinks'
 import { ArtistWorkItem, ArtistWorks } from '../../../components/Artist/ArtistWorks'
-import Link from '../../../components/Link'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
 import { NoImageUrl, SiteName } from '../../../const'
@@ -40,22 +40,7 @@ export default function ArtistPage({ artist, artistWorkItems }: ArtistPageProps)
                   <Typography variant="caption">{kana}</Typography>
                   <Typography variant="h2">{name}</Typography>
                 </Stack>
-                <Stack>
-                  {wikipediaSlug !== '' && (
-                    <Typography variant="caption">
-                      <Link href={`https://ja.wikipedia.org/wiki/${wikipediaSlug}`} target="_blank">
-                        Wikipedia
-                      </Link>
-                    </Typography>
-                  )}
-                  {twitter !== '' && (
-                    <Typography variant="caption">
-                      <Link href={`https://twitter.com/${twitter}`} target="_blank">
-                        Twitter
-                      </Link>
-                    </Typography>
-                  )}
-                </Stack>
+                <ArtistMediaLinks artist={artist} />
                 <ArtistWorks label="作詞" items={lyricsItems} />
                 <ArtistWorks label="作曲" items={musicItems} />
                 <ArtistWorks label="編曲" items={arrangementItems} />
