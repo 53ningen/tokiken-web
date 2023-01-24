@@ -6,9 +6,11 @@ import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
 import { RecordEditionView } from '../../../components/Record/RecordEditionCard'
 import { RecordTypeChip } from '../../../components/Record/RecordType'
+import { AppleMusicAlbumPreviewPlayer } from '../../../components/Song/AppleMusicPreviewPlayer'
 import { SiteName } from '../../../const'
 import {
   getRecord,
+  hasValue,
   listCredits,
   listRecordEditionCredits,
   listRecordEditions,
@@ -52,6 +54,9 @@ export default function RecordPage({ item }: RecordPageProps) {
                   </Link>
                   <Typography variant="caption">{item.recordLabel}</Typography>
                 </Stack>
+                {hasValue(item.recordAppleMusicId) && (
+                  <AppleMusicAlbumPreviewPlayer appleMusicRecordId={item.recordAppleMusicId} />
+                )}
                 <Stack spacing={6}>
                   {item.editionDetails.map((e) => (
                     <RecordEditionView key={e.catalogNumber} item={e} />

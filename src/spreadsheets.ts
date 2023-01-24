@@ -19,6 +19,7 @@ export interface Record {
   recordType: RecordType
   recordLabel: string
   recordProductUrl: string
+  recordAppleMusicId: string
 }
 
 export interface RecordEdition {
@@ -55,6 +56,7 @@ export interface Song {
   songISWCCode: string
   songEarliestRecordName: string
   songEarliestCatalogNumber: string
+  songAppleMusicId: string
 }
 
 export interface Artist {
@@ -113,7 +115,7 @@ export const listRecords = async () => {
   if (useCache && cache.has(cacheKey)) {
     return cache.get(cacheKey) as Record[]
   }
-  const range = 'Record!A1:E200'
+  const range = 'Record!A1:F200'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -184,7 +186,7 @@ export const listSongs = async () => {
     const songs = cache.get(cacheKey) as Song[]
     return songs
   }
-  const range = 'Song!A1:G200'
+  const range = 'Song!A1:H200'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse

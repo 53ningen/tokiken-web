@@ -1,8 +1,10 @@
 import { Box, Paper, Stack, Typography } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
+import { AppleMusicSongPreviewPlayer } from '../../../components/Song/AppleMusicPreviewPlayer'
 import { CreditList } from '../../../components/Song/CreditList'
 import { SongRecordEditionList } from '../../../components/Song/SongRecordList'
 import { SiteName } from '../../../const'
@@ -10,6 +12,7 @@ import {
   Credit,
   CreditArtist,
   getSong,
+  hasValue,
   listArtists,
   listCredits,
   listRecordEditions,
@@ -46,21 +49,30 @@ export default function RecordPage({ item }: SongPageProps) {
           <Paper>
             <Box px={{ xs: 1, sm: 4, md: 8 }}>
               <Stack spacing={2}>
-                <Stack>
-                  <Typography variant="caption">{item.songKana}</Typography>
-                  <Typography variant="h2">{item.songName}</Typography>
-                </Stack>
-                <Stack>
-                  {item.songEarliestRecordName !== '' && (
-                    <Typography variant="caption">初出レコード: {item.songEarliestRecordName}</Typography>
-                  )}
-                  {item.songJASRACCode !== '' && (
-                    <Typography variant="caption">JASRAC 作品コード: {item.songJASRACCode}</Typography>
-                  )}
-                  {item.songISWCCode !== '' && (
-                    <Typography variant="caption">ISWC 作品コード: {item.songISWCCode}</Typography>
-                  )}
-                </Stack>
+                <Grid container spacing={2}>
+                  <Grid xs={12} sm={4}>
+                    <Stack>
+                      <Typography variant="caption">{item.songKana}</Typography>
+                      <Typography variant="h2">{item.songName}</Typography>
+                    </Stack>
+                    <Stack>
+                      {item.songEarliestRecordName !== '' && (
+                        <Typography variant="caption">初出レコード: {item.songEarliestRecordName}</Typography>
+                      )}
+                      {item.songJASRACCode !== '' && (
+                        <Typography variant="caption">JASRAC 作品コード: {item.songJASRACCode}</Typography>
+                      )}
+                      {item.songISWCCode !== '' && (
+                        <Typography variant="caption">ISWC 作品コード: {item.songISWCCode}</Typography>
+                      )}
+                    </Stack>
+                  </Grid>
+                  <Grid xs={12} sm={8}>
+                    {hasValue(item.songAppleMusicId) && (
+                      <AppleMusicSongPreviewPlayer appleMusicSongId={item.songAppleMusicId} />
+                    )}
+                  </Grid>
+                </Grid>
                 <CreditList credits={lyrics} label="作詞" />
                 <CreditList credits={music} label="作曲" />
                 <CreditList credits={arrangement} label="編曲" />

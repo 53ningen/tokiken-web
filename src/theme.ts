@@ -31,7 +31,7 @@ const theme = createTheme({
       contrastText: '#ffffff',
     },
     amazon: {
-      main: '#ff9900',
+      main: '#DE8E78',
       contrastText: '#ffffff',
     },
   },
