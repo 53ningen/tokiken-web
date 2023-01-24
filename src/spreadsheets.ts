@@ -289,6 +289,11 @@ export interface Event {
   eventInfoUrl: string
 }
 
+export interface Costume {
+  costumeId: string
+  costumeName: string
+}
+
 export const listEvents = async () => {
   const cacheKey = 'Events'
   if (useCache && cache.has(cacheKey)) {
@@ -309,6 +314,28 @@ export const listEvents = async () => {
   })
   cache.set(cacheKey, events)
   return events
+}
+
+export const listCostumes = async () => {
+  const cacheKey = 'Costumes'
+  if (useCache && cache.has(cacheKey)) {
+    const costumes = cache.get(cacheKey) as Costume[]
+    return costumes
+  }
+  const range = 'Costume!A1:D1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const costumes = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as Costume
+  })
+  cache.set(cacheKey, costumes)
+  return costumes
 }
 
 export const hasValue = (s?: string) => s && s !== ''
