@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps<ArtistPageProps> = async ({ params }
     })
   const works: SongCreditWithEditionCoverUrl[] = songCredits.map((sc) => {
     const editionCoverUrl =
-      allEditions.find((e) => e.recordId === sc.songEarliestRecordId && e.editionCoverUrl !== NoImageUrl)
+      allEditions.find((e) => e.recordName === sc.songEarliestRecordName && e.editionCoverUrl !== NoImageUrl)
         ?.editionCoverUrl || NoImageUrl
     return {
       ...sc,

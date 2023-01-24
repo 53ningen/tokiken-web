@@ -26,7 +26,7 @@ export const TrackList = ({ tracks }: TrackListProps) => {
           return (
             <Box key={`${t.disc},${t.track}`}>
               <ListItem sx={{ display: 'list-item', paddingRight: 0 }} dense>
-                {t.SongName !== '' ? (
+                {t.songId !== '' ? (
                   <Grid container>
                     <Grid xs={12} xl={4}>
                       <Typography variant="body1">

@@ -14,8 +14,10 @@ import {
   listCredits,
   listRecordEditions,
   listSongs,
+  listTracks,
   RecordEdition,
   SongWithCreditArtistsAndEditions,
+  Track,
 } from '../../../spreadsheets'
 
 interface SongPageProps {
@@ -49,8 +51,8 @@ export default function RecordPage({ item }: SongPageProps) {
                   <Typography variant="h2">{item.songName}</Typography>
                 </Stack>
                 <Stack>
-                  {item.songEarliestRecordId !== '' && (
-                    <Typography variant="caption">初出レコード: {item.songEarliestRecordId}</Typography>
+                  {item.songEarliestRecordName !== '' && (
+                    <Typography variant="caption">初出レコード: {item.songEarliestRecordName}</Typography>
                   )}
                   {item.songJASRACCode !== '' && (
                     <Typography variant="caption">JASRAC 作品コード: {item.songJASRACCode}</Typography>
@@ -98,6 +100,7 @@ export const getStaticProps: GetStaticProps<SongPageProps> = async ({ params }) 
   if (!song) {
     throw Error(`song not found: ${id}`)
   }
+  const allTracks: Track[] = await listTracks()
   const allEditions: RecordEdition[] = await listRecordEditions()
   const allCredits: Credit[] = await listCredits()
   const credits: CreditArtist[] = allCredits
@@ -109,7 +112,10 @@ export const getStaticProps: GetStaticProps<SongPageProps> = async ({ params }) 
         ...a,
       }
     })
-  const recordEditions = allEditions.filter((e) => e.recordId === song.songEarliestRecordId)
+  const recordEditions = [
+    ...new Set(allTracks.filter((t) => t.songId === song.songId).map((t) => t.catalogNumber)),
+  ].flatMap((catalogNumber) => allEditions.filter((e) => e.catalogNumber === catalogNumber))
+
   const item = {
     ...song,
     credits,

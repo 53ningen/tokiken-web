@@ -12,15 +12,15 @@ import { SongTable } from '../../components/Song/SongTable'
 import { TabPanel } from '../../components/TabPanel'
 import { SiteName } from '../../const'
 import {
-  Artist,
   Credit,
-  listArtists,
   listCredits,
   listRecordEditions,
   listSongs,
+  listTracks,
   RecordEdition,
   Song,
   SongWithCreditsAndEditions,
+  Track,
 } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -98,14 +98,16 @@ export default function RecordsPage({ items: items }: RecordsPageProps) {
 
 export const getStaticProps: GetStaticProps<RecordsPageProps> = async () => {
   const songs: Song[] = await listSongs()
-  const artists: Artist[] = await listArtists()
   const allEditions: RecordEdition[] = await listRecordEditions()
   const allCredits: Credit[] = await listCredits()
+  const allTracks: Track[] = await listTracks()
 
   const songCollectionItems: SongWithCreditsAndEditions[] = []
   for (const song of songs) {
     const credits = allCredits.filter((c) => c.songId === song.songId)
-    const recordEditions = allEditions.filter((e) => e.recordId === song.songEarliestRecordId)
+    const recordEditions = [
+      ...new Set(allTracks.filter((t) => t.songId === song.songId).map((t) => t.catalogNumber)),
+    ].flatMap((catalogNumber) => allEditions.filter((e) => e.catalogNumber === catalogNumber))
     songCollectionItems.push({
       ...song,
       credits,

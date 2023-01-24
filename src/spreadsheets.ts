@@ -53,7 +53,7 @@ export interface Song {
   songKana: string
   songJASRACCode: string
   songISWCCode: string
-  songEarliestRecordId: string
+  songEarliestRecordName: string
   songEarliestCatalogNumber: string
 }
 

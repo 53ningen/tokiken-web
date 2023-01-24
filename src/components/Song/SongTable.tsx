@@ -26,7 +26,7 @@ export const SongTable = ({ songs }: SongTableProps) => {
       disableColumnMenu: true,
     },
     {
-      field: 'songEarliestRecordId',
+      field: 'songEarliestRecordName',
       headerName: '初出レコード',
       width: 200,
       disableColumnMenu: true,
