@@ -33,7 +33,7 @@ export default function Home({}: HomeProps) {
               collectionDescription="「超ときめき♡宣伝部」に関する便利ツール"
               items={[
                 { icon: '⌛️', title: 'カウントダウン', href: '/countdown' },
-                { icon: '🌥', description: 'under construction', title: '超ときめき♡API' },
+                { icon: '🌥', title: '超ときめき♡API', href: 'tokimekiapi' },
               ]}
             />
           </Stack>
