@@ -10,11 +10,26 @@ export const Footer = () => {
           {SiteCopyRight}
         </Link>
       </Typography>
-      <Typography variant="caption">
-        <Link href="https://twitter.com/gomi2ngen" color="inherit" target="_blank">
-          管理者: @gomi2ngen
-        </Link>
-      </Typography>
+      <Stack direction="row" spacing={2}>
+        <Typography variant="caption">
+          <Link
+            href="https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform?pli=1&pli=1&edit_requested=true"
+            color="inherit"
+            target="_blank">
+            Contact
+          </Link>
+        </Typography>
+        <Typography variant="caption">
+          <Link href="/privacy" color="inherit">
+            Privacy Policy
+          </Link>
+        </Typography>
+        <Typography variant="caption">
+          <Link href="https://twitter.com/gomi2ngen" color="inherit" target="_blank">
+            Twitter
+          </Link>
+        </Typography>
+      </Stack>
     </Stack>
   )
 }
