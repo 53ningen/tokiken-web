@@ -11,7 +11,7 @@ interface SheetValuesResponse {
   values: string[][]
 }
 
-export type RecordType = 'SINGLE' | 'ALBUM' | 'MINI_ALBUM'
+export type RecordType = 'SINGLE' | 'ALBUM' | 'MINI_ALBUM' | 'DIGITAL'
 
 export interface Record {
   recordId: string
@@ -159,7 +159,7 @@ export const listTracks = async (catalogNumber?: string) => {
     const tracks = cache.get(cacheKey) as Track[]
     return catalogNumber ? tracks.filter((t) => t.catalogNumber === catalogNumber) : tracks
   }
-  const range = 'Track!A1:I500'
+  const range = 'Track!A1:I1000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${songSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse

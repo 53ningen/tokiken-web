@@ -24,5 +24,7 @@ const getLabel = (type: RecordType) => {
       return 'ALBUM'
     case 'MINI_ALBUM':
       return 'MINI ALBUM'
+    case 'DIGITAL':
+      return 'DIGITAL'
   }
 }

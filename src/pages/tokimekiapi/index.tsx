@@ -30,7 +30,7 @@ export default function TokimekiAPIHome({ apiActions }: TokimekiAPIProps) {
           <Stack p={{ xs: 1, sm: 2 }} spacing={2}>
             <Stack spacing={8}>
               <Stack spacing={2}>
-                <Typography variant="h2">超ときめき♡API のご利用にあたって</Typography>
+                <Typography variant="h2">ご利用にあたって</Typography>
                 <Typography variant="body2">
                   <ul>
                     <li>ご利用はいただくことによる生じたいかなる不利益についても責任を負いかねます</li>
@@ -39,12 +39,12 @@ export default function TokimekiAPIHome({ apiActions }: TokimekiAPIProps) {
                 </Typography>
               </Stack>
               <Stack spacing={2}>
-                <Typography variant="h2">超ときめき♡API のエンドポイント</Typography>
+                <Typography variant="h2">エンドポイント</Typography>
                 <Typography variant="body1">{apiBaseUrl}</Typography>
                 <Typography variant="caption">TLS 1.2 での接続が必須となります</Typography>
               </Stack>
               <Stack spacing={4}>
-                <Typography variant="h2">超ときめき♡API の実行可能なアクション</Typography>
+                <Typography variant="h2">実行可能なアクション</Typography>
                 {apiActions.map((a) => {
                   return <APIActionItem key={a.action} action={a} />
                 })}

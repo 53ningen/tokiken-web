@@ -16,7 +16,7 @@ export const RecordEditionCollectionCard = ({ edition }: RecordCardProps) => {
           <Box display="flex" width="100%" p={1}>
             <Stack whiteSpace="nowrap" width="100%">
               <Typography variant="subtitle2" textOverflow="ellipsis" overflow="hidden">
-                {edition.editionName}
+                {edition.recordName}
               </Typography>
               <Typography variant="caption" textOverflow="ellipsis" overflow="hidden">
                 {edition.editionName}

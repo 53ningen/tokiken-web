@@ -35,6 +35,9 @@ export default function RecordPage({ item }: SongPageProps) {
   const produce = item.credits.filter((c) => c.creditRole === 'Produce')
   const dance = item.credits.filter((c) => c.creditRole === 'Dance')
   const others = item.credits.filter((c) => c.creditRole === 'Others')
+  const earliestEdition = item.recordEditions.sort(
+    (a, b) => Date.parse(a.editionReleaseDate) - Date.parse(b.editionReleaseDate)
+  )[0]
   return (
     <>
       <Meta title={`${item.songName} - ${SiteName}`} />
@@ -57,7 +60,13 @@ export default function RecordPage({ item }: SongPageProps) {
                     </Stack>
                     <Stack>
                       {item.songEarliestRecordName !== '' && (
-                        <Typography variant="caption">初出レコード: {item.songEarliestRecordName}</Typography>
+                        <Typography variant="caption">リリース日: {earliestEdition.editionReleaseDate}</Typography>
+                      )}
+                      {item.songEarliestRecordName !== '' && (
+                        <Typography variant="caption">
+                          初出: {earliestEdition.recordName}
+                          {earliestEdition.recordType === 'DIGITAL' && `（${earliestEdition.editionName}）`}
+                        </Typography>
                       )}
                       {item.songJASRACCode !== '' && (
                         <Typography variant="caption">JASRAC 作品コード: {item.songJASRACCode}</Typography>

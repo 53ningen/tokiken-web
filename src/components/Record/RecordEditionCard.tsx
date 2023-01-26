@@ -4,6 +4,7 @@ import { RecordEditionDetail } from '../../pages/records/[id]'
 import { AmazonButton } from '../AmazonButton'
 import Link from '../Link'
 import { AlbumCover } from './AlbumCover'
+import { RecordTypeChip } from './RecordType'
 import { TrackList } from './TrackList'
 
 interface RecordEditionViewProps {
@@ -24,14 +25,15 @@ export const RecordEditionView = ({ item }: RecordEditionViewProps) => {
           <AmazonButton asin={item.editionASIN} />
         </Grid>
         <Grid xs={12} sm={8} md={8} lg={8}>
-          <Stack>
+          <Stack spacing={1}>
+            <RecordTypeChip type={item.recordType} />
             <Typography variant="h3">
               <Link href={`#${item.catalogNumber}`} color="inherit">
                 {item.editionName}
               </Link>
             </Typography>
             <Stack direction="row" spacing={1}>
-              <Typography variant="caption">{item.catalogNumber}</Typography>
+              {item.recordType !== 'DIGITAL' && <Typography variant="caption">{item.catalogNumber}</Typography>}
               <Typography variant="caption">{item.editionReleaseDate}</Typography>
               <Typography variant="caption">{item.editionPrice}</Typography>
             </Stack>

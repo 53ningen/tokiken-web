@@ -5,7 +5,6 @@ import Link from '../../../components/Link'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
 import { RecordEditionView } from '../../../components/Record/RecordEditionCard'
-import { RecordTypeChip } from '../../../components/Record/RecordType'
 import { AppleMusicAlbumPreviewPlayer } from '../../../components/Song/AppleMusicPreviewPlayer'
 import { SiteName } from '../../../const'
 import {
@@ -48,7 +47,6 @@ export default function RecordPage({ item }: RecordPageProps) {
             <Box px={{ xs: 1, sm: 4, md: 8 }}>
               <Stack spacing={2}>
                 <Stack spacing={1}>
-                  <RecordTypeChip type={item.recordType} />
                   <Link href={item.recordProductUrl} target="_blank">
                     <Typography variant="h2">{item.recordName}</Typography>
                   </Link>
