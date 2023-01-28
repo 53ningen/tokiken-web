@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { AppleMusicAt } from '../../const'
 
 interface AppleMusicSongPreviewPlayerProps {
   appleMusicSongId: string
@@ -8,7 +9,7 @@ export const AppleMusicSongPreviewPlayer = ({ appleMusicSongId }: AppleMusicSong
   return (
     <iframe
       id="embedPlayer"
-      src={`https://embed.music.apple.com/jp/album/${appleMusicSongId}&amp,app=music&amp,itsct=music_box_player&amp,itscg=30200&amp,ls=1&amp,theme=light`}
+      src={`https://embed.music.apple.com/jp/album/${appleMusicSongId}&amp,app=music&amp,itsct=music_box_player&amp,itscg=30200&amp,at=${AppleMusicAt}&amp;ls=1&amp,theme=light`}
       height="175px"
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
       allow="autoplay *, encrypted-media *, clipboard-write"
@@ -35,7 +36,7 @@ export const AppleMusicAlbumPreviewPlayer = ({ appleMusicRecordId }: AppleMusicA
     <Box pb={2}>
       <iframe
         id="embedPlayer"
-        src={`https://embed.music.apple.com/jp/album/${appleMusicRecordId}?app=music&amp;itsct=music_box_player&amp;itscg=30200&amp;ls=1&amp;theme=auto`}
+        src={`https://embed.music.apple.com/jp/album/${appleMusicRecordId}?app=music&amp;itsct=music_box_player&amp;itscg=30200&amp;at=${AppleMusicAt}&amp;ls=1&amp;theme=auto`}
         height="450px"
         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
         allow="autoplay *; encrypted-media *; clipboard-write"

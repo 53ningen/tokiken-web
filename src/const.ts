@@ -10,3 +10,5 @@ export const AmazonImgUrl = (asin?: string) =>
   asin ? `https://images-fe.ssl-images-amazon.com/images/P/${asin}.09.LZZZZZZZ` : undefined
 export const AmazonProductUrl = (asin?: string) =>
   asin ? `https://www.amazon.co.jp/dp/${asin}/ref=nosim?tag=${process.env.NEXT_PUBLIC_ASSOCIATE_ID}` : undefined
+
+export const AppleMusicAt = '1001l3a5L'
