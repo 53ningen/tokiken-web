@@ -7,6 +7,7 @@ import { NavBar } from '../../../components/NavBar'
 import { AppleMusicSongPreviewPlayer } from '../../../components/Song/AppleMusicPreviewPlayer'
 import { CreditList } from '../../../components/Song/CreditList'
 import { SongRecordEditionList } from '../../../components/Song/SongRecordList'
+import { SongVideoList } from '../../../components/Song/SongVideoList'
 import { SiteName } from '../../../const'
 import {
   Credit,
@@ -15,16 +16,27 @@ import {
   hasValue,
   listArtists,
   listCredits,
+  listOfficialYouTubeVideos,
   listRecordEditions,
   listSongs,
   listTracks,
+  listYouTubeVideoTypes,
   RecordEdition,
-  SongWithCreditArtistsAndEditions,
+  Song,
   Track,
+  YouTubeVideo,
+  YouTubeVideoType,
+  YouTubeVideoWithType,
 } from '../../../spreadsheets'
 
+export interface SongDetail extends Song {
+  credits: CreditArtist[]
+  recordEditions: RecordEdition[]
+  relatedVideos: YouTubeVideoWithType[]
+}
+
 interface SongPageProps {
-  item: SongWithCreditArtistsAndEditions
+  item: SongDetail
 }
 
 export default function RecordPage({ item }: SongPageProps) {
@@ -38,6 +50,13 @@ export default function RecordPage({ item }: SongPageProps) {
   const earliestEdition = item.recordEditions.sort(
     (a, b) => Date.parse(a.editionReleaseDate) - Date.parse(b.editionReleaseDate)
   )[0]
+
+  const mv = item.relatedVideos.filter((v) => v.videoTypeId === 'MusicVideo' || v.videoTypeId === 'LIVE')
+  const shorts = item.relatedVideos.filter((v) => v.videoTypeId === 'Shorts')
+  const otherVideos = item.relatedVideos.filter(
+    (v) => v.videoTypeId !== 'MusicVideo' && v.videoTypeId !== 'LIVE' && v.videoTypeId !== 'Shorts'
+  )
+
   return (
     <>
       <Meta title={`${item.songName} - ${SiteName}`} />
@@ -89,6 +108,9 @@ export default function RecordPage({ item }: SongPageProps) {
                 <CreditList credits={dance} label="ダンス" />
                 <CreditList credits={others} label="その他" />
                 <SongRecordEditionList editions={item.recordEditions} />
+                <SongVideoList listTitle="MV・ライブ映像" videos={mv} />
+                <SongVideoList listTitle="関連動画" videos={otherVideos} />
+                <SongVideoList listTitle="Short 動画" videos={shorts} />
               </Stack>
             </Box>
           </Paper>
@@ -121,6 +143,9 @@ export const getStaticProps: GetStaticProps<SongPageProps> = async ({ params }) 
   if (!song) {
     throw Error(`song not found: ${id}`)
   }
+  const allVideos: YouTubeVideo[] = await listOfficialYouTubeVideos()
+  const allVideoTypes: YouTubeVideoType[] = await listYouTubeVideoTypes()
+
   const allTracks: Track[] = await listTracks()
   const allEditions: RecordEdition[] = await listRecordEditions()
   const allCredits: Credit[] = await listCredits()
@@ -137,10 +162,18 @@ export const getStaticProps: GetStaticProps<SongPageProps> = async ({ params }) 
     ...new Set(allTracks.filter((t) => t.songId === song.songId).map((t) => t.catalogNumber)),
   ].flatMap((catalogNumber) => allEditions.filter((e) => e.catalogNumber === catalogNumber))
 
+  const relatedVideos = allVideos
+    .filter((v) => v.songId === id)
+    .map((v) => {
+      const t = allVideoTypes.find((t) => t.videoTypeId === v.videoTypeId)!
+      return { ...v, ...t }
+    })
+
   const item = {
     ...song,
     credits,
     recordEditions,
+    relatedVideos,
   }
   return {
     props: {
