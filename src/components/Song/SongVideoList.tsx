@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { YouTubeVideo } from '../../spreadsheets'
 import theme from '../../theme'
-import { YouTubeVideoCard } from '../Content/YouTubeVideo'
+import { YouTubeVideoCard } from '../YouTube/YouTubeVideoCard'
 
 interface SongVideoListProps {
   listTitle: string

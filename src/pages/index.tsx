@@ -23,9 +23,9 @@ export default function Home({}: HomeProps) {
                 { icon: '🎼', title: '楽曲', href: '/songs' },
                 { icon: '💿', title: 'レコード', href: '/records' },
                 { icon: '🎤', title: 'アーティスト', href: '/artists' },
-                { icon: '🏟', description: 'under construction', title: 'イベント' },
+                { icon: '🎬', title: 'YouTube', href: '/youtube' },
                 { icon: '👗', description: 'under construction', title: '衣装' },
-                { icon: '🗓', description: 'under construction', title: '年表' },
+                { icon: '🏟', description: 'under construction', title: 'イベント' },
               ]}
             />
             <ContentCollection

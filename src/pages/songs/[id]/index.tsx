@@ -16,10 +16,10 @@ import {
   hasValue,
   listArtists,
   listCredits,
-  listOfficialYouTubeVideos,
   listRecordEditions,
   listSongs,
   listTracks,
+  listYouTubeVideos,
   listYouTubeVideoTypes,
   RecordEdition,
   Song,
@@ -143,7 +143,7 @@ export const getStaticProps: GetStaticProps<SongPageProps> = async ({ params }) 
   if (!song) {
     throw Error(`song not found: ${id}`)
   }
-  const allVideos: YouTubeVideo[] = await listOfficialYouTubeVideos()
+  const allVideos: YouTubeVideo[] = await listYouTubeVideos()
   const allVideoTypes: YouTubeVideoType[] = await listYouTubeVideoTypes()
 
   const allTracks: Track[] = await listTracks()

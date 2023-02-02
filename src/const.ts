@@ -1,3 +1,7 @@
+export const Locale = 'ja-JP'
+
+export const NumOfVideosPerPage = 30
+
 export const SiteUrl = 'https://tokiken.com'
 export const SiteName = '超ときめき♡研究部（非公式）'
 export const SiteCopyRight = '超ときめき♡研究部'

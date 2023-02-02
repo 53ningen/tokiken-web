@@ -347,11 +347,24 @@ export interface YouTubeVideo {
   channelId: string
   channelTitle: string
   videoTitle: string
-  /** optional */
-  videoDescription: string
   videoTypeId: string
   /** optional */
   songId: string
+}
+
+export interface YouTubeVideoType {
+  videoTypeId: string
+  videoTypeName: string
+  videoTypeSortPriority: string
+  videoTypeCount: string
+  videoTypeIcon: string
+}
+
+export interface YouTubeChannel {
+  channelId: string
+  channelTitle: string
+  channelVideoCount: string
+  channelThumbnailUrl: string
 }
 
 export interface YouTubeVideoType {
@@ -362,13 +375,13 @@ export interface YouTubeVideoType {
 
 export type YouTubeVideoWithType = YouTubeVideo & YouTubeVideoType
 
-export const listOfficialYouTubeVideos = async () => {
-  const cacheKey = 'OfficialYouTubeVideos'
+export const listYouTubeVideos = async () => {
+  const cacheKey = 'YouTubeVideos'
   if (useCache && cache.has(cacheKey)) {
     const videos = cache.get(cacheKey) as YouTubeVideo[]
     return videos
   }
-  const range = 'OfficialYouTubeVideo!A1:I1000'
+  const range = 'YouTubeVideo!A1:G2000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${contentSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -384,13 +397,18 @@ export const listOfficialYouTubeVideos = async () => {
   return videos
 }
 
+export const getYouTubeVideoType = async (videoTypeId: string) => {
+  const videoTypes = await listYouTubeVideoTypes()
+  return videoTypes.find((t) => t.videoTypeId === videoTypeId)
+}
+
 export const listYouTubeVideoTypes = async () => {
   const cacheKey = 'YouTubeVideoTypes'
   if (useCache && cache.has(cacheKey)) {
     const videos = cache.get(cacheKey) as YouTubeVideoType[]
     return videos
   }
-  const range = 'YouTubeVideoType!A1:D200'
+  const range = 'YouTubeVideoType!A1:E200'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${contentSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -404,4 +422,31 @@ export const listYouTubeVideoTypes = async () => {
   })
   cache.set(cacheKey, videos)
   return videos
+}
+
+export const getYouTubeChannel = async (channelId: string) => {
+  const channels = await listYouTubeChannels()
+  return channels.find((c) => c.channelId === channelId)
+}
+
+export const listYouTubeChannels = async () => {
+  const cacheKey = 'YouTubeChannels'
+  if (useCache && cache.has(cacheKey)) {
+    const channels = cache.get(cacheKey) as YouTubeChannel[]
+    return channels
+  }
+  const range = 'YouTubeChannel!A1:D100'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${contentSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const channels = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as YouTubeChannel
+  })
+  cache.set(cacheKey, channels)
+  return channels
 }

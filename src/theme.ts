@@ -1,12 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import { Zen_Maru_Gothic } from '@next/font/google'
-
-export const zenMaruGothic = Zen_Maru_Gothic({
-  weight: ['500', '700'],
-  subsets: ['latin'],
-  display: 'block',
-  fallback: ['Helvetica', 'Arial', 'sans-serif'],
-})
 
 const theme = createTheme({
   palette: {
@@ -38,7 +30,7 @@ const theme = createTheme({
   typography: {
     fontSize: 14,
     fontWeightRegular: 500,
-    fontFamily: ['Zen Maru Gothic'].join(','),
+    fontFamily: ['Noto Sans JP'].join(','),
     h1: {
       fontSize: 22,
       fontWeight: 700,
