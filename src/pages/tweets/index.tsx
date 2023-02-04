@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, MenuItem, Select, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import Calendar, { CalendarTileProperties } from 'react-calendar'
 // import 'react-calendar/dist/Calendar.css'
@@ -11,12 +11,13 @@ export default function YouTubePage() {
   const title = '先日の宣伝部'
   const description = '指定した日付のとき宣公式のツイートにアクセスするツール'
   const [date, setDate] = useState(new Date())
+  const [account, setAccount] = useState('sendenbu_staff')
 
   const onChangeDate = (newDate: Date) => {
     const since = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
     const until = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate() + 1}`
     window?.open(
-      `https://twitter.com/search?q=from%3Asendenbu_staff%20since%3A${since}%20until%3A${until}&src=typed_query&f=live`
+      `https://twitter.com/search?q=from%3A${account}%20since%3A${since}%20until%3A${until}&src=typed_query&f=live`
     )
     setDate(newDate)
   }
@@ -43,17 +44,30 @@ export default function YouTubePage() {
               {title}
             </Typography>
             <Typography variant="caption">{description}</Typography>
-            <Box px={{ xs: 1, sm: 4, md: 8 }} py={4} display="flex" justifyContent="center">
-              <Calendar
-                minDate={new Date(2015, 4, 1)}
-                maxDate={new Date()}
-                locale={'en-US'}
-                calendarType="ISO 8601"
-                onChange={onChangeDate}
-                value={date}
-                tileContent={getEvents}
-              />
-            </Box>
+            <Stack px={{ xs: 1, sm: 4, md: 8 }} spacing={2}>
+              <Box display="flex" justifyContent="right" style={{ display: 'none' }}>
+                <Select
+                  id="account"
+                  value={account}
+                  onChange={(e) => {
+                    setAccount(e.target.value)
+                  }}>
+                  <MenuItem value="sendenbu_staff">超ときめき♡宣伝部 (@sendenbu_staff)</MenuItem>
+                  <MenuItem value="julia_an115">杏ジュリア (@julia_an115)</MenuItem>
+                </Select>
+              </Box>
+              <Box py={4} display="flex" justifyContent="center">
+                <Calendar
+                  minDate={new Date(2015, 4, 1)}
+                  maxDate={new Date()}
+                  locale={'en-US'}
+                  calendarType="ISO 8601"
+                  onChange={onChangeDate}
+                  value={date}
+                  tileContent={getEvents}
+                />
+              </Box>
+            </Stack>
           </Stack>
         </Stack>
       </main>
