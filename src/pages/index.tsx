@@ -34,7 +34,7 @@ export default function Home({}: HomeProps) {
               items={[
                 { icon: '⌛️', title: 'カウントダウン', href: '/countdown' },
                 { icon: '🌥', title: '超ときめき♡API', href: '/tokimekiapi' },
-                { icon: '🐤', description: 'under construction', title: '先日の宣伝部' },
+                { icon: '🐤', title: '先日の宣伝部', href: '/tweets' },
               ]}
             />
           </Stack>

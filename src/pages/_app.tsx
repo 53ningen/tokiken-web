@@ -10,6 +10,7 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import createEmotionCache from '../createEmotionCache'
 import * as gtag from '../lib/gtag'
+import '../styles/global.css'
 import theme from '../theme'
 
 const clientSideEmotionCache = createEmotionCache()
