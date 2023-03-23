@@ -7,11 +7,16 @@ import { NavBar } from '../../components/NavBar'
 import { SiteName } from '../../const'
 import theme from '../../theme'
 
+const accounts = [
+  { id: 'sendenbu_staff', name: '超ときめき♡宣伝部', since: new Date(2015, 4, 1) },
+  { id: 'julia_an115', name: '杏ジュリア', since: new Date(2023, 0, 15) },
+]
+
 export default function YouTubePage() {
   const title = '先日の宣伝部'
   const description = '指定した日付のとき宣公式のツイートにアクセスするツール'
   const [date, setDate] = useState(new Date())
-  const [account, setAccount] = useState('sendenbu_staff')
+  const [account, setAccount] = useState(accounts[0].id)
 
   const onChangeDate = (newDate: Date) => {
     const since = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
@@ -44,21 +49,24 @@ export default function YouTubePage() {
               {title}
             </Typography>
             <Typography variant="caption">{description}</Typography>
-            <Stack px={{ xs: 1, sm: 4, md: 8 }} spacing={2}>
-              <Box display="flex" justifyContent="right" style={{ display: 'none' }}>
+            <Stack px={{ xs: 1, sm: 4, md: 8 }} spacing={2} py={2}>
+              <Box display="flex" justifyContent="center">
                 <Select
                   id="account"
                   value={account}
                   onChange={(e) => {
                     setAccount(e.target.value)
                   }}>
-                  <MenuItem value="sendenbu_staff">超ときめき♡宣伝部 (@sendenbu_staff)</MenuItem>
-                  <MenuItem value="julia_an115">杏ジュリア (@julia_an115)</MenuItem>
+                  {accounts.map((a) => (
+                    <MenuItem key={a.id} value={`${a.id}`}>
+                      {a.name} (@{a.id})
+                    </MenuItem>
+                  ))}
                 </Select>
               </Box>
               <Box py={4} display="flex" justifyContent="center">
                 <Calendar
-                  minDate={new Date(2015, 4, 1)}
+                  minDate={accounts.filter((a) => a.id === account)[0].since}
                   maxDate={new Date()}
                   locale={'en-US'}
                   calendarType="ISO 8601"
