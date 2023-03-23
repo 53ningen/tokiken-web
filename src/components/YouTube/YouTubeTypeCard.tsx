@@ -11,7 +11,7 @@ interface YouTubeTypeCardProps {
 
 export const YouTubeTypeCard = ({ videoType }: YouTubeTypeCardProps) => {
   return (
-    <Card elevation={0} square>
+    <Card elevation={0} variant="elevation" square>
       <Box>
         <CardActionArea LinkComponent={Link} href={`/youtube/types/${videoType.videoTypeId}`}>
           <Stack>

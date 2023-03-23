@@ -11,7 +11,7 @@ export const YouTubeVideoCard = ({ video }: YouTubeVideoCardProps) => {
   const publishedAt = new Date(video.videoPublishedAt).toLocaleDateString(Locale)
   const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`
   return (
-    <Card elevation={0} square>
+    <Card elevation={0} variant="elevation" square>
       <Box>
         <CardActionArea LinkComponent={Link} href={videoUrl} target="_blank">
           {/* eslint-disable-next-line @next/next/no-img-element */}

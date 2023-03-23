@@ -8,7 +8,7 @@ import Link from './Link'
 export const Header = () => {
   return (
     <>
-      <AppBar color="secondary" elevation={1} position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar color="secondary" elevation={0} position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Container maxWidth="lg" disableGutters>
           <Toolbar variant="dense">
             <Typography textAlign="center" variant="h3" flexGrow={1}>

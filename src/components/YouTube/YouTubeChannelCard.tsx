@@ -8,7 +8,7 @@ interface YouTubeChannelCardProps {
 
 export const YouTubeChannelCard = ({ channel }: YouTubeChannelCardProps) => {
   return (
-    <Card elevation={0} square>
+    <Card elevation={0} variant="elevation" square>
       <Box>
         <CardActionArea LinkComponent={Link} href={`/youtube/channels/${channel.channelId}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
