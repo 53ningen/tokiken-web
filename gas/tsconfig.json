@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "strict": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".vscode"]
+}
