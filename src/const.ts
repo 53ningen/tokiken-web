@@ -1,6 +1,7 @@
 export const Locale = 'ja-JP'
 
 export const NumOfVideosPerPage = 30
+export const RevalidateYouTubeData = 4 * 60 * 60
 
 export const SiteUrl = 'https://tokiken.com'
 export const SiteName = '超ときめき♡研究部（非公式）'

@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { NumOfVideosPerPage } from '../../../../const'
+import { NumOfVideosPerPage, RevalidateYouTubeData } from '../../../../const'
 import {
   getYouTubeChannel,
   listYouTubeChannels,
@@ -55,5 +55,6 @@ export const getStaticProps: GetStaticProps<YouTubeChannelHomePageProps> = async
       page: 1,
       totalPages,
     },
+    revalidate: RevalidateYouTubeData,
   }
 }

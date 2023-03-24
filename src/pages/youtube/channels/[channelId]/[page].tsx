@@ -4,7 +4,7 @@ import { Meta } from '../../../../components/Meta'
 import { NavBar } from '../../../../components/NavBar'
 import { Pagination } from '../../../../components/Pagenation'
 import { YouTubeVideoCollection } from '../../../../components/YouTube/YouTubeVideoCollection'
-import { NumOfVideosPerPage, SiteName } from '../../../../const'
+import { NumOfVideosPerPage, RevalidateYouTubeData, SiteName } from '../../../../const'
 import {
   getYouTubeChannel,
   listYouTubeChannels,
@@ -96,5 +96,6 @@ export const getStaticProps: GetStaticProps<YouTubeChannelPageProps> = async ({ 
       page,
       totalPages,
     },
+    revalidate: RevalidateYouTubeData,
   }
 }

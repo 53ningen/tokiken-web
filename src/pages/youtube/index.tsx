@@ -5,7 +5,7 @@ import { NavBar } from '../../components/NavBar'
 import { SectionHeader } from '../../components/SectionHeader'
 import { YouTubeChannelCollection } from '../../components/YouTube/YouTubeChannelCollection'
 import { YouTubeTypeCollection } from '../../components/YouTube/YouTubeTypeCollection'
-import { SiteName } from '../../const'
+import { RevalidateYouTubeData, SiteName } from '../../const'
 import { listYouTubeChannels, listYouTubeVideoTypes, YouTubeChannel, YouTubeVideoType } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -51,5 +51,6 @@ export const getStaticProps: GetStaticProps<YouTubePageProps> = async () => {
       channels,
       videoTypes,
     },
+    revalidate: RevalidateYouTubeData,
   }
 }
