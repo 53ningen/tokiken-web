@@ -9,6 +9,66 @@ type YouTubeVideoData = {
   videoUrl: string
 }
 
+export const addVideo = (videoId: string = '') => {
+  const { Const } = exports
+  const sheetName = 'YouTubeVideo'
+
+  // Sheet から登録済みの VideoId を取得
+  const sheet = SpreadsheetApp.openById(Const.contentsSpreadsheetId).getSheetByName(sheetName)
+  const numRows = sheet!.getDataRange().getNumRows() - 1
+  const registeredVideoIds = sheet!
+    .getRange(2, 1, numRows)
+    .getValues()
+    .flatMap((vs) => (vs[0] === '' ? [] : [vs[0]]))
+
+  if (registeredVideoIds.includes(videoId)) {
+    console.log(`already registered: ${videoId}`)
+    return
+  }
+
+  // YouTubeChannel シートのカラム位置を取得
+  const [columns, ..._] = sheet!.getRange(1, 1, 1, 20).getValues()
+  const indices = {
+    videoId: columns.findIndex((c) => c === 'videoId'),
+    videoPublishedAt: columns.findIndex((c) => c === 'videoPublishedAt'),
+    channelId: columns.findIndex((c) => c === 'channelId'),
+    channelTitle: columns.findIndex((c) => c === 'channelTitle'),
+    videoTitle: columns.findIndex((c) => c === 'videoTitle'),
+    videoTypeId: columns.findIndex((c) => c === 'videoTypeId'),
+    songId: columns.findIndex((c) => c === 'songId'),
+    videoUrl: columns.findIndex((c) => c === 'videoUrl'),
+  }
+
+  // Video 情報を取得
+  const res = YouTube.Videos?.list(['id', 'snippet'].join(','), {
+    id: videoId,
+  })
+  const v = res!.items![0]
+  const row = {
+    videoId: v.id,
+    videoPublishedAt: v.snippet?.publishedAt,
+    channelId: v.snippet?.channelId,
+    channelTitle: v.snippet?.channelTitle,
+    videoTitle: v.snippet?.title,
+    videoTypeId: SyncVideos.getVideoType(v.snippet?.channelId, v.snippet?.title),
+    songId: '',
+    videoUrl: `https://www.youtube.com/watch?v=${v.id}`,
+  } as YouTubeVideoData
+
+  // シートに新しいデータを挿入する
+  const rowNumber = numRows + 2 // 2: header + self
+  sheet?.getRange(rowNumber, indices.videoId + 1).setValue(row.videoId)
+  sheet?.getRange(rowNumber, indices.videoPublishedAt + 1).setValue(row.videoPublishedAt)
+  sheet?.getRange(rowNumber, indices.channelId + 1).setValue(row.channelId)
+  sheet?.getRange(rowNumber, indices.channelTitle + 1).setValue(row.channelTitle)
+  sheet?.getRange(rowNumber, indices.videoTitle + 1).setValue(row.videoTitle)
+  sheet?.getRange(rowNumber, indices.videoTypeId + 1).setValue(row.videoTypeId)
+  sheet?.getRange(rowNumber, indices.songId + 1).setValue(row.songId)
+  sheet?.getRange(rowNumber, indices.videoUrl + 1).setValue(row.videoUrl)
+  console.log(`Inserted: ${JSON.stringify(row)}`)
+  sheet?.getDataRange().removeDuplicates([indices.videoId + 1])
+}
+
 export const syncVideos = async () => {
   const { Const } = exports
 
