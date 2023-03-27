@@ -4,7 +4,7 @@ import { Meta } from '../../../../components/Meta'
 import { NavBar } from '../../../../components/NavBar'
 import { Pagination } from '../../../../components/Pagenation'
 import { YouTubeVideoCollection } from '../../../../components/YouTube/YouTubeVideoCollection'
-import { NumOfVideosPerPage, SiteName } from '../../../../const'
+import { NumOfVideosPerPage, RevalidateYouTubeData, SiteName } from '../../../../const'
 import {
   getYouTubeVideoType,
   listYouTubeVideos,
@@ -95,6 +95,7 @@ export const getStaticProps: GetStaticProps<YouTubeTypePageProps> = async ({ par
       videos,
       page,
       totalPages,
+      revalidate: RevalidateYouTubeData,
     },
   }
 }
