@@ -85,6 +85,8 @@ export const syncVideos = async () => {
     'UCa_d0vpgZMQpCohGa6bKvlA',
     // 〜スマイル100%〜菅田愛貴ちゃんねる
     'UC6TlNNvPmG1DRNY5aAiMyuA',
+    // ひとちゃんねる
+    'UCGC45RR74JOhOPIc6rHO31g',
   ]
   const maxResults = 50
   const syncRangeMs = 1 * 24 * 60 * 60 * 1000 // 1 day
@@ -210,6 +212,8 @@ namespace SyncVideos {
         return 'おはるチャンネル'
       case 'UC6TlNNvPmG1DRNY5aAiMyuA':
         return '菅田愛貴ちゃんねる'
+      case 'UCGC45RR74JOhOPIc6rHO31g':
+        return 'ひとちゃんねる'
     }
     const videoTypeMapping = [
       // 優先度順
