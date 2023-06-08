@@ -25,7 +25,7 @@ export const Footer = () => {
           </Link>
         </Typography>
         <Typography variant="caption">
-          <Link href="https://twitter.com/gomi2ngen" color="inherit" target="_blank">
+          <Link href="https://twitter.com/kusabure" color="inherit" target="_blank">
             Twitter
           </Link>
         </Typography>
