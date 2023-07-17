@@ -1,4 +1,4 @@
-import { Box, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { Box, FormControlLabel, FormGroup, MenuItem, Select, Stack, Switch, Typography } from '@mui/material'
 import { useState } from 'react'
 import Calendar, { CalendarTileProperties } from 'react-calendar'
 // import 'react-calendar/dist/Calendar.css'
@@ -17,14 +17,16 @@ export default function YouTubePage() {
   const description = '指定した日付のとき宣公式のツイートにアクセスするツール'
   const [date, setDate] = useState(new Date())
   const [account, setAccount] = useState(accounts[0].id)
+  const [includeRTs, setIncludeRTs] = useState(true)
 
   const onChangeDate = (newDate: Date) => {
     const since = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
     const nextDay = new Date(newDate.getTime() + 60 * 60 * 24 * 1000)
     const until = `${nextDay.getFullYear()}-${nextDay.getMonth() + 1}-${nextDay.getDate()}`
-    window?.open(
-      `https://twitter.com/search?q=from%3A${account}%20since%3A${since}%20until%3A${until}&src=typed_query&f=live`
-    )
+    const query = `from%3A${account}%20since%3A${since}%20until%3A${until}${
+      includeRTs ? '%20include:nativeretweets' : ''
+    }`
+    window?.open(`https://twitter.com/search?q=${query}&src=typed_query&f=live`)
     setDate(newDate)
   }
   const getEvents = ({ date, view }: CalendarTileProperties) => {
@@ -52,18 +54,28 @@ export default function YouTubePage() {
             <Typography variant="caption">{description}</Typography>
             <Stack px={{ xs: 1, sm: 4, md: 8 }} spacing={2} py={2}>
               <Box display="flex" justifyContent="center">
-                <Select
-                  id="account"
-                  value={account}
-                  onChange={(e) => {
-                    setAccount(e.target.value)
-                  }}>
-                  {accounts.map((a) => (
-                    <MenuItem key={a.id} value={`${a.id}`}>
-                      {a.name} (@{a.id})
-                    </MenuItem>
-                  ))}
-                </Select>
+                <Stack>
+                  <Select
+                    id="account"
+                    value={account}
+                    onChange={(e) => {
+                      setAccount(e.target.value)
+                    }}>
+                    {accounts.map((a) => (
+                      <MenuItem key={a.id} value={`${a.id}`}>
+                        {a.name} (@{a.id})
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormGroup>
+                    <FormControlLabel
+                      label="リツイートも含む"
+                      control={
+                        <Switch defaultChecked checked={includeRTs} onChange={() => setIncludeRTs(!includeRTs)} />
+                      }
+                    />
+                  </FormGroup>
+                </Stack>
               </Box>
               <Box py={4} display="flex" justifyContent="center">
                 <Calendar
