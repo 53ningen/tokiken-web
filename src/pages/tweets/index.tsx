@@ -70,9 +70,7 @@ export default function YouTubePage() {
                   <FormGroup>
                     <FormControlLabel
                       label="リツイートも含む"
-                      control={
-                        <Switch defaultChecked checked={includeRTs} onChange={() => setIncludeRTs(!includeRTs)} />
-                      }
+                      control={<Switch checked={includeRTs} onChange={() => setIncludeRTs(!includeRTs)} />}
                     />
                   </FormGroup>
                 </Stack>
