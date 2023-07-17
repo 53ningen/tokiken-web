@@ -20,7 +20,8 @@ export default function YouTubePage() {
 
   const onChangeDate = (newDate: Date) => {
     const since = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
-    const until = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate() + 1}`
+    const nextDay = new Date(newDate.getTime() + 60 * 60 * 24 * 1000)
+    const until = `${nextDay.getFullYear()}-${nextDay.getMonth() + 1}-${nextDay.getDate()}`
     window?.open(
       `https://twitter.com/search?q=from%3A${account}%20since%3A${since}%20until%3A${until}&src=typed_query&f=live`
     )
