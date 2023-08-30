@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import { SiteCopyRight } from '../const'
 import Link from './Link'
+import { LoginButton } from './LoginButton'
 
 export const Footer = () => {
   return (
@@ -30,6 +31,9 @@ export const Footer = () => {
           </Link>
         </Typography>
       </Stack>
+      <Typography variant="caption">
+        <LoginButton />
+      </Typography>
     </Stack>
   )
 }

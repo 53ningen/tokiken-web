@@ -1,0 +1,24 @@
+{
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tokikenweb-prod-225505-authRole",
+      "UnauthRoleArn": "arn:aws:iam::247601741829:role/amplify-tokikenweb-prod-225505-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::247601741829:role/amplify-tokikenweb-prod-225505-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-tokikenweb-prod-225505-deployment",
+      "UnauthRoleName": "amplify-tokikenweb-prod-225505-unauthRole",
+      "StackName": "amplify-tokikenweb-prod-225505",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:247601741829:stack/amplify-tokikenweb-prod-225505/89834ae0-24a9-11ee-a7bf-06012098a3cd",
+      "AmplifyAppId": "dfpkeqc4rtnoh"
+    },
+    "categories": {
+      "auth": {
+        "tokikenweba7573c8ba7573c8b": {},
+        "userPoolGroups": {}
+      },
+      "storage": {
+        "tokikencontents": {}
+      }
+    }
+  }
+}

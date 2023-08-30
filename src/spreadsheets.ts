@@ -1,6 +1,7 @@
 const songSheetId = '13Y4wbnnfY23aPUnB6n4KELVfElu1z3j5OUE9gRy9EBU'
 const eventSheetId = '1VVSHBBJgG45JnaIViv2qQ6CpNIZ4o6jF2mp3L1yYfHY'
 const contentSheetId = '1mVHPjvue9Tcm-4sfz-ZrLXo40FDJk3k4MBGefNTybjA'
+const costumeSheetId = '1VlQoiFQXWMkFcTyXIfge1EvWROlvvIVdaNUJlwxdntc'
 
 const apiKey = process.env.SHEET_API_KEY
 const cache = new Map<string, object>()
@@ -291,11 +292,6 @@ export interface Event {
   eventInfoUrl: string
 }
 
-export interface Costume {
-  costumeId: string
-  costumeName: string
-}
-
 export const listEvents = async () => {
   const cacheKey = 'Events'
   if (useCache && cache.has(cacheKey)) {
@@ -318,14 +314,46 @@ export const listEvents = async () => {
   return events
 }
 
+// Costume Sheet
+export interface Costume {
+  costumeId: string
+  costumeName: string
+  costumeNameType: 'Official' | 'Unofficial'
+  costumeDebutEvent: string
+  costumeDebutDate: string
+  costumeDesigner: string
+  costumeDesignerSource: string | undefined
+  costumeInfoReady: boolean
+  costumeThumbnailKey: string
+}
+
+export interface CostumeImage {
+  costumeId: string
+  costumeImageKeyL: string
+  costumeImageKeyM: string
+  costumeImageKeyS: string
+  costumeImageOrder: number
+  costumeImageCredit: string
+  costumeImageCreditUrl: string
+}
+
+export interface CostumeInfo {
+  costumeId: string
+  costumeInfoCategory: 'Designer' | 'Official' | 'YouTube'
+  costumeInfoOrder: number
+  costumeInfoType: 'twitter' | 'instagram' | 'youtube'
+  costumeInfo: string
+  costumeInfoUrl: string
+}
+
 export const listCostumes = async () => {
   const cacheKey = 'Costumes'
   if (useCache && cache.has(cacheKey)) {
     const costumes = cache.get(cacheKey) as Costume[]
     return costumes
   }
-  const range = 'Costume!A1:D1000'
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const range = 'Costume!A1:J500'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${costumeSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
   const [columnNames, ...data] = res.values
@@ -338,6 +366,55 @@ export const listCostumes = async () => {
   })
   cache.set(cacheKey, costumes)
   return costumes
+}
+
+export const getCostume = async (costumeId: string) => {
+  const costumes = await listCostumes()
+  return costumes.find((c) => c.costumeId === costumeId)
+}
+
+export const listCostumeInfo = async (costumeId: string) => {
+  const cacheKey = 'CostumeInfo'
+  if (useCache && cache.has(cacheKey)) {
+    const info = cache.get(cacheKey) as CostumeInfo[]
+    return info.filter((i) => i.costumeId === costumeId)
+  }
+  const range = 'CostumeInfo!A1:H999'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${costumeSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const costumes = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as CostumeInfo
+  })
+  cache.set(cacheKey, costumes)
+  return costumes.filter((i) => i.costumeId === costumeId)
+}
+
+export const listCostumeImages = async (costumeId?: string) => {
+  const cacheKey = 'CostumeImages'
+  if (useCache && cache.has(cacheKey)) {
+    const images = cache.get(cacheKey) as CostumeImage[]
+    return costumeId ? images.filter((i) => i.costumeId === costumeId) : images
+  }
+  const range = 'CostumeImage!A1:H999'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${costumeSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const images = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as CostumeImage
+  })
+  cache.set(cacheKey, images)
+  return costumeId ? images.filter((i) => i.costumeId === costumeId) : images
 }
 
 // Content Sheet
