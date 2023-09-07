@@ -54,6 +54,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
                     <S3Image
                       imgKey={image.costumeImageKeyS === '' ? 'noimage.png' : image.costumeImageKeyS}
                       width="100%"
+                      style={{ aspectRatio: 1, objectFit: 'cover' }}
                       onClick={() => setIndex(i)}
                     />
                   </CardActionArea>

@@ -1,6 +1,7 @@
 import { Box, FormControlLabel, FormGroup, Stack, Switch, Typography } from '@mui/material'
 import { GetStaticProps } from 'next'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import CostumeCollection from '../../components/Costumes/CostumeCollection'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
@@ -15,7 +16,19 @@ interface CostumesPageProps {
 export default function CostumesPage({ costumes }: CostumesPageProps) {
   const title = '超ときめき♡衣装データベース'
   const description = '超ときめき♡宣伝部の衣装データ'
+  const router = useRouter()
+  const query = router.query
   const [showAll, setShowAll] = useState(false)
+  useEffect(() => {
+    ;(() => {
+      setShowAll(query.showAll?.toString() === 'true')
+    })()
+  }, [query])
+  const itemsOptionOnChange = (newValue: boolean) => {
+    router.push({
+      query: { showAll: newValue },
+    })
+  }
   return (
     <>
       <Meta title={`${title} - ${SiteName}`} description={description} />
@@ -32,7 +45,7 @@ export default function CostumesPage({ costumes }: CostumesPageProps) {
             <FormGroup>
               <FormControlLabel
                 label="ときめき♡宣伝部衣装を表示（作成中）"
-                control={<Switch checked={showAll} onChange={() => setShowAll(!showAll)} />}
+                control={<Switch checked={showAll} onChange={() => itemsOptionOnChange(!showAll)} />}
               />
             </FormGroup>
           </Box>
