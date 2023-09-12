@@ -7,6 +7,7 @@ import { CostumeInfoItem } from '../../../components/Costumes/CostumeInfoItem'
 import Link from '../../../components/Link'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
+import { YouTubeVideoCard } from '../../../components/YouTube/YouTubeVideoCard'
 import { SiteName } from '../../../const'
 import { useAuth } from '../../../context/AuthContext'
 import {
@@ -17,6 +18,8 @@ import {
   listCostumeImages,
   listCostumeInfo,
   listCostumes,
+  listYouTubeVideosByCostumeId,
+  YouTubeVideo,
 } from '../../../spreadsheets'
 import theme from '../../../theme'
 
@@ -24,9 +27,10 @@ interface CostumesPageProps {
   costume: Costume
   info: CostumeInfo[]
   images: CostumeImage[]
+  videos: YouTubeVideo[]
 }
 
-export default function CostumePage({ costume, info, images }: CostumesPageProps) {
+export default function CostumePage({ costume, info, images, videos }: CostumesPageProps) {
   const title = `超ときめき♡衣装データベース: ${costume.costumeName}`
   const description = `超ときめき♡宣伝部の衣装: ${costume.costumeName} のデータ`
   const { isLoggedIn, initialized } = useAuth()
@@ -36,9 +40,6 @@ export default function CostumePage({ costume, info, images }: CostumesPageProps
     .sort((i, j) => i.costumeInfoOrder - j.costumeInfoOrder)
   const officialComments = info
     .filter((i) => i.costumeInfoCategory === 'Official')
-    .sort((i, j) => i.costumeInfoOrder - j.costumeInfoOrder)
-  const relatedYouTube = info
-    .filter((i) => i.costumeInfoCategory === 'YouTube')
     .sort((i, j) => i.costumeInfoOrder - j.costumeInfoOrder)
   return (
     <>
@@ -159,16 +160,24 @@ export default function CostumePage({ costume, info, images }: CostumesPageProps
                         })}
                       </Stack>
                     )}
-                    {relatedYouTube.length > 0 && (
+                    {videos.length > 0 && (
                       <Stack>
                         <Box sx={{ backgroundColor: theme.palette.grey[300] }}>
                           <Typography p={1} variant="h4">
-                            関連動画
+                            関連 YouTube 動画
                           </Typography>
                         </Box>
-                        {relatedYouTube.map((i) => {
-                          return <CostumeInfoItem key={`movie-${i.costumeInfoType}-${i.costumeInfoOrder}`} info={i} />
-                        })}
+                        <Grid container spacing={{ xs: 1, sm: 2 }}>
+                          {videos.map((v) => {
+                            return (
+                              <Grid key={v.videoId} xs={6} sm={6} md={12} lg={6}>
+                                <Box>
+                                  <YouTubeVideoCard video={v} />
+                                </Box>
+                              </Grid>
+                            )
+                          })}
+                        </Grid>
                       </Stack>
                     )}
                   </Stack>
@@ -203,6 +212,7 @@ export const getStaticProps: GetStaticProps<CostumesPageProps> = async ({ params
   const costume = await getCostume(id)
   const info = await listCostumeInfo(id)
   const images = (await listCostumeImages(id)).sort((i) => i.costumeImageOrder)
+  const videos = await listYouTubeVideosByCostumeId(id)
   if (!costume) {
     throw Error(`${id} not found`)
   }
@@ -211,6 +221,7 @@ export const getStaticProps: GetStaticProps<CostumesPageProps> = async ({ params
       costume,
       info,
       images,
+      videos,
     },
   }
 }

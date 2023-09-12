@@ -427,6 +427,7 @@ export interface YouTubeVideo {
   videoTypeId: string
   /** optional */
   songId: string
+  costumeId: string
 }
 
 export interface YouTubeVideoType {
@@ -458,7 +459,7 @@ export const listYouTubeVideos = async () => {
     const videos = cache.get(cacheKey) as YouTubeVideo[]
     return videos
   }
-  const range = 'YouTubeVideo!A1:G2000'
+  const range = 'YouTubeVideo!A1:H2000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${contentSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -472,6 +473,11 @@ export const listYouTubeVideos = async () => {
   })
   cache.set(cacheKey, videos)
   return videos
+}
+
+export const listYouTubeVideosByCostumeId = async (costumeId: string) => {
+  const videos = await listYouTubeVideos()
+  return videos.filter((v) => v.costumeId === costumeId)
 }
 
 export const getYouTubeVideoType = async (videoTypeId: string) => {
