@@ -6,6 +6,7 @@ import CostumeCollection from '../../components/Costumes/CostumeCollection'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
 import { SiteName } from '../../const'
+import { useAuth } from '../../context/AuthContext'
 import { Costume, listCostumes } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -16,6 +17,7 @@ interface CostumesPageProps {
 export default function CostumesPage({ costumes }: CostumesPageProps) {
   const title = '超ときめき♡衣装データベース'
   const description = '超ときめき♡宣伝部の衣装データ'
+  const { isLoggedIn, initialized } = useAuth()
   const router = useRouter()
   const query = router.query
   const [showAll, setShowAll] = useState(false)
@@ -41,14 +43,16 @@ export default function CostumesPage({ costumes }: CostumesPageProps) {
             </Typography>
             <Typography variant="caption">{description}</Typography>
           </Stack>
-          <Box display="flex" justifyContent="center">
-            <FormGroup>
-              <FormControlLabel
-                label="ときめき♡宣伝部衣装を表示（作成中）"
-                control={<Switch checked={showAll} onChange={() => itemsOptionOnChange(!showAll)} />}
-              />
-            </FormGroup>
-          </Box>
+          {initialized && isLoggedIn() && (
+            <Box display="flex" justifyContent="center">
+              <FormGroup>
+                <FormControlLabel
+                  label="ときめき♡宣伝部衣装を表示（作成中）"
+                  control={<Switch checked={showAll} onChange={() => itemsOptionOnChange(!showAll)} />}
+                />
+              </FormGroup>
+            </Box>
+          )}
           <CostumeCollection costumes={showAll ? costumes : costumes.filter((c) => c.costumeInfoReady)} />
         </Stack>
       </main>

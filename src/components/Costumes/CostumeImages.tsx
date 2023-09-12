@@ -17,7 +17,6 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
   const enableLargeImageView = useMediaQuery(theme.breakpoints.up('md'))
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!modalOpen) return
       if (event.key === 'ArrowLeft' && index > 0) {
         setIndex(index - 1)
       }
