@@ -341,7 +341,7 @@ export interface CostumeInfo {
   costumeId: string
   costumeInfoCategory: 'Designer' | 'Official' | 'YouTube'
   costumeInfoOrder: number
-  costumeInfoType: 'twitter' | 'instagram' | 'youtube'
+  costumeInfoType: 'twitter' | 'instagram'
   costumeInfo: string
   costumeInfoUrl: string
 }

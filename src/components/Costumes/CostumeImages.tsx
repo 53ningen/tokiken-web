@@ -56,34 +56,36 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
             </>
           )}
         </Typography>
-        <Grid container spacing={{ xs: 1, sm: 2 }}>
-          {images.map((image, i) => {
-            return (
-              <Grid key={i} xs={3} sm={2} md={3}>
-                <Card>
-                  <Box position="relative">
-                    {i === index && (
-                      <Box
-                        position="absolute"
-                        width="100%"
-                        height="100%"
-                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', zIndex: 100 }}
-                      />
-                    )}
-                    <CardActionArea>
-                      <S3Image
-                        imgKey={image.costumeImageKeyS === '' ? 'noimage.png' : image.costumeImageKeyS}
-                        width="100%"
-                        style={{ aspectRatio: 1, objectFit: 'cover' }}
-                        onClick={() => setIndex(i)}
-                      />
-                    </CardActionArea>
-                  </Box>
-                </Card>
-              </Grid>
-            )
-          })}
-        </Grid>
+        {images.length > 1 && (
+          <Grid container spacing={{ xs: 1, sm: 2 }}>
+            {images.map((image, i) => {
+              return (
+                <Grid key={i} xs={3} sm={2} md={3}>
+                  <Card>
+                    <Box position="relative">
+                      {i === index && (
+                        <Box
+                          position="absolute"
+                          width="100%"
+                          height="100%"
+                          sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', zIndex: 100 }}
+                        />
+                      )}
+                      <CardActionArea>
+                        <S3Image
+                          imgKey={image.costumeImageKeyS === '' ? 'noimage.png' : image.costumeImageKeyS}
+                          width="100%"
+                          style={{ aspectRatio: 1, objectFit: 'cover' }}
+                          onClick={() => setIndex(i)}
+                        />
+                      </CardActionArea>
+                    </Box>
+                  </Card>
+                </Grid>
+              )
+            })}
+          </Grid>
+        )}
       </Stack>
       <Modal
         disableAutoFocus

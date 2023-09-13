@@ -170,7 +170,7 @@ export default function CostumePage({ costume, info, images, videos }: CostumesP
                         <Grid container spacing={{ xs: 1, sm: 2 }}>
                           {videos.map((v) => {
                             return (
-                              <Grid key={v.videoId} xs={6} sm={6} md={12} lg={6}>
+                              <Grid key={v.videoId} xs={12} sm={6} md={12} lg={6}>
                                 <Box>
                                   <YouTubeVideoCard video={v} />
                                 </Box>

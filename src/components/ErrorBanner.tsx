@@ -1,18 +1,19 @@
-import { Alert, Button, Typography } from '@mui/material'
-import { MouseEventHandler } from 'react'
+import { Alert, AlertColor, Button, Typography } from '@mui/material'
+import { MouseEventHandler, ReactNode } from 'react'
 
 interface ErrorBannerProps {
-  errorMessage?: string
+  errorMessage?: ReactNode
   action?: MouseEventHandler
-  actionName?: string
+  actionName?: ReactNode
+  severity?: AlertColor
 }
 
-export const ErrorBanner = ({ errorMessage, action, actionName }: ErrorBannerProps) => {
+export const ErrorBanner = ({ errorMessage, action, actionName, severity = 'error' }: ErrorBannerProps) => {
   return (
     <>
       {errorMessage && (
         <Alert
-          severity="error"
+          severity={severity}
           action={
             action &&
             actionName && (

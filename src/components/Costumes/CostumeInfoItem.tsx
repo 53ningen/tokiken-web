@@ -1,5 +1,4 @@
 import InstagramIcon from '@mui/icons-material/Instagram'
-import YouTubeIcon from '@mui/icons-material/YouTube'
 
 import TwitterIcon from '@mui/icons-material/Twitter'
 import { Box, Button, Card, CardActionArea, Stack, Typography } from '@mui/material'
@@ -54,25 +53,10 @@ export const CostumeInfoItem = ({ info, lazyLoad = false }: CostumeInfoItemProps
             </Box>
           </CardActionArea>
           <Box p={2}>
-            <Button variant="outlined" size="small" fullWidth onClick={() => setLoaded(true)}>
+            <Button variant="outlined" size="small" fullWidth href={info.costumeInfoUrl}>
               instagram
             </Button>
           </Box>
-        </Card>
-      )
-    case 'youtube':
-      return (
-        <Card sx={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-          <CardActionArea LinkComponent={Link} href={info.costumeInfoUrl}>
-            <Box p={2}>
-              <Stack direction="row" spacing={2}>
-                <YouTubeIcon fontSize="large" />
-                <Typography component="pre" whiteSpace="pre-wrap">
-                  {info.costumeInfo}
-                </Typography>
-              </Stack>
-            </Box>
-          </CardActionArea>
         </Card>
       )
   }
