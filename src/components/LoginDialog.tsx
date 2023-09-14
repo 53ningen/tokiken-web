@@ -5,14 +5,15 @@ import { useAuth } from '../context/AuthContext'
 import { ErrorBanner } from './ErrorBanner'
 
 interface LoginDialogProps {
+  defaultUsername?: string
   open: boolean
   handleClose: () => void
   onLoggedIn: () => void
 }
 
-export const LoginDialog = ({ open, handleClose, onLoggedIn }: LoginDialogProps) => {
+export const LoginDialog = ({ defaultUsername = '', open, handleClose, onLoggedIn }: LoginDialogProps) => {
   const { login, completeNewPassword } = useAuth()
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState(defaultUsername)
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [challengeName, setChallengeName] = useState<ChallengeName>()

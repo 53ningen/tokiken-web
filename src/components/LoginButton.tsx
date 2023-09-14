@@ -3,7 +3,11 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { LoginDialog } from './LoginDialog'
 
-export const LoginButton = () => {
+interface Props {
+  defaultUsername?: string
+}
+
+export const LoginButton = ({ defaultUsername }: Props) => {
   const { isLoggedIn, logout, initialized } = useAuth()
   const [dialogOpen, setDialogOpen] = useState(false)
   const buttonOnClick = async () => {
@@ -26,7 +30,12 @@ export const LoginButton = () => {
           {isLoggedIn() ? 'Logout' : 'Login'}
         </Button>
       )}
-      <LoginDialog open={dialogOpen} handleClose={handleClose} onLoggedIn={onLoggedIn} />
+      <LoginDialog
+        defaultUsername={defaultUsername}
+        open={dialogOpen}
+        handleClose={handleClose}
+        onLoggedIn={onLoggedIn}
+      />
     </>
   )
 }
