@@ -53,6 +53,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
           ) : (
             <>
               撮影: <Link href={images[index].costumeImageCreditUrl}>{images[index].costumeImageCredit}</Link>
+              {['草🌱', '超ときめき♡宣伝部'].includes(images[index].costumeImageCredit) ? <></> : ' さん'}
             </>
           )}
         </Typography>
