@@ -1,9 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Card, CardActionArea, IconButton, Modal, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Box, Card, CardActionArea, IconButton, Modal, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useEffect, useState } from 'react'
 import { CostumeImage } from '../../spreadsheets'
-import theme from '../../theme'
 import Link from '../Link'
 import { S3Image } from '../S3Image'
 
@@ -14,7 +13,6 @@ interface CostumeImagesProps {
 export const CostumeImages = ({ images }: CostumeImagesProps) => {
   const [index, setIndex] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
-  const enableLargeImageView = useMediaQuery(theme.breakpoints.up('md'))
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft' && index > 0) {
@@ -32,7 +30,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
   return (
     <>
       <Stack spacing={2}>
-        <Box display="flex" sx={{ width: '100%', aspectRatio: '1', cursor: { md: 'pointer' } }}>
+        <Box display="flex" sx={{ width: '100%', aspectRatio: '1', cursor: 'pointer' }}>
           <S3Image
             key={images[index]?.costumeImageKeyM || 'noimage'}
             imgKey={
@@ -42,7 +40,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
             }
             width="100%"
             height="100%"
-            onClick={() => enableLargeImageView && setModalOpen(!modalOpen)}
+            onClick={() => setModalOpen(!modalOpen)}
           />
         </Box>
         <Typography variant="caption" textAlign="right">
@@ -110,7 +108,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
                   ? 'noimage.png'
                   : images[index].costumeImageKeyL
               }
-              width="100%"
+              style={{ maxHeight: '100vh', maxWidth: '100vw' }}
             />
           </Box>
         </Box>
