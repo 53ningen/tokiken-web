@@ -323,6 +323,7 @@ export interface Costume {
   costumeDebutDate: string
   costumeDesigner: string
   costumeDesignerSource: string | undefined
+  costumeType: 'tokisen' | 'chotokisen' | 'birthday'
   costumeInfoReady: boolean
   costumeThumbnailKey: string
 }

@@ -3,26 +3,22 @@ import {
   Box,
   Chip,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
   Stack,
-  Switch,
-  Typography,
+  Typography
 } from '@mui/material'
 import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import CostumeCollection from '../../components/Costumes/CostumeCollection'
 import { ErrorBanner } from '../../components/ErrorBanner'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
+import { SectionHeader } from '../../components/SectionHeader'
 import { SiteName } from '../../const'
-import { useAuth } from '../../context/AuthContext'
 import { Costume, listCostumes } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -33,6 +29,9 @@ interface CostumesPageProps {
 export default function CostumesPage({ costumes }: CostumesPageProps) {
   const title = '超ときめき♡衣装データベース'
   const description = '超ときめき♡宣伝部の衣装データ'
+  const chotokisenCostumes = costumes.filter((c) => c.costumeType === 'chotokisen')
+  const tokisenCostumes = costumes.filter((c) => c.costumeType === 'tokisen')
+  const birthdayCostumes = costumes.filter((c) => c.costumeType === 'birthday')
   const designers = Array.from(
     new Set(costumes.map(({ costumeDesigner }) => (costumeDesigner === '' ? '確認中' : costumeDesigner)))
   )
@@ -42,21 +41,6 @@ export default function CostumesPage({ costumes }: CostumesPageProps) {
       target: { value },
     } = event
     setSelectedDesigners(typeof value === 'string' ? value.split(',') : value)
-  }
-
-  const { isLoggedIn, initialized } = useAuth()
-  const router = useRouter()
-  const query = router.query
-  const [showAll, setShowAll] = useState(false)
-  useEffect(() => {
-    ;(() => {
-      setShowAll(query.showAll?.toString() === 'true')
-    })()
-  }, [query])
-  const itemsOptionOnChange = (newValue: boolean) => {
-    router.push({
-      query: { showAll: newValue },
-    })
   }
   return (
     <>
@@ -111,42 +95,62 @@ export default function CostumesPage({ costumes }: CostumesPageProps) {
                 </Select>
               </FormControl>
             </Box>
-            <Box display="flex" justifyContent="center">
-              <FormGroup>
-                <FormControlLabel
-                  label={<Typography variant="caption">ときめき♡宣伝部衣装を含む（作成中）</Typography>}
-                  control={<Switch checked={showAll} onChange={() => itemsOptionOnChange(!showAll)} />}
-                />
-              </FormGroup>
-            </Box>
           </Stack>
-          <Box px={{ xs: 1, sm: 4, md: 8 }}>
-            <ErrorBanner
-              severity={showAll ? 'warning' : 'info'}
-              errorMessage={
-                showAll
-                  ? 'ときめき♡宣伝部衣装データは作成中です。衣装展やイベントなどで撮影した写真や情報を募集しています。'
-                  : '写真や情報を募集しています'
-              }
-              actionName={<EmailIcon />}
-              action={() => {
-                window.open('https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform')
-              }}
+          <Stack spacing={2} px={{ xs: 1, sm: 4, md: 8 }}>
+            <SectionHeader title="👗 超ときめき♡宣伝部の衣装" />
+            <Box>
+              <ErrorBanner
+                severity="warning"
+                errorMessage="写真や情報の提供を募集しています"
+                actionName={<EmailIcon />}
+                action={() => {
+                  window.open('https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform')
+                }}
+              />
+            </Box>
+
+            <CostumeCollection
+              costumes={chotokisenCostumes.filter((c) =>
+                selectedDesigners.map((d) => (d === '確認中' ? '' : d)).includes(c.costumeDesigner)
+              )}
             />
-          </Box>
-          <CostumeCollection
-            costumes={
-              showAll
-                ? costumes.filter((c) =>
-                    selectedDesigners.map((d) => (d === '確認中' ? '' : d)).includes(c.costumeDesigner)
-                  )
-                : costumes.filter(
-                    (c) =>
-                      c.costumeInfoReady &&
-                      selectedDesigners.map((d) => (d === '確認中' ? '' : d)).includes(c.costumeDesigner)
-                  )
-            }
-          />
+          </Stack>
+          <Stack spacing={2} px={{ xs: 1, sm: 4, md: 8 }}>
+            <SectionHeader title="👗 ときめき♡宣伝部の衣装" />
+            <Box>
+              <ErrorBanner
+                severity="warning"
+                errorMessage="ときめき♡宣伝部衣装データは作成中です。衣装展やイベントなどで撮影した写真や情報を募集しています。"
+                actionName={<EmailIcon />}
+                action={() => {
+                  window.open('https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform')
+                }}
+              />
+            </Box>
+            <CostumeCollection
+              costumes={tokisenCostumes.filter((c) =>
+                selectedDesigners.map((d) => (d === '確認中' ? '' : d)).includes(c.costumeDesigner)
+              )}
+            />
+          </Stack>
+          <Stack spacing={2} px={{ xs: 1, sm: 4, md: 8 }}>
+            <SectionHeader title="🎂 生誕祭の衣装" />
+            <Box>
+              <ErrorBanner
+                severity="warning"
+                errorMessage="生誕祭衣装データは作成中です。衣装展やイベントなどで撮影した写真や情報を募集しています。"
+                actionName={<EmailIcon />}
+                action={() => {
+                  window.open('https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform')
+                }}
+              />
+            </Box>
+            <CostumeCollection
+              costumes={birthdayCostumes.filter((c) =>
+                selectedDesigners.map((d) => (d === '確認中' ? '' : d)).includes(c.costumeDesigner)
+              )}
+            />
+          </Stack>
         </Stack>
       </main>
     </>
