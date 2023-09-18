@@ -9,14 +9,27 @@ type S3ImageProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLI
 export const S3Image: FC<S3ImageProps> = ({ imgKey, level, ...props }) => {
   const [signedUrl, setSignedUrl] = useState<string>()
   useEffect(() => {
+    const now = new Date()
+    const formattedTime = now.toISOString().slice(0, 13).replace(/[-:]/g, '')
+    const expires = 3600 // 1 hour
+    const storageKey = `images/${formattedTime}/${imgKey}`
+    if (signedUrl) {
+      return
+    }
+    const cachedUrl = sessionStorage.getItem(storageKey)
+    if (cachedUrl) {
+      setSignedUrl(cachedUrl)
+      return
+    }
     const getImage = async () => {
-      if (imgKey) {
-        const res = await Storage.get(imgKey, { level })
+      if (imgKey && !signedUrl) {
+        const res = await Storage.get(imgKey, { level, expires })
+        sessionStorage.setItem(storageKey, res)
         setSignedUrl(res)
       }
     }
     getImage()
-  }, [imgKey, level])
+  }, [imgKey, level, signedUrl])
   return (
     <>
       {signedUrl ? (
