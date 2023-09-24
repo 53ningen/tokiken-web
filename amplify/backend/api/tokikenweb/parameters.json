@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "tokikenweb",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authtokikenweba7573c8ba7573c8b",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2023-09-18T17:20:25.603Z"
+}

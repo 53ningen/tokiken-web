@@ -1,7 +1,12 @@
+import { format } from 'date-fns'
+
 export const Locale = 'ja-JP'
 
 export const NumOfVideosPerPage = 30
+
 export const RevalidateYouTubeData = 4 * 60 * 60
+export const RevalidatePost = 60
+export const RevalidateNotFoundPost = 60
 
 export const SiteUrl = 'https://tokiken.com'
 export const SiteName = '超ときめき♡研究部（非公式）'
@@ -17,3 +22,7 @@ export const AmazonProductUrl = (asin?: string) =>
   asin ? `https://www.amazon.co.jp/dp/${asin}/ref=nosim?tag=${process.env.NEXT_PUBLIC_ASSOCIATE_ID}` : undefined
 
 export const AppleMusicAt = '1001l3a5L'
+
+export const ISO8601toDateTimeString = (dt?: string) => {
+  return dt ? format(new Date(dt), 'yyyy-MM-dd HH:mm') : ''
+}

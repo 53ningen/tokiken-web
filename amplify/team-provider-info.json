@@ -18,6 +18,9 @@
       },
       "storage": {
         "tokikencontents": {}
+      },
+      "api": {
+        "tokikenweb": {}
       }
     }
   }
