@@ -1,15 +1,22 @@
-import { GraphQLResult } from '@aws-amplify/api-graphql'
-import { Container, Stack, Typography } from '@mui/material'
+import { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql'
+import { Container, Skeleton, Stack, Typography } from '@mui/material'
 import { API } from 'aws-amplify'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
-import { GetPostQuery, Post } from '../../../API'
+import {
+  GetPostQuery,
+  ListPostMetadataQuery,
+  ListPostMetadataQueryVariables,
+  ModelSortDirection,
+  Post,
+} from '../../../API'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
 import { PostBody } from '../../../components/Post/PostBody'
 import { PostMeta } from '../../../components/Post/PostMeta'
 import { RevalidateNotFoundPost, RevalidatePost } from '../../../const'
 import { useAuth } from '../../../context/AuthContext'
+import { listPostMetadata } from '../../../graphql/custom-queries'
 import { getPost } from '../../../graphql/queries'
 import theme from '../../../theme'
 
@@ -19,13 +26,16 @@ interface PostProps {
 }
 
 export default function PostPage({ slug, givenPost }: PostProps) {
-  const title = givenPost?.title || 'no title'
+  const title = givenPost?.title
   const description = givenPost?.description || undefined
   const { initialized, isLoggedIn } = useAuth()
   const [post, setPost] = useState<Post | undefined>(givenPost)
   const [latest, setLatest] = useState(false)
   useEffect(() => {
     ;(async () => {
+      if (post?.updatedAt !== givenPost?.updatedAt) {
+        setPost(givenPost)
+      }
       if (!latest && slug && initialized && isLoggedIn()) {
         const res = (await API.graphql({
           query: getPost,
@@ -38,10 +48,10 @@ export default function PostPage({ slug, givenPost }: PostProps) {
         setLatest(true)
       }
     })()
-  }, [slug, givenPost, initialized, isLoggedIn, latest])
+  }, [slug, givenPost, initialized, isLoggedIn, latest, post?.updatedAt])
   return (
     <>
-      <Meta title={title} description={description} />
+      <Meta title={title || 'loading...'} description={description} />
       <main>
         <Stack spacing={2}>
           <NavBar
@@ -56,11 +66,11 @@ export default function PostPage({ slug, givenPost }: PostProps) {
             <Stack mt={4} p={{ xs: 1, sm: 2 }} spacing={2}>
               <>
                 <Typography variant="h3" color={theme.palette.primary.main}>
-                  {title}
+                  {title || <Skeleton width="80%" />}
                 </Typography>
                 <PostMeta meta={post} />
               </>
-              <PostBody body={post?.body || 'Post has no body.'} />
+              <PostBody body={post?.body} />
             </Stack>
           </Container>
         </Stack>
@@ -70,8 +80,21 @@ export default function PostPage({ slug, givenPost }: PostProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const res = (await API.graphql(
+    graphqlOperation(listPostMetadata, {
+      sortDirection: ModelSortDirection.DESC,
+    } as ListPostMetadataQueryVariables)
+  )) as GraphQLResult<ListPostMetadataQuery>
+  if (!res.data?.listPostsOrderByCreatedAt?.items || res.errors) {
+    console.error(res)
+    throw new Error('unexpected error')
+  }
+  const items = res.data.listPostsOrderByCreatedAt.items as Omit<Post, 'body'>[]
+  const token = res.data?.listPostsOrderByCreatedAt?.nextToken as string | undefined
   return {
-    paths: [],
+    paths: items.map((i) => {
+      return { params: { slug: i.slug } }
+    }),
     fallback: true,
   }
 }
