@@ -47,20 +47,19 @@ export default function PostPage({ slug, givenPost }: PostProps) {
           <NavBar
             items={[
               { path: '/posts', title: '部誌' },
-              { path: `/posts/${slug}`, title: post?.title || 'no title' },
+              { path: `/posts/${slug}`, title: post?.title || '' },
             ]}
           />
-          <Stack textAlign="center" py={1}>
-            <Typography variant="h3" color={theme.palette.primary.main}>
-              {title}
-            </Typography>
-            <Typography variant="caption">{description}</Typography>
-          </Stack>
         </Stack>
         <Stack>
           <Container maxWidth="md">
-            <Stack p={{ xs: 1, sm: 2 }} spacing={2}>
-              <PostMeta meta={post} />
+            <Stack mt={4} p={{ xs: 1, sm: 2 }} spacing={2}>
+              <>
+                <Typography variant="h3" color={theme.palette.primary.main}>
+                  {title}
+                </Typography>
+                <PostMeta meta={post} />
+              </>
               <PostBody body={post?.body || 'Post has no body.'} />
             </Stack>
           </Container>

@@ -1,12 +1,14 @@
 import { Storage } from 'aws-amplify'
 import { DetailedHTMLProps, FC, ImgHTMLAttributes, useEffect, useState } from 'react'
+import Link from './Link'
 
 type S3ImageProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> & {
   imgKey?: string
   level?: 'public' | 'protected' | 'private'
+  enableLink?: boolean
 }
 
-export const S3Image: FC<S3ImageProps> = ({ imgKey, level, ...props }) => {
+export const S3Image: FC<S3ImageProps> = ({ imgKey, level, enableLink = false, ...props }) => {
   const [signedUrl, setSignedUrl] = useState<string>()
   useEffect(() => {
     const now = new Date()
@@ -30,14 +32,25 @@ export const S3Image: FC<S3ImageProps> = ({ imgKey, level, ...props }) => {
     }
     getImage()
   }, [imgKey, level, signedUrl])
-  return (
-    <>
-      {signedUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={signedUrl} alt="" {...props} />
-      ) : (
-        <></>
-      )}
-    </>
-  )
+  if (signedUrl) {
+    if (enableLink) {
+      return (
+        <div style={{ textAlign: 'center' }}>
+          <Link href={signedUrl}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={signedUrl} alt="" {...props} />
+          </Link>
+        </div>
+      )
+    } else {
+      return (
+        <div style={{ textAlign: 'center' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={signedUrl} alt="" {...props} />
+        </div>
+      )
+    }
+  } else {
+    return <></>
+  }
 }

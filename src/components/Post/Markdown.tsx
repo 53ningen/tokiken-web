@@ -1,10 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Element } from 'react-markdown/lib/ast-to-react'
 import { Tweet } from 'react-twitter-widgets'
-import { useAuth } from '../../context/AuthContext'
+import rehypeRaw from 'rehype-raw'
 import theme from '../../theme'
 import Link from '../Link'
 import { S3Image } from '../S3Image'
@@ -17,14 +16,11 @@ type Props = {
 export const Markdown = ({ body }: Props) => {
   const router = useRouter()
   const path = router.asPath
-  const { initialized, isLoggedIn } = useAuth()
-  const [showEditLink, setShowEditLink] = useState(false)
-  useEffect(() => {
-    setShowEditLink(initialized && isLoggedIn())
-  }, [initialized, isLoggedIn])
+  const showEditLink = false
   return (
     <Box>
       <ReactMarkdown
+        rehypePlugins={[rehypeRaw]}
         components={{
           blockquote: ({ children }) => (
             <Typography
@@ -98,7 +94,7 @@ export const Markdown = ({ body }: Props) => {
                 </Link>
               )
             } else {
-              return <S3Image imgKey={src} level="public" />
+              return <S3Image imgKey={src} level="public" style={{ maxWidth: '100%' }} enableLink={true} />
             }
           },
           ul: ({ children, depth, ordered, ...props }) =>
