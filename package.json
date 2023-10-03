@@ -37,6 +37,7 @@
     "react-twitter-widgets": "^1.11.0",
     "rehype-raw": "^6.1.1",
     "remark": "^15.0.1",
+    "tesseract.js": "^5.0.0",
     "typescript": "4.9.4",
     "uuid": "^9.0.0"
   },
@@ -46,6 +47,7 @@
     "@types/md5": "^2.3.2",
     "@types/react-calendar": "^3.9.0",
     "@types/react-dropzone": "^5.1.0",
+    "@types/tesseract.js": "^2.0.0",
     "@types/uuid": "^9.0.2"
   }
 }

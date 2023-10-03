@@ -55,6 +55,7 @@ export default function Home({}: HomeProps) {
                   title: '写真館',
                   href: initialized && isLoggedIn() ? '/photos' : undefined,
                 },
+                { icon: '🎁', title: 'OCR', href: '/ocr' },
               ]}
             />
           </Stack>
