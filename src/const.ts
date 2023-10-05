@@ -5,6 +5,9 @@ export const Locale = 'ja-JP'
 export const NumOfVideosPerPage = 30
 
 export const RevalidateYouTubeData = 4 * 60 * 60
+export const RevalidateEventList = 4 * 60 * 60
+export const RevalidateEvent = 4 * 60 * 60
+
 export const RevalidatePost = 60
 export const RevalidateNotFoundPost = 60
 

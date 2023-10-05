@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { CountdownCollection } from '../../components/Countdown/CountdownCollection'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
-import { SiteName } from '../../const'
+import { RevalidateEventList, SiteName } from '../../const'
 import { Event, listEvents } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -57,5 +57,6 @@ export const getStaticProps: GetStaticProps<CountdownProps> = async () => {
     props: {
       events,
     },
+    revalidate: RevalidateEventList,
   }
 }
