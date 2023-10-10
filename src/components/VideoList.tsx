@@ -1,15 +1,15 @@
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { YouTubeVideo } from '../../spreadsheets'
-import theme from '../../theme'
-import { YouTubeVideoCard } from '../YouTube/YouTubeVideoCard'
+import { YouTubeVideo } from '../spreadsheets'
+import theme from '../theme'
+import { YouTubeVideoCard } from './YouTube/YouTubeVideoCard'
 
-interface SongVideoListProps {
+interface VideoListProps {
   listTitle: string
   videos: YouTubeVideo[]
 }
 
-export const SongVideoList = ({ listTitle, videos }: SongVideoListProps) => {
+export const VideoList = ({ listTitle, videos }: VideoListProps) => {
   return (
     <>
       {videos.length > 0 && (

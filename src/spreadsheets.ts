@@ -1,3 +1,5 @@
+import { TokisenRegimes } from './const'
+
 const songSheetId = '13Y4wbnnfY23aPUnB6n4KELVfElu1z3j5OUE9gRy9EBU'
 const eventSheetId = '1VVSHBBJgG45JnaIViv2qQ6CpNIZ4o6jF2mp3L1yYfHY'
 const contentSheetId = '1mVHPjvue9Tcm-4sfz-ZrLXo40FDJk3k4MBGefNTybjA'
@@ -276,20 +278,75 @@ export const listRecordEditionCredits = async (catalogNumber?: string) => {
   return catalogNumber ? credits.filter((a) => a.catalogNumber === catalogNumber) : credits
 }
 
+export type EventType = 'LIVE' | 'EVENT' | 'BROADCAST' | 'OTHER'
+export type EventCastType = 'GROUP' | 'MEBMERS' | 'INDIVISUAL'
+export type Cast =
+  | 'パブりん'
+  | 'ときめき♡宣伝部'
+  | '超ときめき♡宣伝部'
+  | '辻野かなみ'
+  | '杏ジュリア'
+  | '坂井仁香'
+  | '小泉遥香'
+  | '菅田愛貴'
+  | '吉川ひより'
+  | '藤本ばんび'
+  | '小高サラ'
+  | '永坂真心'
+
 // Event Sheet
 export interface Event {
   eventId: string
   eventTitle: string
-  eventTitleTentative: 'TRUE' | 'FALSE'
+  eventType: EventType
   eventDate: string
   /** optional */
   eventStartTime: string
   /** optional */
+  eventPlaceId: string
   eventPlace: string
+  eventCastType: EventCastType
   eventHashTag: string
-  eventInfoSourceType: 'OFFICIAL'
   /** optional */
   eventInfoUrl: string
+}
+
+export interface EventCredit {
+  eventId: string
+  eventCreditTitle: string
+  eventCreditName: string
+  eventCreditSource: string
+}
+
+export interface EventCast {
+  eventId: string
+  eventCastName: Cast
+}
+
+export interface EventCostume {
+  eventId: string
+  costumeId: string
+}
+
+export interface EventInfo {
+  eventId: string
+  eventInfoType: string
+  eventInfoUrl: string
+  eventInfo: string
+}
+
+export interface EventPlace {
+  eventPlaceId: string
+  eventPlace: string
+  eventPlaceKana: string
+  eventPlaceRegion: string
+  eventPlaceAddress: string
+  eventPlaceEventCount: number
+}
+
+export interface EventMemo {
+  eventId: string
+  eventMemo: string
 }
 
 export const listEvents = async () => {
@@ -298,7 +355,7 @@ export const listEvents = async () => {
     const events = cache.get(cacheKey) as Event[]
     return events
   }
-  const range = 'Event!A1:I1000'
+  const range = 'Event!A1:J1000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
@@ -312,6 +369,162 @@ export const listEvents = async () => {
   })
   cache.set(cacheKey, events)
   return events
+}
+
+export const getEvent = async (eventId: string) => {
+  const events = await listEvents()
+  return events.find((e) => e.eventId === eventId)
+}
+
+export const listEventCredits = async (eventId: string) => {
+  const cacheKey = 'EventCredits'
+  if (useCache && cache.has(cacheKey)) {
+    const credits = cache.get(cacheKey) as EventCredit[]
+    return credits.filter((c) => c.eventId === eventId)
+  }
+  const range = 'EventCredit!A1:I1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const credits = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as EventCredit
+  })
+  cache.set(cacheKey, credits)
+  return credits.filter((c) => c.eventId === eventId)
+}
+
+export const listEventCasts = async (event: Event) => {
+  if (event.eventCastType === 'GROUP') {
+    const eventDate = new Date(event.eventDate)
+    var regimeIndex = 0
+    for (var i = 1; i < TokisenRegimes.length; i++) {
+      if (eventDate < new Date(TokisenRegimes[i].startDate)) {
+        break
+      }
+      regimeIndex++
+    }
+    return TokisenRegimes[regimeIndex].members.map((m) => {
+      return { eventId: event.eventId, eventCastName: m.name } as EventCast
+    })
+  } else {
+    const cacheKey = 'EventCasts'
+    if (useCache && cache.has(cacheKey)) {
+      const casts = cache.get(cacheKey) as EventCast[]
+      return casts.filter((c) => c.eventId === event.eventId)
+    }
+    const range = 'EventCast!A1:E1000'
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+    const f = await fetch(url)
+    const res = (await f.json()) as SheetValuesResponse
+    const [columnNames, ...data] = res.values
+    const credits = data.map((d) => {
+      var obj: any = {}
+      for (let i = 0; i < columnNames.length; i++) {
+        obj[columnNames[i]] = d[i] || ''
+      }
+      return obj as EventCast
+    })
+    cache.set(cacheKey, credits)
+    return credits.filter((c) => c.eventId === event.eventId)
+  }
+}
+
+export const listEventCostumes = async (eventId: string) => {
+  const cacheKey = 'EventCostumes'
+  if (useCache && cache.has(cacheKey)) {
+    const costumes = cache.get(cacheKey) as EventCostume[]
+    return costumes.filter((c) => c.eventId === eventId)
+  }
+  const range = 'EventCostume!A1:D1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const costumes = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as EventCostume
+  })
+  cache.set(cacheKey, costumes)
+  return costumes.filter((c) => c.eventId === eventId)
+}
+
+export const listEventInfo = async (eventId: string) => {
+  const cacheKey = 'EventInfo'
+  if (useCache && cache.has(cacheKey)) {
+    const info = cache.get(cacheKey) as EventInfo[]
+    return info.filter((c) => c.eventId === eventId)
+  }
+  const range = 'EventInfo!A1:F1900'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const info = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as EventInfo
+  })
+  cache.set(cacheKey, info)
+  return info.filter((c) => c.eventId === eventId)
+}
+
+export const listEventPlaces = async () => {
+  const cacheKey = 'EventsPlaces'
+  if (useCache && cache.has(cacheKey)) {
+    const places = cache.get(cacheKey) as EventPlace[]
+    return places
+  }
+  const range = 'EventPlace!A1:G1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const places = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as EventPlace
+  })
+  cache.set(cacheKey, places)
+  return places
+}
+
+export const getEventPlace = async (eventPlaceId: string) => {
+  const places = await listEventPlaces()
+  return places.find((e) => e.eventPlaceId === eventPlaceId)
+}
+
+export const getEventMemo = async (eventId: string) => {
+  const cacheKey = 'EventMemos'
+  if (useCache && cache.has(cacheKey)) {
+    const memos = cache.get(cacheKey) as EventMemo[]
+    return memos.filter((c) => c.eventId === eventId).at(0)
+  }
+  const range = 'EventMemo!A1:I1000'
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
+  const f = await fetch(url)
+  const res = (await f.json()) as SheetValuesResponse
+  const [columnNames, ...data] = res.values
+  const memos = data.map((d) => {
+    var obj: any = {}
+    for (let i = 0; i < columnNames.length; i++) {
+      obj[columnNames[i]] = d[i] || ''
+    }
+    return obj as EventMemo
+  })
+  cache.set(cacheKey, memos)
+  return memos.filter((c) => c.eventId === eventId).at(0)
 }
 
 // Costume Sheet
@@ -428,6 +641,7 @@ export interface YouTubeVideo {
   /** optional */
   songId: string
   costumeId: string
+  eventId: string
 }
 
 export interface YouTubeVideoType {
@@ -459,7 +673,7 @@ export const listYouTubeVideos = async () => {
     const videos = cache.get(cacheKey) as YouTubeVideo[]
     return videos
   }
-  const range = 'YouTubeVideo!A1:H2000'
+  const range = 'YouTubeVideo!A1:I2000'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${contentSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse

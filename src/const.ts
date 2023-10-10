@@ -29,3 +29,74 @@ export const AppleMusicAt = '1001l3a5L'
 export const ISO8601toDateTimeString = (dt?: string) => {
   return dt ? format(new Date(dt), 'yyyy-MM-dd HH:mm') : ''
 }
+
+export const TokisenRegimes = [
+  {
+    startDate: '2015-04-11',
+    members: [
+      { name: '辻野かなみ', no: 1, color: 'ときめき♡ブルー' },
+      { name: '小泉遥香', no: 2, color: 'ときめき♡ピンク' },
+      { name: '坂井仁香', no: 3, color: 'ときめき♡レッド' },
+      { name: '吉川ひより', no: 4, color: 'ときめき♡グリーン' },
+      { name: '永坂真心', no: 5, color: 'ときめき♡イエロー' },
+    ],
+    groupName: 'ときめき♡宣伝部',
+  },
+  {
+    startDate: '2017-03-21',
+    members: [
+      { name: '辻野かなみ', no: 1, color: 'ときめき♡ブルー' },
+      { name: '小泉遥香', no: 2, color: 'ときめき♡ピンク' },
+      { name: '坂井仁香', no: 3, color: 'ときめき♡レッド' },
+      { name: '吉川ひより', no: 4, color: 'ときめき♡グリーン' },
+    ],
+    groupName: 'ときめき♡宣伝部',
+  },
+  {
+    startDate: '2017-06-18',
+    members: [
+      { name: '辻野かなみ', no: 1, color: '超ときめき♡ブルー' },
+      { name: '藤本ばんび', no: 2, color: '超ときめき♡レモン' },
+      { name: '坂井仁香', no: 3, color: '超ときめき♡レッド' },
+      { name: '小泉遥香', no: 4, color: '超ときめき♡ピンク' },
+      { name: '小高サラ', no: 5, color: '超ときめき♡パープル' },
+      { name: '吉川ひより', no: 6, color: '超ときめき♡グリーン' },
+    ],
+    groupName: 'ときめき♡宣伝部',
+  },
+  {
+    startDate: '2018-10-08',
+    members: [
+      { name: '辻野かなみ', no: 1, color: '超ときめき♡ブルー' },
+      { name: '藤本ばんび', no: 2, color: '超ときめき♡レモン' },
+      { name: '坂井仁香', no: 3, color: '超ときめき♡レッド' },
+      { name: '小泉遥香', no: 4, color: '超ときめき♡ピンク' },
+      { name: '吉川ひより', no: 6, color: '超ときめき♡グリーン' },
+    ],
+    groupName: 'ときめき♡宣伝部',
+  },
+  {
+    startDate: '2018-10-14',
+    members: [
+      { name: '辻野かなみ', no: 1, color: 'ときめき♡ブルー' },
+      { name: '藤本ばんび', no: 2, color: 'ときめき♡レモン' },
+      { name: '坂井仁香', no: 3, color: 'ときめき♡レッド' },
+      { name: '小泉遥香', no: 4, color: 'ときめき♡ピンク' },
+      { name: '杏ジュリア', no: 5, color: '二代目超ときめき♡パープル' },
+      { name: '吉川ひより', no: 6, color: 'ときめき♡グリーン' },
+    ],
+    groupName: 'ときめき♡宣伝部',
+  },
+  {
+    startDate: '2020-04-01',
+    members: [
+      { name: '辻野かなみ', no: 1, color: '超ときめき♡ブルー' },
+      { name: '杏ジュリア', no: 2, color: '超ときめき♡パープル' },
+      { name: '坂井仁香', no: 3, color: '超ときめき♡レッド' },
+      { name: '小泉遥香', no: 4, color: '超ときめき♡ピンク' },
+      { name: '菅田愛貴', no: 5, color: '超ときめき♡レモン' },
+      { name: '吉川ひより', no: 6, color: '超ときめき♡グリーン' },
+    ],
+    groupName: '超ときめき♡宣伝部',
+  },
+]

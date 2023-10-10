@@ -31,7 +31,7 @@ export default function Home({}: HomeProps) {
                   icon: '🏟',
                   description: 'under construction',
                   title: 'イベント',
-                  href: initialized && isLoggedIn() ? '/events' : undefined,
+                  href: initialized && isLoggedIn() ? '/schedules' : undefined,
                 },
               ]}
             />

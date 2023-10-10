@@ -1,5 +1,5 @@
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
-import { Box, Breadcrumbs, Typography } from '@mui/material'
+import { Box, Breadcrumbs } from '@mui/material'
 import Link from './Link'
 
 interface NavBarProps {
@@ -13,13 +13,11 @@ export const NavBar = ({ items }: NavBarProps) => {
     <Box px={{ xs: 1, sm: 2 }} pt={2}>
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
         <Link href="/">{HomeTitle}</Link>
-        {items.map((item, index) => {
-          return index < items.length - 1 ? (
+        {items.map((item) => {
+          return (
             <Link key={item.path} href={item.path}>
               {item.title}
             </Link>
-          ) : (
-            <Typography key={item.path}>{item.title}</Typography>
           )
         })}
       </Breadcrumbs>

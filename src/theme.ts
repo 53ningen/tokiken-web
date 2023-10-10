@@ -26,6 +26,34 @@ const theme = createTheme({
       main: '#DE8E78',
       contrastText: '#ffffff',
     },
+    tokisen: {
+      main: '#F19937',
+      contrastText: '#ffffff',
+    },
+    kanami: {
+      main: '#69B0CB',
+      contrastText: '#ffffff',
+    },
+    julia: {
+      main: '#8E5AB4',
+      contrastText: '#ffffff',
+    },
+    hitoka: {
+      main: '#D75750',
+      contrastText: '#ffffff',
+    },
+    haruka: {
+      main: '#E292B4',
+      contrastText: '#ffffff',
+    },
+    aki: {
+      main: '#E9CC48',
+      contrastText: '#ffffff',
+    },
+    hiyori: {
+      main: '#5D9767',
+      contrastText: '#ffffff',
+    },
   },
   typography: {
     fontSize: 14,

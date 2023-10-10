@@ -1,12 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import { RecordType } from '../../spreadsheets'
+import { EventType } from '../../spreadsheets'
 
-interface RecordTypeChipProps {
-  type: RecordType
+interface ObjectTypeChipProps {
+  label: string
 }
 
-export const RecordTypeChip = ({ type }: RecordTypeChipProps) => {
-  const label = getLabel(type)
+export const ObjectTypeChip = ({ label }: ObjectTypeChipProps) => {
   return (
     <Box>
       <Typography component="span" sx={{ backgroundColor: 'black' }} px="8px" py="2px" variant="caption" color="white">
@@ -16,15 +15,24 @@ export const RecordTypeChip = ({ type }: RecordTypeChipProps) => {
   )
 }
 
-const getLabel = (type: RecordType) => {
+interface EventTypeChipProps {
+  type: EventType
+}
+
+export const EventTypeChip = ({ type }: EventTypeChipProps) => {
+  return <ObjectTypeChip label={getEventLabel(type)} />
+}
+
+const getEventLabel = (type: EventType) => {
   switch (type) {
-    case 'SINGLE':
-      return 'SINGLE'
-    case 'ALBUM':
-      return 'ALBUM'
-    case 'MINI_ALBUM':
-      return 'MINI ALBUM'
-    case 'DIGITAL':
-      return 'DIGITAL'
+    case 'LIVE':
+      return 'ライブ'
+    case 'EVENT':
+      return 'イベント'
+    case 'BROADCAST':
+      return '配信・放送'
+    case 'OTHER':
+    default:
+      return 'その他'
   }
 }

@@ -7,7 +7,7 @@ import { NavBar } from '../../../components/NavBar'
 import { AppleMusicSongPreviewPlayer } from '../../../components/Song/AppleMusicPreviewPlayer'
 import { CreditList } from '../../../components/Song/CreditList'
 import { SongRecordEditionList } from '../../../components/Song/SongRecordList'
-import { SongVideoList } from '../../../components/Song/SongVideoList'
+import { VideoList } from '../../../components/VideoList'
 import { SiteName } from '../../../const'
 import {
   Credit,
@@ -108,9 +108,9 @@ export default function RecordPage({ item }: SongPageProps) {
                 <CreditList credits={dance} label="ダンス" />
                 <CreditList credits={others} label="その他" />
                 <SongRecordEditionList editions={item.recordEditions} />
-                <SongVideoList listTitle="MV・ライブ映像" videos={mv} />
-                <SongVideoList listTitle="関連動画" videos={otherVideos} />
-                <SongVideoList listTitle="Short 動画" videos={shorts} />
+                <VideoList listTitle="MV・ライブ映像" videos={mv} />
+                <VideoList listTitle="関連動画" videos={otherVideos} />
+                <VideoList listTitle="Short 動画" videos={shorts} />
               </Stack>
             </Box>
           </Paper>
