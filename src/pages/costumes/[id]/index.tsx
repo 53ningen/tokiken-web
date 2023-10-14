@@ -8,7 +8,7 @@ import Link from '../../../components/Link'
 import { Meta } from '../../../components/Meta'
 import { NavBar } from '../../../components/NavBar'
 import { YouTubeVideoCard } from '../../../components/YouTube/YouTubeVideoCard'
-import { SiteName } from '../../../const'
+import { RevalidateCostume, SiteName } from '../../../const'
 import { useAuth } from '../../../context/AuthContext'
 import {
   Costume,
@@ -223,5 +223,6 @@ export const getStaticProps: GetStaticProps<CostumesPageProps> = async ({ params
       images,
       videos,
     },
+    revalidate: RevalidateCostume,
   }
 }

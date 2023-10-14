@@ -9,7 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
-  Typography
+  Typography,
 } from '@mui/material'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
@@ -18,7 +18,7 @@ import { ErrorBanner } from '../../components/ErrorBanner'
 import { Meta } from '../../components/Meta'
 import { NavBar } from '../../components/NavBar'
 import { SectionHeader } from '../../components/SectionHeader'
-import { SiteName } from '../../const'
+import { RevalidateCostume, SiteName } from '../../const'
 import { Costume, listCostumes } from '../../spreadsheets'
 import theme from '../../theme'
 
@@ -163,5 +163,6 @@ export const getStaticProps: GetStaticProps<CostumesPageProps> = async () => {
     props: {
       costumes,
     },
+    revalidate: RevalidateCostume,
   }
 }

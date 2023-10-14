@@ -4,13 +4,15 @@ export const Locale = 'ja-JP'
 
 export const NumOfVideosPerPage = 30
 
+// RevalidateSecounds
 export const RevalidateYouTubeData = 4 * 60 * 60
 export const RevalidateEventList = 5 * 60
 export const RevalidateEvent = 5 * 60
-
+export const RevalidateCostume = 12 * 60 * 60
 export const RevalidatePost = 60
 export const RevalidateNotFoundPost = 60
 
+// SiteMetaData
 export const SiteUrl = 'https://tokiken.com'
 export const SiteName = '超ときめき♡研究部（非公式）'
 export const SiteCopyRight = '超ときめき♡研究部'
