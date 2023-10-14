@@ -42,6 +42,13 @@ export default function Home({}: HomeProps) {
                 { icon: '⌛️', title: 'カウントダウン', href: '/countdown' },
                 { icon: '🌥', title: '超ときめき♡API', href: '/tokimekiapi' },
                 { icon: '🐤', title: '先日の宣伝部', href: '/tweets' },
+                { icon: '🎁', title: 'OCR', href: '/ocr' },
+                {
+                  icon: '🎵',
+                  description: 'under construction',
+                  title: 'セトリメモツール',
+                  href: initialized && isLoggedIn() ? '/setlists' : undefined,
+                },
               ]}
             />
             <ContentCollection
@@ -55,7 +62,24 @@ export default function Home({}: HomeProps) {
                   title: '写真館',
                   href: initialized && isLoggedIn() ? '/photos' : undefined,
                 },
-                { icon: '🎁', title: 'OCR', href: '/ocr' },
+                {
+                  icon: '💃',
+                  description: 'under construction',
+                  title: 'フォーメーション',
+                  href: initialized && isLoggedIn() ? '/formation' : undefined,
+                },
+                {
+                  icon: '✏️',
+                  description: 'under construction',
+                  title: 'ブログ',
+                  href: initialized && isLoggedIn() ? '/formation' : undefined,
+                },
+                {
+                  icon: '🥳',
+                  description: 'under construction',
+                  title: 'コンテンツ',
+                  href: initialized && isLoggedIn() ? '/setlists' : undefined,
+                },
               ]}
             />
           </Stack>

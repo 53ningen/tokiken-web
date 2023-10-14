@@ -1,9 +1,10 @@
-import { Box, Card, CardActionArea, Paper, Stack, Typography } from '@mui/material'
+import { Box, Paper, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import CostumeCollection from '../../../../components/Costumes/CostumeCollection'
 import { CastChip } from '../../../../components/Event/CastChip'
 import { EventCreditCard } from '../../../../components/Event/EventCreditCard'
+import { EventInfoItem } from '../../../../components/Event/EventInfoItem'
 import Link from '../../../../components/Link'
 import { Meta } from '../../../../components/Meta'
 import { NavBar } from '../../../../components/NavBar'
@@ -11,7 +12,7 @@ import { Markdown } from '../../../../components/Post/Markdown'
 import { EventTypeChip } from '../../../../components/Record/RecordType'
 import { SectionHeader } from '../../../../components/SectionHeader'
 import { VideoList } from '../../../../components/VideoList'
-import { SiteName } from '../../../../const'
+import { RevalidateEvent, SiteName } from '../../../../const'
 import {
   Costume,
   Event,
@@ -115,7 +116,7 @@ export default function EventPage({ item }: EventPageProps) {
                     <Grid container spacing={{ xs: 1, sm: 2 }}>
                       {item.credits.map((c) => {
                         return (
-                          <Grid key={c.eventCreditName} xs={6} sm={4} md={3}>
+                          <Grid key={`${c.eventCreditTitle}${c.eventCreditName}`} xs={6} sm={4} md={3}>
                             <EventCreditCard item={c} />
                           </Grid>
                         )
@@ -127,15 +128,15 @@ export default function EventPage({ item }: EventPageProps) {
                 {item.info.length > 0 && (
                   <>
                     <SectionHeader title="🔗 関連ページ" />
-                    {item.info.map((i) => {
-                      return (
-                        <Card key={i.eventInfoUrl}>
-                          <CardActionArea LinkComponent={Link} href={i.eventInfoUrl}>
-                            <Box p={2}>{i.eventInfo}</Box>
-                          </CardActionArea>
-                        </Card>
-                      )
-                    })}
+                    <Grid container spacing={{ xs: 1, sm: 2 }}>
+                      {item.info.map((i) => {
+                        return (
+                          <Grid key={i.eventInfoUrl} xs={6} sm={4} md={3}>
+                            <EventInfoItem item={i} />
+                          </Grid>
+                        )
+                      })}
+                    </Grid>
                   </>
                 )}
                 {item.memo !== '' && (
@@ -195,5 +196,6 @@ export const getStaticProps: GetStaticProps<EventPageProps> = async ({ params })
         memo: memo || '',
       },
     },
+    revalidate: RevalidateEvent,
   }
 }

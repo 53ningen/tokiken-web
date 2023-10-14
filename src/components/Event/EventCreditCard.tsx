@@ -13,7 +13,6 @@ export const EventCreditCard = ({ item }: EventCreditCardProps) => {
         <Box p={1}>
           <Typography variant="caption">{item.eventCreditTitle}</Typography>
           <Typography>{item.eventCreditName}</Typography>
-          <Typography variant="caption">✅ ウェブ記載情報</Typography>
         </Box>
       </CardActionArea>
     </Card>

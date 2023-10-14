@@ -333,6 +333,7 @@ export interface EventInfo {
   eventInfoType: string
   eventInfoUrl: string
   eventInfo: string
+  eventInfoThumbnail: string
 }
 
 export interface EventPlace {
@@ -462,7 +463,7 @@ export const listEventInfo = async (eventId: string) => {
     const info = cache.get(cacheKey) as EventInfo[]
     return info.filter((c) => c.eventId === eventId)
   }
-  const range = 'EventInfo!A1:F1900'
+  const range = 'EventInfo!A1:G1900'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${eventSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
