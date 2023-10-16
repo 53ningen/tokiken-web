@@ -3,7 +3,6 @@ import { API, Storage } from 'aws-amplify'
 import { useRouter } from 'next/router'
 import { SyntheticEvent, useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { v4 as uuidv4 } from 'uuid'
 import { CreatePostMutationVariables, DeletePostMutationVariables, Post, UpdatePostMutationVariables } from '../../API'
 import { useAuth } from '../../context/AuthContext'
 import { createPost, deletePost, updatePost } from '../../graphql/mutations'
@@ -226,8 +225,11 @@ const delPost = async (slug: string) => {
 
 const uploadFile = async (f: File[]) => {
   const file = f[0]
-  const fileId = `${uuidv4()}`
-  const res = await Storage.put(fileId, file, {
+  const date = new Date()
+  const year = date.getFullYear().toString()
+  const month = ('0' + (date.getMonth() + 1)).slice(-2)
+  const key = `static/${year}/${month}/${file.name}`
+  const res = await Storage.put(key, file, {
     level: 'public',
     contentType: file.type,
   })
