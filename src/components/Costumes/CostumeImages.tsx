@@ -6,6 +6,10 @@ import { CostumeImage } from '../../spreadsheets'
 import Link from '../Link'
 import { S3Image } from '../S3Image'
 
+export const getCostumeImageObjectKey = (costumeImageKey: string, size: 300 | 600 | 1024) => {
+  return costumeImageKey === '' ? '' : `static/costumes/${costumeImageKey}@${size}.png`
+}
+
 interface CostumeImagesProps {
   images: CostumeImage[]
 }
@@ -32,11 +36,11 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
       <Stack spacing={2}>
         <Box display="flex" sx={{ width: '100%', aspectRatio: '1', cursor: 'pointer' }}>
           <S3Image
-            key={images[index]?.costumeImageKeyM || 'noimage'}
+            key={images[index]?.costumeImageKey || 'noimage'}
             imgKey={
-              images.length === 0 || images[index]?.costumeImageKeyM === ''
+              images.length === 0 || images[index]?.costumeImageKey === ''
                 ? 'noimage.png'
-                : images[index].costumeImageKeyM
+                : getCostumeImageObjectKey(images[index].costumeImageKey, 600)
             }
             width="100%"
             height="100%"
@@ -44,7 +48,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
           />
         </Box>
         <Typography variant="caption" textAlign="right">
-          {images.length === 0 || images[index]?.costumeImageKeyM === '' ? (
+          {images.length === 0 || images[index]?.costumeImageKey === '' ? (
             <Link href="https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform">
               画像を提供する
             </Link>
@@ -72,7 +76,7 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
                       )}
                       <CardActionArea>
                         <S3Image
-                          imgKey={image.costumeImageKeyS === '' ? 'noimage.png' : image.costumeImageKeyS}
+                          imgKey={getCostumeImageObjectKey(image.costumeImageKey, 300)}
                           width="100%"
                           style={{ aspectRatio: 1, objectFit: 'cover' }}
                           onClick={() => setIndex(i)}
@@ -102,11 +106,11 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
           </Box>
           <Box sx={{ aspectRatio: '1' }}>
             <S3Image
-              key={images[index]?.costumeImageKeyL || 'noimage'}
+              key={images[index]?.costumeImageKey || 'noimage'}
               imgKey={
-                images.length === 0 || images[index]?.costumeImageKeyL === ''
+                images.length === 0 || images[index]?.costumeImageKey === ''
                   ? 'noimage.png'
-                  : images[index].costumeImageKeyL
+                  : getCostumeImageObjectKey(images[index].costumeImageKey, 1024)
               }
               style={{ maxHeight: '100vh', maxWidth: '100vw' }}
             />

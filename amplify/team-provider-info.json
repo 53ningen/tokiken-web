@@ -21,6 +21,12 @@
       },
       "api": {
         "tokikenweb": {}
+      },
+      "function": {
+        "tokikenwebStorageTrigger": {
+          "deploymentBucketName": "amplify-tokikenweb-prod-225505-deployment",
+          "s3Key": "amplify-builds/tokikenwebStorageTrigger-39626c73664a4e354772-build.zip"
+        }
       }
     }
   }

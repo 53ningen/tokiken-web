@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Costume } from '../../spreadsheets'
 import theme from '../../theme'
 import { S3Image } from '../S3Image'
+import { getCostumeImageObjectKey } from './CostumeImages'
 
 interface CostumeEditorProps {
   costume: Costume
@@ -124,7 +125,7 @@ export default function CostumeEditor({ costume }: CostumeEditorProps) {
           </Box>
           <Grid container spacing={{ xs: 1, sm: 2 }}>
             <Grid key="hoge" xs={4} sm={4} md={3} lg={3}>
-              <S3Image imgKey={costume.costumeThumbnailKey} />
+              <S3Image imgKey={getCostumeImageObjectKey(costume.costumeImageKey, 300)} />
             </Grid>
           </Grid>
           <Box

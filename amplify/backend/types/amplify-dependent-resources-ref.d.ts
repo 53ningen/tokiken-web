@@ -19,6 +19,15 @@ export type AmplifyDependentResourcesAttributes = {
       "adminGroupRole": "string"
     }
   },
+  "function": {
+    "tokikenwebStorageTrigger": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    }
+  },
   "storage": {
     "tokikencontents": {
       "BucketName": "string",

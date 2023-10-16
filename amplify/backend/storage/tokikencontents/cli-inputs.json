@@ -8,10 +8,9 @@
   ],
   "authAccess": [
     "CREATE_AND_UPDATE",
-    "READ",
-    "DELETE"
+    "READ"
   ],
-  "triggerFunction": "NONE",
+  "triggerFunction": "tokikenwebStorageTrigger",
   "groupAccess": {
     "admin": [
       "CREATE_AND_UPDATE",

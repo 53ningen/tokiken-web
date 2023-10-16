@@ -2,6 +2,7 @@ import { Box, Card, CardActionArea, Stack, Typography } from '@mui/material'
 import { Costume } from '../../spreadsheets'
 import Link from '../Link'
 import { S3Image } from '../S3Image'
+import { getCostumeImageObjectKey } from './CostumeImages'
 
 interface CostumeCardProps {
   costume: Costume
@@ -12,7 +13,7 @@ export const CostumeCollectionCard = ({ costume }: CostumeCardProps) => {
     <Card>
       <CardActionArea LinkComponent={Link} href={`/costumes/${costume.costumeId}`}>
         <Box>
-          <CostumeThumbnail imgKey={costume.costumeThumbnailKey} />
+          <CostumeThumbnail imgKey={getCostumeImageObjectKey(costume.costumeImageKey, 300)} />
           <Box display="flex" width="100%" p={1}>
             <Stack whiteSpace="nowrap" width="100%">
               <Typography variant="subtitle2" textOverflow="ellipsis" overflow="hidden">

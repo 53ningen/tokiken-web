@@ -77,9 +77,44 @@
       "service": "Cognito-UserPool-Groups"
     }
   },
+  "function": {
+    "tokikenwebStorageTrigger": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_tokikenwebStorageTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tokikenwebStorageTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_tokikenwebStorageTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tokikenwebStorageTrigger"
+        }
+      ]
+    }
+  },
   "storage": {
     "tokikencontents": {
       "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ],
+          "category": "function",
+          "resourceName": "tokikenwebStorageTrigger"
+        },
         {
           "attributes": [
             "UserPoolId"

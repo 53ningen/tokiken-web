@@ -538,14 +538,12 @@ export interface Costume {
   costumeDesigner: string
   costumeDesignerSource: string | undefined
   costumeType: 'tokisen' | 'chotokisen' | 'birthday'
-  costumeThumbnailKey: string
+  costumeImageKey: string
 }
 
 export interface CostumeImage {
   costumeId: string
-  costumeImageKeyL: string
-  costumeImageKeyM: string
-  costumeImageKeyS: string
+  costumeImageKey: string
   costumeImageOrder: number
   costumeImageCredit: string
   costumeImageCreditUrl: string
@@ -615,7 +613,7 @@ export const listCostumeImages = async (costumeId?: string) => {
     const images = cache.get(cacheKey) as CostumeImage[]
     return costumeId ? images.filter((i) => i.costumeId === costumeId) : images
   }
-  const range = 'CostumeImage!A1:H999'
+  const range = 'CostumeImage!A1:I999'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${costumeSheetId}/values/${range}?key=${apiKey}`
   const f = await fetch(url)
   const res = (await f.json()) as SheetValuesResponse
