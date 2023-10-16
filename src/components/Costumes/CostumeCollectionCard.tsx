@@ -36,7 +36,16 @@ interface CostumeThumbnailProps {
 
 const CostumeThumbnail = ({ imgKey }: CostumeThumbnailProps) => {
   return (
-    <Box display="flex" sx={{ width: '100%', aspectRatio: '1' }}>
+    <Box
+      display="flex"
+      sx={{
+        aspectRatio: '1',
+        width: '100%',
+        height: 'auto',
+        maxWidth: '300px',
+        maxHeight: '300px',
+        display: 'block',
+      }}>
       <S3Image
         width="100%"
         imgKey={imgKey === '' ? 'noimage.png' : imgKey}

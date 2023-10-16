@@ -42,9 +42,15 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
                 ? 'noimage.png'
                 : getCostumeImageObjectKey(images[index].costumeImageKey, 600)
             }
-            width="100%"
-            height="100%"
             onClick={() => setModalOpen(!modalOpen)}
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxWidth: '600px',
+              maxHeight: '600px',
+              display: 'block',
+              aspectRatio: 1,
+            }}
           />
         </Box>
         <Stack>
@@ -76,16 +82,31 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
                       {i === index && (
                         <Box
                           position="absolute"
-                          width="100%"
-                          height="100%"
-                          sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', zIndex: 100 }}
+                          sx={{
+                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                            zIndex: 100,
+                            width: '100%',
+                            height: 'auto',
+                            maxWidth: '600px',
+                            maxHeight: '600px',
+                            display: 'block',
+                            aspectRatio: 1,
+                          }}
                         />
                       )}
                       <CardActionArea>
                         <S3Image
                           imgKey={getCostumeImageObjectKey(image.costumeImageKey, 300)}
                           width="100%"
-                          style={{ aspectRatio: 1, objectFit: 'cover' }}
+                          style={{
+                            aspectRatio: 1,
+                            objectFit: 'cover',
+                            width: '100%',
+                            height: 'auto',
+                            maxWidth: '1024px',
+                            maxHeight: '1024px',
+                            display: 'block',
+                          }}
                           onClick={() => setIndex(i)}
                         />
                       </CardActionArea>
