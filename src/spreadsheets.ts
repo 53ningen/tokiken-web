@@ -547,6 +547,7 @@ export interface CostumeImage {
   costumeImageOrder: number
   costumeImageCredit: string
   costumeImageCreditUrl: string
+  costumeImageDescription: string
 }
 
 export interface CostumeInfo {

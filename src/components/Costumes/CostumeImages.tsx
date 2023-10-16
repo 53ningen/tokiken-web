@@ -47,18 +47,25 @@ export const CostumeImages = ({ images }: CostumeImagesProps) => {
             onClick={() => setModalOpen(!modalOpen)}
           />
         </Box>
-        <Typography variant="caption" textAlign="right">
-          {images.length === 0 || images[index]?.costumeImageKey === '' ? (
-            <Link href="https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform">
-              画像を提供する
-            </Link>
-          ) : (
-            <>
-              撮影: <Link href={images[index].costumeImageCreditUrl}>{images[index].costumeImageCredit}</Link>
-              {['草🌱', '超ときめき♡宣伝部'].includes(images[index].costumeImageCredit) ? <></> : ' さん'}
-            </>
+        <Stack>
+          {images[index] && (
+            <Typography variant="caption" textAlign="right">
+              {images[index].costumeImageDescription}
+            </Typography>
           )}
-        </Typography>
+          <Typography variant="caption" textAlign="right">
+            {images.length === 0 || images[index]?.costumeImageKey === '' ? (
+              <Link href="https://docs.google.com/forms/d/1E3EOsHMNFk6R0BUHmUFy_e1NQdtucLMQ0TmKV7L0PKY/viewform">
+                画像を提供する
+              </Link>
+            ) : (
+              <>
+                撮影: <Link href={images[index].costumeImageCreditUrl}>{images[index].costumeImageCredit}</Link>
+                {['草🌱', '超ときめき♡宣伝部'].includes(images[index].costumeImageCredit) ? <></> : ' さん'}
+              </>
+            )}
+          </Typography>
+        </Stack>
         {images.length > 1 && (
           <Grid container spacing={{ xs: 1, sm: 2 }}>
             {images.map((image, i) => {
