@@ -163,3 +163,163 @@ export const listPostCategories = /* GraphQL */ `
     }
   }
 `;
+export const getAlbum = /* GraphQL */ `
+  query GetAlbum($id: ID!) {
+    getAlbum(id: $id) {
+      id
+      title
+      description
+      imageKey
+      items {
+        items {
+          id
+          albumId
+          order
+          imageKey
+          description
+          tags
+          exif
+          createdAt
+          updatedAt
+          albumItemsId
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      type
+      date
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listAlbums = /* GraphQL */ `
+  query ListAlbums(
+    $id: ID
+    $filter: ModelAlbumFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listAlbums(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        title
+        description
+        imageKey
+        items {
+          nextToken
+          __typename
+        }
+        type
+        date
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listAlbumsOrderByDate = /* GraphQL */ `
+  query ListAlbumsOrderByDate(
+    $type: String!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelAlbumFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAlbumsOrderByDate(
+      type: $type
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        imageKey
+        items {
+          nextToken
+          __typename
+        }
+        type
+        date
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAlbumItem = /* GraphQL */ `
+  query GetAlbumItem($id: ID!) {
+    getAlbumItem(id: $id) {
+      id
+      albumId
+      order
+      imageKey
+      description
+      tags
+      exif
+      createdAt
+      updatedAt
+      albumItemsId
+      owner
+      __typename
+    }
+  }
+`;
+export const listAlbumItems = /* GraphQL */ `
+  query ListAlbumItems(
+    $id: ID
+    $filter: ModelAlbumItemFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listAlbumItems(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        albumId
+        order
+        imageKey
+        description
+        tags
+        exif
+        createdAt
+        updatedAt
+        albumItemsId
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

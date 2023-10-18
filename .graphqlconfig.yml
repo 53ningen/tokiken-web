@@ -1,6 +1,6 @@
 projects:
   tokikenweb:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/tokikenweb/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

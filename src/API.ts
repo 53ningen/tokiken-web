@@ -179,6 +179,125 @@ export type DeletePostCategoryInput = {
   id: string,
 };
 
+export type CreateAlbumInput = {
+  id?: string | null,
+  title: string,
+  description: string,
+  imageKey?: string | null,
+  type: string,
+  date: string,
+};
+
+export type ModelAlbumConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  imageKey?: ModelStringInput | null,
+  type?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelAlbumConditionInput | null > | null,
+  or?: Array< ModelAlbumConditionInput | null > | null,
+  not?: ModelAlbumConditionInput | null,
+};
+
+export type Album = {
+  __typename: "Album",
+  id: string,
+  title: string,
+  description: string,
+  imageKey?: string | null,
+  items?: ModelAlbumItemConnection | null,
+  type: string,
+  date: string,
+  createdAt: string,
+  updatedAt: string,
+  owner?: string | null,
+};
+
+export type ModelAlbumItemConnection = {
+  __typename: "ModelAlbumItemConnection",
+  items:  Array<AlbumItem | null >,
+  nextToken?: string | null,
+};
+
+export type AlbumItem = {
+  __typename: "AlbumItem",
+  id: string,
+  albumId: string,
+  order: number,
+  imageKey: string,
+  description: string,
+  tags: Array< string | null >,
+  exif?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  albumItemsId: string,
+  owner?: string | null,
+};
+
+export type UpdateAlbumInput = {
+  id: string,
+  title?: string | null,
+  description?: string | null,
+  imageKey?: string | null,
+  type?: string | null,
+  date?: string | null,
+};
+
+export type DeleteAlbumInput = {
+  id: string,
+};
+
+export type CreateAlbumItemInput = {
+  id?: string | null,
+  albumId: string,
+  order: number,
+  imageKey: string,
+  description: string,
+  tags: Array< string | null >,
+  exif?: string | null,
+  albumItemsId: string,
+};
+
+export type ModelAlbumItemConditionInput = {
+  albumId?: ModelIDInput | null,
+  order?: ModelIntInput | null,
+  imageKey?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  exif?: ModelStringInput | null,
+  and?: Array< ModelAlbumItemConditionInput | null > | null,
+  or?: Array< ModelAlbumItemConditionInput | null > | null,
+  not?: ModelAlbumItemConditionInput | null,
+  albumItemsId?: ModelIDInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateAlbumItemInput = {
+  id: string,
+  albumId?: string | null,
+  order?: number | null,
+  imageKey?: string | null,
+  description?: string | null,
+  tags?: Array< string | null > | null,
+  exif?: string | null,
+  albumItemsId?: string | null,
+};
+
+export type DeleteAlbumItemInput = {
+  id: string,
+};
+
 export type ModelPostCategoryFilterInput = {
   id?: ModelIDInput | null,
   and?: Array< ModelPostCategoryFilterInput | null > | null,
@@ -190,6 +309,38 @@ export type ModelPostCategoryConnection = {
   __typename: "ModelPostCategoryConnection",
   items:  Array<PostCategory | null >,
   nextToken?: string | null,
+};
+
+export type ModelAlbumFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  imageKey?: ModelStringInput | null,
+  type?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelAlbumFilterInput | null > | null,
+  or?: Array< ModelAlbumFilterInput | null > | null,
+  not?: ModelAlbumFilterInput | null,
+};
+
+export type ModelAlbumConnection = {
+  __typename: "ModelAlbumConnection",
+  items:  Array<Album | null >,
+  nextToken?: string | null,
+};
+
+export type ModelAlbumItemFilterInput = {
+  id?: ModelIDInput | null,
+  albumId?: ModelIDInput | null,
+  order?: ModelIntInput | null,
+  imageKey?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  exif?: ModelStringInput | null,
+  and?: Array< ModelAlbumItemFilterInput | null > | null,
+  or?: Array< ModelAlbumItemFilterInput | null > | null,
+  not?: ModelAlbumItemFilterInput | null,
+  albumItemsId?: ModelIDInput | null,
 };
 
 export type ListPostMetadataQueryVariables = {
@@ -412,6 +563,186 @@ export type DeletePostCategoryMutation = {
   } | null,
 };
 
+export type CreateAlbumMutationVariables = {
+  input: CreateAlbumInput,
+  condition?: ModelAlbumConditionInput | null,
+};
+
+export type CreateAlbumMutation = {
+  createAlbum?:  {
+    __typename: "Album",
+    id: string,
+    title: string,
+    description: string,
+    imageKey?: string | null,
+    items?:  {
+      __typename: "ModelAlbumItemConnection",
+      items:  Array< {
+        __typename: "AlbumItem",
+        id: string,
+        albumId: string,
+        order: number,
+        imageKey: string,
+        description: string,
+        tags: Array< string | null >,
+        exif?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        albumItemsId: string,
+        owner?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    type: string,
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateAlbumMutationVariables = {
+  input: UpdateAlbumInput,
+  condition?: ModelAlbumConditionInput | null,
+};
+
+export type UpdateAlbumMutation = {
+  updateAlbum?:  {
+    __typename: "Album",
+    id: string,
+    title: string,
+    description: string,
+    imageKey?: string | null,
+    items?:  {
+      __typename: "ModelAlbumItemConnection",
+      items:  Array< {
+        __typename: "AlbumItem",
+        id: string,
+        albumId: string,
+        order: number,
+        imageKey: string,
+        description: string,
+        tags: Array< string | null >,
+        exif?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        albumItemsId: string,
+        owner?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    type: string,
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteAlbumMutationVariables = {
+  input: DeleteAlbumInput,
+  condition?: ModelAlbumConditionInput | null,
+};
+
+export type DeleteAlbumMutation = {
+  deleteAlbum?:  {
+    __typename: "Album",
+    id: string,
+    title: string,
+    description: string,
+    imageKey?: string | null,
+    items?:  {
+      __typename: "ModelAlbumItemConnection",
+      items:  Array< {
+        __typename: "AlbumItem",
+        id: string,
+        albumId: string,
+        order: number,
+        imageKey: string,
+        description: string,
+        tags: Array< string | null >,
+        exif?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        albumItemsId: string,
+        owner?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    type: string,
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type CreateAlbumItemMutationVariables = {
+  input: CreateAlbumItemInput,
+  condition?: ModelAlbumItemConditionInput | null,
+};
+
+export type CreateAlbumItemMutation = {
+  createAlbumItem?:  {
+    __typename: "AlbumItem",
+    id: string,
+    albumId: string,
+    order: number,
+    imageKey: string,
+    description: string,
+    tags: Array< string | null >,
+    exif?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    albumItemsId: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateAlbumItemMutationVariables = {
+  input: UpdateAlbumItemInput,
+  condition?: ModelAlbumItemConditionInput | null,
+};
+
+export type UpdateAlbumItemMutation = {
+  updateAlbumItem?:  {
+    __typename: "AlbumItem",
+    id: string,
+    albumId: string,
+    order: number,
+    imageKey: string,
+    description: string,
+    tags: Array< string | null >,
+    exif?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    albumItemsId: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteAlbumItemMutationVariables = {
+  input: DeleteAlbumItemInput,
+  condition?: ModelAlbumItemConditionInput | null,
+};
+
+export type DeleteAlbumItemMutation = {
+  deleteAlbumItem?:  {
+    __typename: "AlbumItem",
+    id: string,
+    albumId: string,
+    order: number,
+    imageKey: string,
+    description: string,
+    tags: Array< string | null >,
+    exif?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    albumItemsId: string,
+    owner?: string | null,
+  } | null,
+};
+
 export type GetPostQueryVariables = {
   slug: string,
 };
@@ -563,6 +894,156 @@ export type ListPostCategoriesQuery = {
       } | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetAlbumQueryVariables = {
+  id: string,
+};
+
+export type GetAlbumQuery = {
+  getAlbum?:  {
+    __typename: "Album",
+    id: string,
+    title: string,
+    description: string,
+    imageKey?: string | null,
+    items?:  {
+      __typename: "ModelAlbumItemConnection",
+      items:  Array< {
+        __typename: "AlbumItem",
+        id: string,
+        albumId: string,
+        order: number,
+        imageKey: string,
+        description: string,
+        tags: Array< string | null >,
+        exif?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        albumItemsId: string,
+        owner?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    type: string,
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListAlbumsQueryVariables = {
+  id?: string | null,
+  filter?: ModelAlbumFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListAlbumsQuery = {
+  listAlbums?:  {
+    __typename: "ModelAlbumConnection",
+    items:  Array< {
+      __typename: "Album",
+      id: string,
+      title: string,
+      description: string,
+      imageKey?: string | null,
+      items?:  {
+        __typename: "ModelAlbumItemConnection",
+        nextToken?: string | null,
+      } | null,
+      type: string,
+      date: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListAlbumsOrderByDateQueryVariables = {
+  type: string,
+  date?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAlbumFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAlbumsOrderByDateQuery = {
+  listAlbumsOrderByDate?:  {
+    __typename: "ModelAlbumConnection",
+    items:  Array< {
+      __typename: "Album",
+      id: string,
+      title: string,
+      description: string,
+      imageKey?: string | null,
+      items?:  {
+        __typename: "ModelAlbumItemConnection",
+        nextToken?: string | null,
+      } | null,
+      type: string,
+      date: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetAlbumItemQueryVariables = {
+  id: string,
+};
+
+export type GetAlbumItemQuery = {
+  getAlbumItem?:  {
+    __typename: "AlbumItem",
+    id: string,
+    albumId: string,
+    order: number,
+    imageKey: string,
+    description: string,
+    tags: Array< string | null >,
+    exif?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    albumItemsId: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListAlbumItemsQueryVariables = {
+  id?: string | null,
+  filter?: ModelAlbumItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListAlbumItemsQuery = {
+  listAlbumItems?:  {
+    __typename: "ModelAlbumItemConnection",
+    items:  Array< {
+      __typename: "AlbumItem",
+      id: string,
+      albumId: string,
+      order: number,
+      imageKey: string,
+      description: string,
+      tags: Array< string | null >,
+      exif?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      albumItemsId: string,
       owner?: string | null,
     } | null >,
     nextToken?: string | null,

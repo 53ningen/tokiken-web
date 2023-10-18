@@ -1,8 +1,8 @@
 import { Box, Paper, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { CastChip } from '../../../../components/CastChip'
 import CostumeCollection from '../../../../components/Costumes/CostumeCollection'
-import { CastChip } from '../../../../components/Event/CastChip'
 import { EventCreditCard } from '../../../../components/Event/EventCreditCard'
 import { EventInfoItem } from '../../../../components/Event/EventInfoItem'
 import Link from '../../../../components/Link'
@@ -33,11 +33,11 @@ import {
 import theme from '../../../../theme'
 
 export interface EventDetail extends Event {
-  relatedVideos: YouTubeVideo[]
-  costumes: Costume[]
-  credits: EventCredit[]
-  casts: EventCast[]
-  info: EventInfo[]
+  relatedVideos?: YouTubeVideo[]
+  costumes?: Costume[]
+  credits?: EventCredit[]
+  casts?: EventCast[]
+  info?: EventInfo[]
   memo: string
 }
 
@@ -98,23 +98,23 @@ export default function EventPage({ item }: EventPageProps) {
                       <Typography variant="caption" style={{ marginRight: theme.spacing(1) }}>
                         メンバー:
                       </Typography>
-                      {item.casts.map((c) => (
+                      {item.casts?.map((c) => (
                         <CastChip key={c.eventCastName} cast={c.eventCastName} />
                       ))}
                     </Stack>
                   </Stack>
                 </Stack>
-                {e.costumes.length > 0 && (
+                {e.costumes && e.costumes.length > 0 && (
                   <>
                     <SectionHeader title="👗 着用した衣装" />
                     <CostumeCollection costumes={e.costumes} />
                   </>
                 )}
-                {e.credits.length > 0 && (
+                {e.credits && e.credits.length > 0 && (
                   <>
                     <SectionHeader title="👤 制作スタッフ" />
                     <Grid container spacing={{ xs: 1, sm: 2 }}>
-                      {item.credits.map((c) => {
+                      {item.credits?.map((c) => {
                         return (
                           <Grid key={`${c.eventCreditTitle}${c.eventCreditName}`} xs={6} sm={4} md={3}>
                             <EventCreditCard item={c} />
@@ -124,8 +124,10 @@ export default function EventPage({ item }: EventPageProps) {
                     </Grid>
                   </>
                 )}
-                {e.relatedVideos.length > 0 && <VideoList videos={e.relatedVideos} listTitle="📺 関連 YouTube 動画" />}
-                {item.info.length > 0 && (
+                {e.relatedVideos && e.relatedVideos.length > 0 && (
+                  <VideoList videos={e.relatedVideos} listTitle="📺 関連 YouTube 動画" />
+                )}
+                {item.info && item.info.length > 0 && (
                   <>
                     <SectionHeader title="🔗 関連ページ" />
                     <Grid container spacing={{ xs: 1, sm: 2 }}>

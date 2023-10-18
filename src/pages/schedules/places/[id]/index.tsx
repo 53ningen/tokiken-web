@@ -7,12 +7,12 @@ import { RevalidateEventList, SiteName } from '../../../../const'
 import { Event, EventPlace, getEventPlace, listEventPlaces, listEvents } from '../../../../spreadsheets'
 
 interface EventPlacePageProps {
-  place: EventPlace
-  events: Event[]
+  place?: EventPlace
+  events?: Event[]
 }
 
 export default function EventPage({ place, events }: EventPlacePageProps) {
-  const title = `${place.eventPlace} - 超ときめき♡イベントデータベース`
+  const title = `${place?.eventPlace} - 超ときめき♡イベントデータベース`
   const description = '超ときめき♡宣伝部のイベントのデータ'
   return (
     <>
@@ -24,19 +24,19 @@ export default function EventPage({ place, events }: EventPlacePageProps) {
             <Box px={{ xs: 1, sm: 4, md: 8 }}>
               <Stack spacing={2}>
                 <Stack spacing={1}>
-                  <Typography variant="caption">{place.eventPlaceKana}</Typography>
-                  <Typography variant="h2">{place.eventPlace}</Typography>
+                  <Typography variant="caption">{place?.eventPlaceKana}</Typography>
+                  <Typography variant="h2">{place?.eventPlace}</Typography>
                   <Stack>
                     <Stack direction="row" spacing={1}>
                       <Stack direction="row" spacing={1}>
                         <Typography variant="caption">住所:</Typography>
-                        <Typography variant="caption">{place.eventPlaceAddress}</Typography>
+                        <Typography variant="caption">{place?.eventPlaceAddress}</Typography>
                       </Stack>
                     </Stack>
                   </Stack>
                 </Stack>
                 <List disablePadding>
-                  {events.map((e) => {
+                  {events?.map((e) => {
                     return <EventItem key={e.eventId} event={e} />
                   })}
                 </List>

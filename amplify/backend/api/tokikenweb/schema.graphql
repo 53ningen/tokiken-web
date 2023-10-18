@@ -35,3 +35,41 @@ type PostCategory
   id: ID!
   posts: [Post] @hasMany
 }
+
+type Album
+  @auth(
+    rules: [
+      { allow: public, provider: iam, operations: [read] }
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: groups, groups: ["admin"], operations: [read, update, delete] }
+    ]
+  )
+  @model(subscriptions: null) {
+  id: ID! @primaryKey
+  title: String!
+  description: String!
+  imageKey: String
+  items: [AlbumItem]! @hasMany
+  type: String! @index(name: "albumsByDate", queryField: "listAlbumsOrderByDate", sortKeyFields: ["date"])
+  date: AWSDate!
+}
+
+type AlbumItem
+  @auth(
+    rules: [
+      { allow: public, provider: iam, operations: [read] }
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: groups, groups: ["admin"], operations: [read, update, delete] }
+    ]
+  )
+  @model(subscriptions: null) {
+  id: ID! @primaryKey
+  albumId: ID!
+  order: Int!
+  imageKey: String!
+  description: String!
+  tags: [String]!
+  exif: AWSJSON
+}

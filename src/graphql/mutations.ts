@@ -188,3 +188,177 @@ export const deletePostCategory = /* GraphQL */ `
     }
   }
 `;
+export const createAlbum = /* GraphQL */ `
+  mutation CreateAlbum(
+    $input: CreateAlbumInput!
+    $condition: ModelAlbumConditionInput
+  ) {
+    createAlbum(input: $input, condition: $condition) {
+      id
+      title
+      description
+      imageKey
+      items {
+        items {
+          id
+          albumId
+          order
+          imageKey
+          description
+          tags
+          exif
+          createdAt
+          updatedAt
+          albumItemsId
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      type
+      date
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const updateAlbum = /* GraphQL */ `
+  mutation UpdateAlbum(
+    $input: UpdateAlbumInput!
+    $condition: ModelAlbumConditionInput
+  ) {
+    updateAlbum(input: $input, condition: $condition) {
+      id
+      title
+      description
+      imageKey
+      items {
+        items {
+          id
+          albumId
+          order
+          imageKey
+          description
+          tags
+          exif
+          createdAt
+          updatedAt
+          albumItemsId
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      type
+      date
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteAlbum = /* GraphQL */ `
+  mutation DeleteAlbum(
+    $input: DeleteAlbumInput!
+    $condition: ModelAlbumConditionInput
+  ) {
+    deleteAlbum(input: $input, condition: $condition) {
+      id
+      title
+      description
+      imageKey
+      items {
+        items {
+          id
+          albumId
+          order
+          imageKey
+          description
+          tags
+          exif
+          createdAt
+          updatedAt
+          albumItemsId
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      type
+      date
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const createAlbumItem = /* GraphQL */ `
+  mutation CreateAlbumItem(
+    $input: CreateAlbumItemInput!
+    $condition: ModelAlbumItemConditionInput
+  ) {
+    createAlbumItem(input: $input, condition: $condition) {
+      id
+      albumId
+      order
+      imageKey
+      description
+      tags
+      exif
+      createdAt
+      updatedAt
+      albumItemsId
+      owner
+      __typename
+    }
+  }
+`;
+export const updateAlbumItem = /* GraphQL */ `
+  mutation UpdateAlbumItem(
+    $input: UpdateAlbumItemInput!
+    $condition: ModelAlbumItemConditionInput
+  ) {
+    updateAlbumItem(input: $input, condition: $condition) {
+      id
+      albumId
+      order
+      imageKey
+      description
+      tags
+      exif
+      createdAt
+      updatedAt
+      albumItemsId
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteAlbumItem = /* GraphQL */ `
+  mutation DeleteAlbumItem(
+    $input: DeleteAlbumItemInput!
+    $condition: ModelAlbumItemConditionInput
+  ) {
+    deleteAlbumItem(input: $input, condition: $condition) {
+      id
+      albumId
+      order
+      imageKey
+      description
+      tags
+      exif
+      createdAt
+      updatedAt
+      albumItemsId
+      owner
+      __typename
+    }
+  }
+`;

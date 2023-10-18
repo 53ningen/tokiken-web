@@ -1,19 +1,15 @@
 import { Chip, ChipProps } from '@mui/material'
-import { Cast } from '../../spreadsheets'
-import theme from '../../theme'
+import { Cast } from '../spreadsheets'
+import theme from '../theme'
 
 export interface CastChipProps {
-  cast: Cast
+  cast: Cast | string
   props?: ChipProps
 }
 
 export const CastChip = ({ cast, props }: CastChipProps) => {
-  const getColor = (cast: Cast): 'tokisen' | 'kanami' | 'julia' | 'hitoka' | 'haruka' | 'aki' | 'hiyori' => {
+  const getColor = (cast: Cast | string): 'tokisen' | 'kanami' | 'julia' | 'hitoka' | 'haruka' | 'aki' | 'hiyori' => {
     switch (cast) {
-      case 'パブりん':
-      case 'ときめき♡宣伝部':
-      case '超ときめき♡宣伝部':
-        return 'tokisen'
       case '辻野かなみ':
         return 'kanami'
       case '杏ジュリア':
@@ -29,6 +25,11 @@ export const CastChip = ({ cast, props }: CastChipProps) => {
         return 'aki'
       case '吉川ひより':
         return 'hiyori'
+      case 'パブりん':
+      case 'ときめき♡宣伝部':
+      case '超ときめき♡宣伝部':
+      default:
+        return 'tokisen'
     }
   }
   return (

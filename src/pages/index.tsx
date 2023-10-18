@@ -55,7 +55,7 @@ export default function Home({}: HomeProps) {
               collectionTitle="超ときめき♡研究部室"
               collectionDescription="「超ときめき♡宣伝部」に関する記事や写真など"
               items={[
-                { icon: '📙', description: 'under construction', title: '部誌', href: '/posts' },
+                { icon: '📙', title: '部誌', href: '/posts' },
                 {
                   icon: '📷',
                   description: 'under construction',

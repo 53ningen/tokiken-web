@@ -8,7 +8,12 @@ export const handler: Handler = async (event: S3Event, _: Context) => {
   const { eventName } = event.Records[0]
   console.log(eventName)
 
-  const acceptEventNames = ['ObjectCreated:Put', 'ObjectCreated:Copy', 'ObjectCreated:Post', 'ObjectCreated:Upload']
+  const acceptEventNames = [
+    'ObjectCreated:Put',
+    'ObjectCreated:Copy',
+    'ObjectCreated:Post',
+    'ObjectCreated:CompleteMultipartUpload',
+  ]
   if (!acceptEventNames.includes(eventName)) {
     console.log(`eventName: ${eventName} is not accepted`)
     return { result: 'SKIP' }
