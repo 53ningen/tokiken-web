@@ -279,7 +279,7 @@ export const listRecordEditionCredits = async (catalogNumber?: string) => {
 }
 
 export type EventType = 'LIVE' | 'EVENT' | 'BROADCAST' | 'OTHER'
-export type EventCastType = 'GROUP' | 'MEBMERS' | 'INDIVISUAL'
+export type EventCastType = 'GROUP' | 'MEMBERS' | 'INDIVISUAL'
 export type Cast =
   | 'パブりん'
   | 'ときめき♡宣伝部'
